@@ -17,30 +17,36 @@ url: https://github.com/matbryan52/microscopy-images-qem
 
 Matthew Bryan
 *CEA-Leti, Grenoble, France*
-GitHub: [@matbryan52](https://github.com/matbryan52)
 [matthew.bryan@cea.fr](mailto:matthew.bryan@cea.fr)
+GitHub: [@matbryan52](https://github.com/matbryan52)
 
 ---
 
 # Preamble
 
-Microscopy makes the small scale visible to our eyes, for a time
+Microscopy makes the invisible visible to us, for a time
 
 <hr>
 
-An image stores what the microscope made visible, for later
+An image stores what we saw, so we can look again
 
 ---
 <!-- _class: columns2 -->
-# Who am I
+<style scoped>
+/* Set the image and text to inline elements */
+img, span {
+    display: inline;
+    vertical-align: middle;
+}
+</style>
+# Who I am
 
 Matthew Bryan<br />
 [@matbryan52](https://github.com/matbryan52) on GitHub
 ![width:300px align:center](figures/me.jpg)
 
-
-**Research Software Engineer**
-![w:150 h:auto](figures/cea-leti.png) Grenoble :fr: Alps :mountain:
+**Research Software Engineer**<br />
+![w:150 h:auto](figures/cea-leti.png)  Grenoble :fr:  Alps :mountain_snow:
 <br>
 
 Not really a Microscopist!
@@ -53,6 +59,27 @@ Background:
 - computer vision
 
 ---
+<!-- _class: columns2 -->
+<style scoped>
+
+h1 {
+  column-span: all;
+}
+
+</style>
+# Content
+
+- Photographs and Images
+- [Digital Images](#digital-images)
+- Image visualisation
+- Sampling
+- Images and geometry
+- Image filtering
+- Image restoration
+- Image segmentation
+
+---
+
 
 # Image / Photograph / Frame
 
@@ -61,6 +88,8 @@ Background:
 * Colour or multi-channel images (filters in photography linked to EELS)
 
 ---
+
+<a name='digital-images'></a>
 
 # **Images as digital information**
 
