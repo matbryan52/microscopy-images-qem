@@ -24,11 +24,11 @@ GitHub: [@matbryan52](https://github.com/matbryan52)
 
 # Preamble
 
-Microscopy makes the invisible visible to us, for a time
+Microscopy lets us see, for a time
 
 <hr>
 
-An image stores what we saw, so we can look again
+An image lets us look again
 
 ---
 <!-- _class: columns2 -->
@@ -69,22 +69,85 @@ h1 {
 </style>
 # Content
 
-- Photographs and Images
+- [Images and Photographs](#photographs-images)
 - [Digital Images](#digital-images)
-- Image visualisation
 - Sampling
+- Image visualisation
 - Images and geometry
 - Image filtering
-- Image restoration
+- Image enhancement
 - Image segmentation
 
 ---
 
+<!-- _class: columns2 -->
 
-# Image / Photograph / Frame
+<a name='photographs-images'></a>
 
-* History of photography, emulsions, resolution, sensivity
-* Digital images, pixels, voxels, intensity / counts, calibrations
+<br/><br/>
+# **Images and Photographs**
+
+<figure>
+<img src="https://krvarshney.github.io/kush_varshney.png" width=500px/>
+<figcaption style="text-align: right"><a href="https://krvarshney.github.io">krvarshney.github.io</a></figcaption>
+</figure>
+
+---
+
+## Images
+
+Most generally, an Image is a visual representation of some object or scene
+
+- In most contexts two-dimensional, though not just
+- An image point in optics refers to the point where all light rays from a single point on an object intersect
+- Recording the light along the plane of these intersection points forms a complete image of the object
+
+---
+
+##  Photography
+
+Projection of focused light onto a surface has been known for millenia
+
+- *Camera Obscura*
+
+But a method of recording the patterns in that light was not found until the early 1800s
+
+---
+
+##  Analog images - Film
+
+Recording light in chemical reactions
+
+- Light- (or electron-) sensitive coatings that transform when *exposed*
+- Sensitivity determined by (chemical) reaction rate (temperature, wavelength etc.)
+- "Resolution" determined by average particle size - randomly distributed!
+  - In practice film is extremely densely coated
+
+---
+
+## Digital images
+
+Recording light with numbers
+
+- Measure intensity electrically (conversion to charge, voltage), then *digitize* the analog signal to a numerical value
+- Discrete sampling of the wavefront, usually onto a 2D grid
+  - Some rays are lost, multiple rays combine into one sample point
+- A digital image could be represented as a long table of `[position, intensity]`
+  - If the order is constant and the grid regular then `position` is unecessary.
+
+---
+
+## Pixels
+
+A *pixel* is an **el**ement of a **pi**cture
+
+- Represents a single sample from the wavefront that was recorded
+- And voxels, , calibrations
+
+---
+
+## Colour images, and more
+
 * Colour or multi-channel images (filters in photography linked to EELS)
 
 ---
