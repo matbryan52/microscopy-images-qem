@@ -1,0 +1,7 @@
+{
+    "markdown.marp.themes": [
+        "static\\Rose-Pine-For-Marp\\css\\rose-pine-dawn.css",
+        "static\\Rose-Pine-For-Marp\\css\\rose-pine-moon.css",
+        "static\\Rose-Pine-For-Marp\\css\\rose-pine.css"
+    ]
+}
