@@ -1,20 +1,74 @@
 ---
 marp: true
 theme: rose-pine-dawn
+math: mathjax
+title: What is an image?
+description: QEM 2025
+author: Matthew Bryan
+keywords: images,electron-microscopy
+url: https://github.com/matbryan52/microscopy-images-qem
 # paginate: true
-# backgroundImage: url('https://marp.app/assets/hero-background.svg')
 ---
 <!-- <iframe src="http://localhost:8888" width="1000" height="600" frameBorder="0"></iframe> -->
 
-# Image / Photograph / Frame
+![bg left:40% 60%](figures/qem.png)
 
-- History of photography, emulsions, resolution, sensivity
-- Digital images, pixels, voxels, intensity / counts, calibrations
-- Colour or multi-channel images (filters in photography linked to EELS)
+# **What is an image?**
+
+Matthew Bryan
+*CEA-Leti, Grenoble, France*
+GitHub: [@matbryan52](https://github.com/matbryan52)
+[matthew.bryan@cea.fr](mailto:matthew.bryan@cea.fr)
 
 ---
 
-# Images as binary information
+# Preamble
+
+Microscopy makes the small scale visible to our eyes, for a time
+
+<hr>
+
+An image stores what the microscope made visible, for later
+
+---
+<!-- _class: columns2 -->
+# Who am I
+
+Matthew Bryan<br />
+[@matbryan52](https://github.com/matbryan52) on GitHub
+![width:300px align:center](figures/me.jpg)
+
+
+**Research Software Engineer**
+![w:150 h:auto](figures/cea-leti.png) Grenoble :fr: Alps :mountain:
+<br>
+
+Not really a Microscopist!
+<br>
+
+Background:
+
+- chemical engineering
+- image processing
+- computer vision
+
+---
+
+# Image / Photograph / Frame
+
+* History of photography, emulsions, resolution, sensivity
+* Digital images, pixels, voxels, intensity / counts, calibrations
+* Colour or multi-channel images (filters in photography linked to EELS)
+
+---
+
+# **Images as digital information**
+
+![bg right:50% 70%](figures/pixellated-atoms.png)
+
+---
+
+# Images as digital information
 
 - Memory layout, numerical types
 - File formats (PNG, tiff, jpeg, proprietary formats), compression, encoding, headers
@@ -27,7 +81,8 @@ theme: rose-pine-dawn
 
 # Visualising images
 
-- Colourmaps, perceptual uniformity
+- Colourmaps, perceptual uniformity :smile:
+- Colour spaces
 - Brightness, Contrast, Gamma, Logarithmic colour
 - Complex images and representations
 - Phase unwrapping / periodicity in images
@@ -63,7 +118,7 @@ theme: rose-pine-dawn
   - Clean power spectrum
   - Low-pass, High-pass
   - Selective Bragg filter
-  - 
+  -
 
 ---
 

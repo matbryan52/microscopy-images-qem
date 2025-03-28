@@ -1,0 +1,22 @@
+{
+  "name": "microscopy-images-qem",
+  "version": "1.0.0",
+  "description": "Slides for QEM2025",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matbryan52/microscopy-images-qem.git"
+  },
+  "author": "Matthew Bryan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matbryan52/microscopy-images-qem/issues"
+  },
+  "homepage": "https://github.com/matbryan52/microscopy-images-qem#readme",
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.1.2"
+  }
+}
