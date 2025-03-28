@@ -1,7 +1,7 @@
 ---
 marp: true
 theme: rose-pine-dawn
-paginate: true
+# paginate: true
 # backgroundImage: url('https://marp.app/assets/hero-background.svg')
 ---
 <!-- <iframe src="http://localhost:8888" width="1000" height="600" frameBorder="0"></iframe> -->
@@ -60,6 +60,10 @@ paginate: true
 - Simple filters (blur, edge)
 - Non-convolutional filters (median etc)
 - Filtering of images in frequency space
+  - Clean power spectrum
+  - Low-pass, High-pass
+  - Selective Bragg filter
+  - 
 
 ---
 
@@ -78,3 +82,22 @@ paginate: true
 - Image correlation / autocorrelation
 - Common alignment tools and approaches
 - Image difference metrics
+
+---
+
+# Image restoration
+
+- Denoising
+  - BM(3D), Noise2Noise etc
+- Inpainting
+
+---
+
+# Extra topics
+
+A bit more physics ??
+
+- PSF
+- STEM scan patterns ?
+- GPA
+- Phase Reconstruction (holo etc)
