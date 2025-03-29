@@ -103,18 +103,16 @@ Most generally, an Image is a visual representation of an object or scene
 
 ---
 
-##  Photography
+####  Photography
 
-Projection of focused light onto a surface has been known for millenia
-<figure>
-<figcaption style="text-align: right; font-size: 14px"><a href="https://phydemo.app/ray-optics">phydemo.app/ray-optics</a></figcaption>
-<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAK9AwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnw4dhPOEuFF0Rx4r7BB7OZDCsU0PezMis4qwCmewxlKsoC9CM_odt0YKk_d-cAFVqKYysrwSKIlJ7xKAVSJHXsxVU3Q04fejsyFGYsyFHx2xUxycuBI3FkvduJB0XqcpUeYjsMJ56so0-k4_QYO_1deXlj0-sJeaap7OVFRY8jcYzK6rrr_9hyeTWd-9zBm8LOwtnLKQ5FltVjSDiRn47d03FiH2LGzzyVTj9omFLn9UKKaK1jDApoOjELWpoe83S174wchKt7Xqe3QnqMlgvKPA-VoHRUWDD_AU1O2hs6gNWt_HRqajYBR2c2uBzmJIfxZi4n4jfecmMEmfvdWNgppPZb_F0DVoNJiTozpoKmLUkc3D2U705hd7JVrX_YMBpb22g7vHFN9uCLRb_L6un22puZWxIvzIxi2BUA-crJanK2f47GMV1A7W9bW-EipR1PuwzWvJk7VTP7Abj41I0MaMcz5LZwmh3PBgRQhA_GW8WAgNZLY3Ong9j_78-Uq" width="1100" height="400" frameBorder="0"></iframe>
-</figure>
-But a reliable method to record the patterns in light was not found until the early 1800s
+Projection of focused light onto a surface has been known for millenia, but we lacked a reliable method to record the light until the early 1800s. (<a href="https://phydemo.app/ray-optics">phydemo.app</a>)
+<!-- <figure>
+<figcaption style="text-align: right; font-size: 16px"></figcaption> -->
+<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnw4dhPOEuFF0Rx4r7BB7OZDCsU0PezMis4qwCmewxlKsoC9CM_odt0YKk_d-cAFhL0L3ZrUi53iJMnw9s0MJGjkLjam0Ix-joTjlCegfAvvhnzHwcEQeRzORinD_wddSLfyiobAMXi1jwiIhr6DL-aSP0XiuNABDRMNXIYLoTOOng3jGtlgmLU9w4rHaXx7HGw7YmcHCchyVxVuPzq5npRjjNU-YkEfZfqyOkHN_Y7r92UOtkiuEUg5vxBjPy227B_HecckbPwSRIsQjiSvGAjMlvYJBL9qpvZiUwTD2m_U5ZcoJno-4grK8JCsT7za9EO28ite3JT8BD_vYUxu7kbKRPIS_CGO9tr7M1dgU86eNbZrSuu-0wEEDRW18h0xzubHXkj6bIXYHrc90Z87N2NvwDfTavCRlQ5ch18BC0mtpSBBkkeIKRq9UbFUVnCaB81zLBcpzU0ukqR_W4Y7nfORg0_oqCS4ihrLphFoc2OlzEXiH1NMdcPFbN__3FksYg" width="1100px" height="450px" frameBorder="0"></iframe>
 
 ---
 
-##  Analog images - Film
+##  Analogue images - Film
 
 <!-- _class: columns2 -->
 
@@ -125,11 +123,15 @@ Recording light in chemical reactions
 - "Resolution" determined by average particle size - randomly distributed!
   - In practice film is extremely densely coated
 
-<iframe src="http://localhost:9091/film" width="700" height="500" frameBorder="0"></iframe>
+<span style="text-align: right">Micrograph of film grain</span>
+<figure>
+<iframe src="http://localhost:9091/film-particles" width="560" height="450" frameBorder="0"></iframe>
+<figcaption style="text-align: right; font-size: 20px"><a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a></figcaption>
+</figure>
 
 ---
 
-##  Analog images (Aside)
+##  Analogue images (Aside)
 
 Any light-reacting chemistry could record a photograph, even photosynthesis
 
@@ -213,10 +215,7 @@ These are a logical extension of colour images, where each sub-image or *channel
 
 ---
 
-<figure>
-<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAI0BAAAAAAAAABFqcrGU8hqLFnpmU9ERVKNPZUF_UC06pYFGJ1gc_njnHAQ6BXGzId4JbUgUJrFgoJPTEfFehDrsbY8BwMqBZV8NrKKRSvAA9m43y39zcRl8lCzeUCyA3x4JnD674GPMtaoWVPEsjpMieHf5R7ApLoHn4OT8kVTDY_qbD8TnXNH001ocSc0CuNO4GUNRfg3-TXXvciAO7U4VXCmTBlKekTTHeZ7v9qpXgVE3_3P5uUJV3U4tEwkZSq2ufbpx2G4bpSJzftHQd6Vne8PCSLFL72fZaPqFlwMrIBOrVRs5gW4Pzee7MHoaUFGURN0NOuL-PX1h3a-CdL17EIxSnfXjoVem4qvDREyGudvHQcZe6sEM63z_9JtnQmu7bkGsOWqXIYB1dP24Oo0IN_t15sHrbnTgY-HgyscTxmcoQfFWFzGxna-5fIzc9mQuLlyVmNDSstbSZ7r7E8OmMHzO7wjCyj7DtKATreXCXjgGTJc7UHtvma7qv19oG6FWERghMSrw5GnYy4KRbkzok_o1yBQvUcSTbZ48ts2xD8ZOh7haf5sBhR4S02dPUzZYczT1C-zf9K7Bwu1TayHhwchJkyaooEpchZ8WqTThaAWHcFR20mk8OCbzy0fQL1rUDdFK4w35iFUNhNcDmlaORJYPI_FYY58NtVcqOrxKa-WWECbCw--b4Buiu_bX5n0vFduk1CiKeLi_yUxtRSzVxHF59rw-CXTHVi-VlrKDcZYJ28rqf3mR5uoFXbRI8axTVpIkfyJ4YPmTZ73Kc7S9LficG6cky5-X2zfdbGv_Ncua1WUfHWcqbfCsU0NyJ5kUap2P_QSy4sn9QxpS--36RKnMjcvsVZMwdisjNH4_XK6UA" width="1100" height="600" frameBorder="0"></iframe>
-<figcaption style="text-align: right; font-size: 14px"><a href="https://phydemo.app/ray-optics">phydemo.app/ray-optics</a></figcaption>
-</figure>
+<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAI0BAAAAAAAAABFqcrGU8hqLFnpmU9ERVKNPZUF_UC06pYFGJ1gc_njnHAQ6BXGzId4JbUgUJrFgoJPTEfFehDrsbY8BwMqBZV8NrKKRSvAA9m43y39zcRl8lCzeUCyA3x4JnD674GPMtaoWVPEsjpMieHf5R7ApLoHn4OT8kVTDY_qbD8TnXNH001ocSc0CuNO4GUNRfg3-TXXvciAO7U4VXCmTBlKekTTHeZ7v9qpXgVE3_3P5uUJV3U4tEwkZSq2ufbpx2G4bpSJzftHQd6Vne8PCSLFL72fZaPqFlwMrIBOrVRs5gW4Pzee7MHoaUFGURN0NOuL-PX1h3a-CdL17EIxSnfXjoVem4qvDREyGudvHQcZe6sEM63z_9JtnQmu7bkGsOWqXIYB1dP24Oo0IN_t15sHrbnTgY-HgyscTxmcoQfFWFzGxna-5fIzc9mQuLlyVmNDSstbSZ7r7E8OmMHzO7wjCyj7DtKATreXCXjgGTJc7UHtvma7qv19oG6FWERghMSrw5GnYy4KRbkzok_o1yBQvUcSTbZ48ts2xD8ZOh7haf5sBhR4S02dPUzZYczT1C-zf9K7Bwu1TayHhwchJkyaooEpchZ8WqTThaAWHcFR20mk8OCbzy0fQL1rUDdFK4w35iFUNhNcDmlaORJYPI_FYY58NtVcqOrxKa-WWECbCw--b4Buiu_bX5n0vFduk1CiKeLi_yUxtRSzVxHF59rw-CXTHVi-VlrKDcZYJ28rqf3mR5uoFXbRI8axTVpIkfyJ4YPmTZ73Kc7S9LficG6cky5-X2zfdbGv_Ncua1WUfHWcqbfCsU0NyJ5kUap2P_QSy4sn9QxpS--36RKnMjcvsVZMwdisjNH4_XK6UA" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
 
 ---
 
@@ -228,10 +227,68 @@ These are a logical extension of colour images, where each sub-image or *channel
 
 ---
 
-# Images as digital information
+## Arrays of numbers
 
-- Memory layout, numerical types
-- Math on images
+Computers store numbers as sequences of binary digits, which we interpret according to convention.
+
+- An image is a no more than a 1D list of numbers to a computer, there is no intrinsic 2D or 3D data structure in a computer's memory.
+- The 1D data can be ordered row-by-row, or column-by-column, according to hardware and convention
+  - This has implications for processing, as memory is **slow** - reading a whole row could be much faster than reading a whole column, for example.
+
+---
+
+Figure of array layout row/col ordering
+
+This becomes especially important for >2D data, large files take a long time to traverse!
+
+---
+<style scoped>
+table {
+  font-size: 20px;
+}
+</style>
+## Number types
+
+There are many conventions for storing numbers, here are some common ones in images:
+
+|                  | Name      | Size (bits) | Min          | Max        | Example usage |
+| ---------------- | --------- | ----------- | ------------ | ---------- | ---------- |
+| Binary           | `bool`      | 8           | 0            | 1          | Masking pixels |
+| Unsigned Integer | `uint8`     | 8           | 0            | 255        | Raw data |
+|                  | `uint16`    | 16          | 0            | 65,535      | Raw data |
+| Integer          | `int16`     | 16          | \-32,768      | 32,767      | Background-subtraction |
+|                  | `int32`     | 32          | \-2,147,483,648 | 2,147,483,647 | Computation |
+| Floating         | `float32`   | 32          | \-3.40E+38   | \-3.40E+38 | Computation |
+|                  | `float64`   | 64          | \-1.70E+308  | 1.70E+308  | Computation |
+| Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 | Waves, FFT |
+
+---
+
+## Number types - Uses
+
+Most camera sensors generate raw data as unsigned integers (8-, 16- or more bits). When we begin to transform raw data we usually need to convert its type to hold our results correctly.
+
+---
+
+## Number types - Notes
+
+- Digital numbers are stored in a fixed amount of space - exceeding the min or max for a type can cause "wrapping", e.g. `200_uint8 + 100_uint8 = 44_uint8`.
+  - The range for `uint8` is 256, so `200 + 100 = 300` becomes `300 mod 256 = 44`.
+* The size of the number is the space it requires in memory, and on disk
+  - Often the larger the number type, the slower operations with that type are
+* Floating point numbers have variable precision, i.e. they can represent very large or very small values, but are poor when trying to represent both at once
+  - For example `324,000 + 0.0055 = 324,000` not `324,000.0055`
+  - Be careful with electron wavelength and camera lengths!
+* Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there is no native complex number format
+
+---
+
+## Image math
+
+<iframe src="http://localhost:9091/image-math" width="1150" height="700" frameBorder="0"></iframe>
+
+---
+
 - File formats (PNG, tiff, jpeg, proprietary formats), compression, encoding, headers
 - Multi-image data, stacks, 4D-STEM
 - Useful tools to work with images
