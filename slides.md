@@ -188,17 +188,18 @@ Interpretation of digital images in physical units requires a *calibration*, acc
 
 <!-- _class: columns2 -->
 
+<style scoped>h2 { position: absolute; top: 5%; }</style>
+
 ## Colour images
 
-A colour image is a set of images of the same wavefront, each acquired with a different spectral response. They sample the wave intensity in both space and wavelength.
+A colour image is a set of images of the same wavefront, each sampling part of the full spectrum.
 
 - We are most familiar with <span style="color:red">Red</span><span style="color:green">Green</span><span style="color:blue">Blue</span> (<span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span>) images
-- These are usually made with a pre-sensor Bayer filter
-- The three colour *channels* overlap
+- These are usually made with a pre-sensor Bayer filter, which samples colour differently in adjacent pixels
+- The values from pixels are split into <span style="color:red">R</span>, <span style="color:green">G</span>, and <span style="color:blue">B</span> intensity images.
+- The three signals are spatially offset
 
-The values from pixels are split into <span style="color:red">R</span>, <span style="color:green">G</span>, and <span style="color:blue">B</span> intensity images according to their filter.
-
-These are recombined in the ratio necessary to reproduce what a human would see.
+When recombined intelligently, most images are represented without any artifacts, despite the offset
 
 <figure>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bayer_pattern_on_sensor.svg/1920px-Bayer_pattern_on_sensor.svg.png" width=500px/>
@@ -215,7 +216,7 @@ These are a logical extension of colour images, where each sub-image or *channel
 
 ---
 
-<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAI0BAAAAAAAAABFqcrGU8hqLFnpmU9ERVKNPZUF_UC06pYFGJ1gc_njnHAQ6BXGzId4JbUgUJrFgoJPTEfFehDrsbY8BwMqBZV8NrKKRSvAA9m43y39zcRl8lCzeUCyA3x4JnD674GPMtaoWVPEsjpMieHf5R7ApLoHn4OT8kVTDY_qbD8TnXNH001ocSc0CuNO4GUNRfg3-TXXvciAO7U4VXCmTBlKekTTHeZ7v9qpXgVE3_3P5uUJV3U4tEwkZSq2ufbpx2G4bpSJzftHQd6Vne8PCSLFL72fZaPqFlwMrIBOrVRs5gW4Pzee7MHoaUFGURN0NOuL-PX1h3a-CdL17EIxSnfXjoVem4qvDREyGudvHQcZe6sEM63z_9JtnQmu7bkGsOWqXIYB1dP24Oo0IN_t15sHrbnTgY-HgyscTxmcoQfFWFzGxna-5fIzc9mQuLlyVmNDSstbSZ7r7E8OmMHzO7wjCyj7DtKATreXCXjgGTJc7UHtvma7qv19oG6FWERghMSrw5GnYy4KRbkzok_o1yBQvUcSTbZ48ts2xD8ZOh7haf5sBhR4S02dPUzZYczT1C-zf9K7Bwu1TayHhwchJkyaooEpchZ8WqTThaAWHcFR20mk8OCbzy0fQL1rUDdFK4w35iFUNhNcDmlaORJYPI_FYY58NtVcqOrxKa-WWECbCw--b4Buiu_bX5n0vFduk1CiKeLi_yUxtRSzVxHF59rw-CXTHVi-VlrKDcZYJ28rqf3mR5uoFXbRI8axTVpIkfyJ4YPmTZ73Kc7S9LficG6cky5-X2zfdbGv_Ncua1WUfHWcqbfCsU0NyJ5kUap2P_QSy4sn9QxpS--36RKnMjcvsVZMwdisjNH4_XK6UA" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
+<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAJ3BAAAAAAAAABFqcrGU8hqLFnpmU9ERVKNPZUF_UC06pYFGJ1gc_njnHAQ6BXGzId4JbUgUJrFgoJPTEfFuZOf0bY8BwMqBZV8NrKKRSvAA9m43y39zcRl8lCzeUCyA3x4JnD674GPMtaoWVPEsjpMieHf5R7ApLoHn4OT8kVTDY_qbD8TnXNH001ocSc0CuNO4GUNRfg3-TXXvciAO7U4VXCmTBlKekTTHeZ7v9qpXgVE3_3P5izYztOABQ9ckBVyf0aRCV3Fxaw8iNtxBKTec7AoIRcS6A0Gao83hicekSdKAwwKEPRMEfv7yz6z0npCdqa05f_ldJ2sD9zAmePmysK6CDqseNMJzsZVj9Yi81Q9s6g-U4anGUhpb5SOYLmlrTX5WLNHeozEso50HhMbmuzgOkrGt0iZPCl8qv8R0Xi5_j9zO4QxiramoGqakP2EGKBo_6mC0h-jlUWS3sDpH77QS3xAG9raZWWFIK3ZoTV_z5_hnB-bujE-nFa4DGaUwB5GvejlwA9HpvDZGrfDuxKL-vAa5YaJ3PeklKyimXGLK5tMqg3KgtcpyS2wF8Q0Gsi4HitjNOMMKCTt6U0bICx4vJ3SROXOgT254PoUDTqj4Q1nXBbJuCTnKA8j8bJsVEBhie1Q3c7G-WSytXp046csH6mnwcW6IvoWXD4f5wLwPcllUrHFjyqhzsO6JCZqZhPC9yf3GnkKrSciS-0NCPZyOCzA42B6wNb0I9sIAzRcrw2oZuuM6RSrfM0tyRKlkwvTGWCky63zIgu9g4396i4sowkpFR93FrP-w1Crem3TqntFxxgxOkKOs-HvoC2J01hhmuQnvLcrDsJkubZ9XCnFVmMsKA9PXaYpuFbA4pR02lToD8l0J6n38__o_I8o" style="position:fixed; top:5%; left:5%; width:90%; height:90%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
 
 ---
 
@@ -231,17 +232,23 @@ These are a logical extension of colour images, where each sub-image or *channel
 
 Computers store numbers as sequences of binary digits, which we interpret according to convention.
 
-- An image is a no more than a 1D list of numbers to a computer, there is no intrinsic 2D or 3D data structure in a computer's memory.
+- An image is no more than a 1D list of numbers to a computer, there is no intrinsic 2D data structure in a computer's memory.
 - The 1D data can be ordered row-by-row, or column-by-column, according to hardware and convention
-  - This has implications for processing, as memory is **slow** - reading a whole row could be much faster than reading a whole column, for example.
+  - This has implications for processing, as memory is **slow** - reading a whole row could be much faster than reading a whole column, or vice-versa.
 
 ---
 
-Figure of array layout row/col ordering
+<style scoped>h2 { position: absolute; top: 5%; }</style>
 
-This becomes especially important for >2D data, large files take a long time to traverse!
+## Memory layout
+
+![w:100% h:450](figures/memory-layout.svg)
+
+This becomes very important for >2D data, it pays to store data in a way which
+matches the processing being done (whole images, or one pixel from many images?).
 
 ---
+
 <style scoped>
 table {
   font-size: 20px;
