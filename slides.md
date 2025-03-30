@@ -290,16 +290,48 @@ Most camera sensors generate raw data as unsigned integers (8-, 16- or more bits
 
 ---
 
+<style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Image math
 
 <iframe src="http://localhost:9091/image-math" width="1150" height="700" frameBorder="0"></iframe>
 
 ---
 
+## Multi-image data, stacks, 4D-STEM
+
+We think of images as 2D, but there are many forms of higher-dimensional images
+
+- We have already mentioned spectral (or colour) images, these are usually 3D with shape `[spectral_channel, height, width]`.
+* Similar is a time-series or multi-exposure image stack, e.g. `[time, height, width]`.
+* 4D-STEM can be treated as an image, `[scan_y, scan_x, height, width]`
+* Tomography acquisitions can an add an extra `[tilt]` dimension to the above!
+
+---
+
+## Multi-image data, stacks, 4D-STEM
+
+![w:100% h:100%](figures/image-sizes.svg)
+
+---
+
+<!-- _class: columns2 -->
+
+## Sparse images
+
+In very low dose conditions (or with EDX), most image pixels contain a zero value. This is good use case for *sparse* images.
+
+- Store only non-zero values
+- Can achieve enormous space saving
+- Many operations `f(a, 0) == {0, a}` so remove wasted computation
+- Simplest strategy is store coordinates + values, but more intelligent schemes exist (e.g. CSR)
+
+![w:100% h:550](figures/sparse-matrix.svg)
+
+---
+
 - File formats (PNG, tiff, jpeg, proprietary formats), compression, encoding, headers
-- Multi-image data, stacks, 4D-STEM
 - Useful tools to work with images
-- Useful libraries to load images in Python
+- Useful libraries to load images in Python (Dask?)
 - Conventions for coordinate systems
 
 ---

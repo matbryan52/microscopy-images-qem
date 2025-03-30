@@ -5,8 +5,9 @@ from libertem_ui.figure import ApertureFigure
 pn.extension('codeeditor', 'floatpanel')
 
 
-img1 = np.ones((48, 64), dtype=np.float32)
-img2 = np.full((48, 64), 2, dtype=np.float32)
+img1 = (np.linalg.norm(np.mgrid[-200: 200, -300: 300], axis=0) < 100).astype(np.float32)
+img2 = np.roll(img1, (-50, 80), axis=(0, 1))
+
 fig1 = (
     ApertureFigure
     .new(
@@ -23,7 +24,7 @@ fig1.fig.right[0].background_fill_alpha = 0.
 fig2 = (
     ApertureFigure
     .new(
-        img1,
+        img1 + img2,
         title='Output'
     )
 )    
@@ -38,8 +39,14 @@ editor = pn.widgets.CodeEditor(
     value=py_code,
     sizing_mode='stretch_width',
     language='python',
-    height=75,
+    height=125,
     on_keyup=True,
+    stylesheets=["""
+.ace_editor{
+    font-size: 18px;
+}
+"""],
+    margin=(20, 5, 5, 5),
 )
 button = pn.widgets.Button(
     name="RUN",
