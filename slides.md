@@ -405,17 +405,56 @@ Python scripting enables any analysis with GMS display
 
 The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in myriad ways
 
-- `scipy-ndimage` ([docs.scipy.org](https://docs.scipy.org/doc/scipy/reference/ndimage.html))
-  - Low-level tools for images (e.g. convolve, interpolate, measurements)
-- `scikit-image` / `skimage` ([scikit-image.org](https://scikit-image.org/))
-  - High-level tools for images (e.g. resizing, alignment, segmentation, filtering)
-- `Pillow` \[Python Imaging Library\] ([pillow.readthedocs.io](https://pillow.readthedocs.io/en/stable/))
-  - Graphics-focused, colour images, drawing, compositing
-- `matplotlib` ([matplotlib.org](https://matplotlib.org/stable/))
-  - General plotting library, but will `load` images, or display them on axes
-- `HyperSpy` / `rosettasciio` ([hyperspy.org](https://hyperspy.org/))
-  - Miscroscopy data-analysis library, loads many scientific formats
-  - Built-in analyses for a range of techniques as well as basic operations
+---
+
+`scipy-ndimage` ([docs.scipy.org](https://docs.scipy.org/doc/scipy/reference/ndimage.html))
+
+- Low-level tools for images (e.g. convolve, interpolate, measurements)
+
+`scikit-image` / `skimage` ([scikit-image.org](https://scikit-image.org/))
+
+- High-level tools for images (e.g. resizing, alignment, segmentation, filtering)
+
+![bg right:50% 80%](figures/scipy-skimage.svg)
+
+---
+<!-- _class: columns2 -->
+
+`Pillow` \[Python Imaging Library\] ([pillow.readthedocs.io](https://pillow.readthedocs.io/en/stable/))
+
+- Graphics-focused, colour images, drawing, compositing
+
+```python
+# Pillow imports as PIL
+from PIL import Image, ImageDraw
+
+image = Image.open("image.png")
+draw = ImageDraw.Draw(image)
+draw.text((50, 50), "Text")
+```
+<br>
+
+`imageio` ([imageio.readthedocs.io](https://imageio.readthedocs.io/en/stable/))
+
+- Reading and writing many image formats and videos
+
+```python
+import imageio.v3 as iio
+
+frames = np.stack(
+  [iio.imread(f"{x}.jpg") for x in range(n)],
+)
+iio.imwrite("test.gif", frames, fps=10)
+```
+
+---
+
+`matplotlib` ([matplotlib.org](https://matplotlib.org/stable/))
+
+- General plotting library, but will `load` images, or display them on axes
+- Good for combining images with results + annotations
+
+![bg right:50% 95%](figures/diff.png)
 
 ---
 
@@ -471,10 +510,9 @@ This is a well-studied problem, and uniform colourmaps are available for many ap
 
 ## Colour blindness
 
-Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap
-can hugely impact the perception of data for these populations.
+Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap can hugely impact the perception of data for these populations.
 
-- In particular try to **avoid** <span style="color:red">Red</span>–<span style="color:green">Green</span> distinction
+- In particular try to *avoid* using <span style="color:red">Red</span>–<span style="color:green">Green</span> to draw distinctions
 
 ---
 
