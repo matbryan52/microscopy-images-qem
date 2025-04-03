@@ -1,0 +1,16 @@
+import panel as pn
+import pathlib
+from bokeh.plotting import figure
+from libertem_ui.figure import BokehImage, ApertureFigure
+from skimage.io import imread
+
+
+fig = (
+    ApertureFigure
+    .new(imread(pathlib.Path(__file__).parent.parent / "tem-L-spot1-CL1-100um-25k.tif"), maxdim=500)
+)
+fig.fig.background_fill_alpha = 0.
+fig.fig.border_fill_color = None
+fig.fig.toolbar_location = "below"
+fig.fig.right[0].background_fill_alpha = 0.
+fig.layout.servable("Cross Grating")

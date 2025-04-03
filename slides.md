@@ -70,8 +70,8 @@ h1 {
 
 - [Images and Photographs](#photographs-images)
 - [Digital Images](#digital-images)
-- Sampling
-- Image visualisation
+- [Image visualisation](#visualising-images)
+- [Sampling](#sampling)
 - Images and geometry
 - Image filtering
 - Image enhancement
@@ -297,20 +297,26 @@ Most camera sensors generate raw data as unsigned integers (8-, 16- or more bits
 
 ---
 
-## Multi-image data, stacks, 4D-STEM
+## Coordinate system conventions
 
-We think of images as 2D, but there are many forms of higher-dimensional images
+Depending on the tool or language you use, image coordinate systems can vary
 
-- We have already mentioned spectral (or colour) images, these are usually 3D with shape `[spectral_channel, height, width]`.
-* Similar is a time-series or multi-exposure image stack, e.g. `[time, height, width]`.
-* 4D-STEM can be treated as an image, `[scan_y, scan_x, height, width]`
-* Tomography acquisitions can an add an extra `[tilt]` dimension to the above!
+- Most use matrix notation for indexing `[row, column]`
+* Python and C-inspired languages are **0-indexed**
+  - i.e. `image[5, 3]` means "6th row, 4rd column"
+* MATLAB is **1-indexed**:
+  - `image[5, 3]` means "5th row, 3rd column"
+* Most place `y == 0` at the "top" when displayed, with positive "down"
+  - This matches matrix notation, but is opposite to convention for axes / graphs
+  - Implies a change of direction for rotations (clockwise not anticlockwise!)
 
 ---
 
 ## Multi-image data, stacks, 4D-STEM
 
 ![w:100% h:100%](figures/image-sizes.svg)
+
+Tomography acquisitions can an add an extra `[tilt]` dimension to the above!
 
 ---
 
@@ -329,24 +335,176 @@ In very low dose conditions (or with EDX), most image pixels contain a zero valu
 
 ---
 
-- File formats (PNG, tiff, jpeg, proprietary formats), compression, encoding, headers
-- Useful tools to work with images
-- Useful libraries to load images in Python (Dask?)
-- Conventions for coordinate systems
+## Image file formats
+
+Images can be stored in many ways, depending on how they are used
+
+- `.jpg`, `.png`, `.gif`: colour RGB `uint8` images, compressed for small file size, open anywhere without special software, not for raw data
+* `.tif`: a general-purpose image format, can hold most number types and shapes
+  - TIFF files with strange data (floating point) may need special software
+  - Can hold additional metadata (e.g. calibrations), can be compressed
+* Proprietary formats like `.dm3/4`, `.mib`, `.emd`, `.blo`: specific to a certain camera or software, not always readable elsewhere
+* General *array* formats: `.mat`, `.npy`, `.hdf5`, `.zarr`: flexible, can be compressed, can hold stacks / nD data and metadata, need compatible code/software
 
 ---
 
-# Visualising images
+## Image software
 
-- Colourmaps, perceptual uniformity :smile:
-- Colour spaces, alpha
-- Brightness, Contrast, Gamma, Logarithmic colour
-- Complex images and representations
-- Phase unwrapping / periodicity in images
+Useful software packages to work with images in microscopy
 
 ---
 
-# Images and sampling
+<style scoped>h3 { position: absolute; top: 3%; }</style>
+
+<!-- _class: columns2 -->
+### Fiji ([imagej.net](https://imagej.net/software/fiji/))
+
+Widely used in scientific imaging, many plugins
+
+![w:475px](figures/imagej.png)
+
+Calibrations, stacks, measurements, math, segmentation...
+
+![h:600px](figures/imagej-fig.svg)
+
+---
+
+<style scoped>h3 { position: absolute; top: 7%; }</style>
+
+<!-- _class: columns2 -->
+### Napari ([napari.org](https://napari.org/))
+Multi-D data viewer, annotations
+
+Python-based, easy to add analysis
+
+![w:600px](https://napari.org/stable/_images/sphx_glr_vortex_001.png)
+
+![w:600px](https://napari.org/stable/_images/sphx_glr_labels3d_001.png)
+
+Good support for 3D volumes
+
+---
+
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+
+### Gatan Digital Micrograph ([gatan.com](https://www.gatan.com/installation-instructions))
+Well-known, feature-rich GUI even when using the free license
+
+Python scripting enables any analysis with GMS display
+
+![bg right:60% 95%](figures/gms.png)
+
+---
+
+## Python tools for images
+
+The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in myriad ways
+
+- `scipy-ndimage` ([docs.scipy.org](https://docs.scipy.org/doc/scipy/reference/ndimage.html))
+  - Low-level tools for images (e.g. convolve, interpolate, measurements)
+- `scikit-image` / `skimage` ([scikit-image.org](https://scikit-image.org/))
+  - High-level tools for images (e.g. resizing, alignment, segmentation, filtering)
+- `Pillow` \[Python Imaging Library\] ([pillow.readthedocs.io](https://pillow.readthedocs.io/en/stable/))
+  - Graphics-focused, colour images, drawing, compositing
+- `matplotlib` ([matplotlib.org](https://matplotlib.org/stable/))
+  - General plotting library, but will `load` images, or display them on axes
+- `HyperSpy` / `rosettasciio` ([hyperspy.org](https://hyperspy.org/))
+  - Miscroscopy data-analysis library, loads many scientific formats
+  - Built-in analyses for a range of techniques as well as basic operations
+
+---
+
+<a name='visualising-images'></a>
+
+# **Visualising images**
+
+![bg right:50% 90%](figures/cross-grating.png)
+
+---
+
+## Data → Screen colour
+
+Scientific cameras produce images of intensity as unsigned integers, typically, and screens display `uint8` RGB colour (24-bit colour). This requires us to map from data to screen for display.
+
+- <span style="color:red">R</span> = <span style="color:green">G</span> = <span style="color:blue">B</span> in a colour image displays as colourless **Grey**
+  - Screens can only display 256 levels of pure grey intensity
+  - If the data are more than 8-bit, need to sacrifice detail or clip the data range
+- We can use artificial colour to achieve more on-screen contrast, known as a *lookup table* or *colormap*, of which there are many choices for different applications.
+
+The choice of colormap or data transformation for display can massively influence how the data are perceived.
+
+---
+
+Interactive figure of brightness, contrast, clip, gamma transform
+
+Maybe a coloured line / scatter plot of the mapping ?
+
+Interactive colourmap figure with some symmetric data, too
+
+---
+
+## Dynamic range
+
+In microscopy we frequently see data which span orders of magnitude in value, with detail at both the low and high-ends. A logarithmic transform is one way display such data on screen.
+
+Figure demonstrating logarithmic colour vs gamma colour
+
+---
+
+## Perceptual uniformity
+
+Colourmaps are critical to how we interpret visual data. It is important to recognize
+when a feature we see is from the data or from the map.
+
+- Perceptually uniformity means a $\Delta$ in the data displays as the same *visual* $\Delta$ to our eyes, no matter where in the range of mapped values it is
+  - No one range of values appears "stronger" than another
+- Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide true boundaries.
+
+This is a well-studied problem, and uniform colourmaps are available for many applications. See the [colorcet.holoviz.org](https://colorcet.holoviz.org/) page for good examples.
+
+---
+
+## Colour blindness
+
+Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap
+can hugely impact the perception of data for these populations.
+
+- In particular try to **avoid** <span style="color:red">Red</span>–<span style="color:green">Green</span> distinction
+
+---
+
+## Transparency (Alpha)
+
+Digital images can also be combined using transparency, often called *alpha*. This allows overlaying one information atop another. Transparency can apply on a per-pixel basis so can be used to convey information itself.
+
+Figure of alpha channel
+
+---
+
+## Complex and 2D-vector images
+
+Complex numbers cannot be directly displayed, we need to choose how to map the real and imaginary part onto an intensity image.
+
+- A typical example in microscopy is electron holography, where the reconstructed wavefront is complex
+  - The `abs()` of the wave represents its amplitude
+  - The `angle()` of the wave displays its phase
+
+<!-- phase unwrapping -->
+
+---
+
+<a name='sampling'></a>
+
+# **Sampling**
+
+![bg right:50% 70%](figures/pixellated-atoms.png)
+
+---
 
 - Pixel size (all rays down to one point)
 - Sampling (nyquist limit etc)
