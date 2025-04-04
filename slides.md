@@ -478,12 +478,15 @@ Scientific cameras produce images of intensity as unsigned integers, typically, 
 The choice of colormap or data transformation for display can massively influence how the data are perceived.
 
 ---
+<style scoped>h3 { position: absolute; top: 3%; }</style>
+### Brightness + Contrast
+<iframe src="http://localhost:9091/colour-map" width="1150" height="650" frameBorder="0"></iframe>
 
-Interactive figure of brightness, contrast, clip, gamma transform
+<!-- Interactive figure of brightness, contrast, clip, gamma transform
 
 Maybe a coloured line / scatter plot of the mapping ?
 
-Interactive colourmap figure with some symmetric data, too
+Interactive colourmap figure with some symmetric data, too -->
 
 ---
 
@@ -491,7 +494,10 @@ Interactive colourmap figure with some symmetric data, too
 
 In microscopy we frequently see data which span orders of magnitude in value, with detail at both the low and high-ends. A logarithmic transform is one way display such data on screen.
 
-Figure demonstrating logarithmic colour vs gamma colour
+---
+<style scoped>h3 { position: absolute; top: 3%; }</style>
+### Gamma + Logarithmic colour
+<iframe src="http://localhost:9091/gamma-log" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
 
@@ -501,26 +507,37 @@ Colourmaps are critical to how we interpret visual data. It is important to reco
 when a feature we see is from the data or from the map.
 
 - Perceptually uniformity means a $\Delta$ in the data displays as the same *visual* $\Delta$ to our eyes, no matter where in the range of mapped values it is
-  - No one range of values appears "stronger" than another
+  - No one range of values changes "faster" than another
 - Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide true boundaries.
 
-This is a well-studied problem, and uniform colourmaps are available for many applications. See the [colorcet.holoviz.org](https://colorcet.holoviz.org/) page for good examples.
+This is a well-studied problem, and uniform colourmaps are available for many applications. See the [colorcet.holoviz.org](https://colorcet.holoviz.org/) page or [Kovesi (2015)](https://arxiv.org/pdf/1509.03700) for good examples.
 
 ---
 
+<iframe src="http://localhost:9091/colour-uniformity" width="1150" height="650" frameBorder="0"></iframe>
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Colour blindness
 
 Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap can hugely impact the perception of data for these populations.
 
 - In particular try to *avoid* using <span style="color:red">Red</span>–<span style="color:green">Green</span> to draw distinctions
 
+[davidmathlogic.com/colorblind](https://davidmathlogic.com/colorblind) is a simple overview.
+
+![height:240 center](figures/cblind.svg)
+
 ---
 
 ## Transparency (Alpha)
 
 Digital images can also be combined using transparency, often called *alpha*. This allows overlaying one information atop another. Transparency can apply on a per-pixel basis so can be used to convey information itself.
-
-Figure of alpha channel
 
 ---
 
@@ -533,6 +550,10 @@ Complex numbers cannot be directly displayed, we need to choose how to map the r
   - The `angle()` of the wave displays its phase
 
 <!-- phase unwrapping -->
+
+---
+
+<iframe src="http://localhost:9091/complex-image" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
 
