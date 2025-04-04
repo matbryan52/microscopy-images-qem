@@ -614,10 +614,13 @@ Missing values are added via *interpolation* (upscaling), multiple values are me
 
 Uniform transformations can be represented as a matrix multiplication that applies to the coordinate grid. These can be chained arbitrarily to acheive a range of effects.
 
+<br>
 
 | $\begin{bmatrix}s_x & 0 & 0 \\0 & s_y & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}\cos{\theta} & -\sin{\theta} & 0 \\\sin{\theta} & \cos{\theta} & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}1 & 0 & 0 \\0 & -1 & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}1 & \lambda & 0 \\0 & 1 & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}1 & 0 & t_x \\0 & 1 & t_y \\0 & 0 & 1 \\\end{bmatrix}$ |
-| ---------------- | --------- | ----------- | ------------ | ---------- |
+| :--------------: | :-------: | :---------: | :----------: | :--------: |
 | Scaling $x$ + $y$ | Rotation by $\theta$ | Flip-$y$ | Shear $x$ | Shift $x$ + $y$ |
+
+<br>
 
 A uniform resize operation is the scaling matrix multiplication with $s_x = s_y$
 
@@ -628,24 +631,27 @@ Figures of different transforms on an image
 centreforcities.org
 
 ---
-
+<style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Non-uniform transforms
 
-When an imaging system is heavily distorted, a simple matrix transformation may not be able to correct it. In this case a non-uniform transform can be applied to correct local displacements.
+When an imaging system is heavily distorted, a simple matrix transformation may not be enough. In this case a non-uniform transform can be applied to correct local displacements.
+
+<iframe src="http://localhost:9091/transform-nonuniform" width="1150" height="600" frameBorder="0"></iframe>
+
 
 ---
-
+<style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Polar image transform
 
 Some image signals, e.g. diffraction patterns, can be better-interpreted in polar coordinates $(r, \theta)$ rather than Cartesian $(x, y)$.
 
-<!-- - Distortion correction -->
+<iframe src="http://localhost:9091/warp-polar" width="1150" height="600" frameBorder="0"></iframe>
 
 ---
 
 <a name='filtering'></a>
 
-# **Images Filtering**
+# **Image Filtering**
 
 ![bg right:50% 90%](./figures/skimage-transform.png)
 
@@ -701,3 +707,4 @@ A bit more physics ??
 - STEM scan patterns ?
 - GPA
 - Phase Reconstruction (holo etc)
+- Distortion correction
