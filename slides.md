@@ -72,8 +72,8 @@ h1 {
 - [Digital Images](#digital-images)
 - [Image visualisation](#visualising-images)
 - [Sampling](#sampling)
-- Images and geometry
-- Image filtering
+- [Images and geometry](#transforms)
+- [Image filtering](#filtering)
 - Image enhancement
 - Image segmentation
 
@@ -574,12 +574,82 @@ Complex numbers cannot be directly displayed, we need to choose how to map the r
 
 ---
 
+<a name='transforms'></a>
+
+# **Images and Geometry**
+
+![bg right:50% 90%](./figures/skimage-transform.png)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 # Geometric transforms of images
 
-- Hierarchy up to affine
-- Non-affine transforms
-- Polar transforms
-- Distortion correction
+The information in an image exists on a coordinate grid. We can map the same data to a new grid using a *transform*
+
+![height:350 center](figures/transform.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Resizing
+
+The simplest transform is resizing - `(0, 0)` remains static, all other values are moved onto a larger or smaller grid
+
+Missing values are added via *interpolation* (upscaling), multiple values are merged using *averaging* (downscaling)
+
+![height:350 center](figures/resize.svg)
+
+---
+
+## Matrix transforms
+
+Uniform transformations can be represented as a matrix multiplication that applies to the coordinate grid. These can be chained arbitrarily to acheive a range of effects.
+
+
+| $\begin{bmatrix}s_x & 0 & 0 \\0 & s_y & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}\cos{\theta} & -\sin{\theta} & 0 \\\sin{\theta} & \cos{\theta} & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}1 & 0 & 0 \\0 & -1 & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}1 & \lambda & 0 \\0 & 1 & 0 \\0 & 0 & 1 \\\end{bmatrix}$ | $\begin{bmatrix}1 & 0 & t_x \\0 & 1 & t_y \\0 & 0 & 1 \\\end{bmatrix}$ |
+| ---------------- | --------- | ----------- | ------------ | ---------- |
+| Scaling $x$ + $y$ | Rotation by $\theta$ | Flip-$y$ | Shear $x$ | Shift $x$ + $y$ |
+
+A uniform resize operation is the scaling matrix multiplication with $s_x = s_y$
+
+---
+
+Figures of different transforms on an image
+
+centreforcities.org
+
+---
+
+## Non-uniform transforms
+
+When an imaging system is heavily distorted, a simple matrix transformation may not be able to correct it. In this case a non-uniform transform can be applied to correct local displacements.
+
+---
+
+## Polar image transform
+
+Some image signals, e.g. diffraction patterns, can be better-interpreted in polar coordinates $(r, \theta)$ rather than Cartesian $(x, y)$.
+
+<!-- - Distortion correction -->
+
+---
+
+<a name='filtering'></a>
+
+# **Images Filtering**
+
+![bg right:50% 90%](./figures/skimage-transform.png)
+
+---
 
 ---
 
@@ -616,6 +686,7 @@ Complex numbers cannot be directly displayed, we need to choose how to map the r
 
 # Image restoration
 
+- Binning
 - Denoising
   - BM(3D), Noise2Noise etc
 - Inpainting
