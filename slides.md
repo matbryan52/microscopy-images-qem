@@ -71,7 +71,7 @@ h1 {
 - [Images and Photographs](#photographs-images)
 - [Digital Images](#digital-images)
 - [Image visualisation](#visualising-images)
-- [Sampling](#sampling)
+- [Images as signals](#sampling)
 - [Images and geometry](#transforms)
 - [Image filtering](#filtering)
 - Image enhancement
@@ -559,15 +559,102 @@ Complex numbers cannot be directly displayed, we need to choose how to map the r
 
 <a name='sampling'></a>
 
-# **Sampling**
+# **Images as signals**
 
-![bg right:50% 70%](figures/pixellated-atoms.png)
+![bg right:50% 90%](figures/moire.gif)
 
 ---
 
-- Pixel size (all rays down to one point)
-- Sampling (nyquist limit etc)
-- Fourier transforms of images, aliasing
+# Images as signals
+
+An digital image samples a continuous world onto a discrete grid. The step- or *pixel size* limits what information can ever be captured by the image.
+
+Conversely, more pixel density only adds value if the information is there to sample:
+
+* A smooth ramp in intensity is fully defined by two points - we can *interpolate* and get the same result as a densely sampled image
+* If the optics of the microscope cannot cleanly resolve the detail we want to see, more camera pixels will not help.
+* For a periodic feature (*atomic columns?*) 2 samples per shortest period are sufficient according to Nyqist-Shannon, but 4+ is more convincing.
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+
+With reduced sampling, the faster-changing areas of the signal are not resolved.
+
+![height:450 center](figures/sampling.svg)
+
+With extra sampling, no additional detail is added
+
+---
+<style scoped>
+img[alt~="top-right"] {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 225px;
+}
+</style>
+
+# Frequencies in 2D signals
+
+![top-right](figures/fourier-components.gif)
+
+In 1D we can perform a Fourier *transform* to describe a function $f(x)$ as a sum of periodic components each $A_ue^{-\mathrm{i} 2\pi u x}$ i.e. $A_u\cos(2\pi u x +\theta) + \mathrm{i}A_u\sin(2\pi u x)$, for which we can evaluate the coefficients $A_u$:
+
+$$
+A_u = \int_{-\infty}^{\infty} f(x)\ e^{-\mathrm{i} 2\pi u x}\,dx, \quad \forall u \in \mathbb{R}
+$$
+
+each $A_u$ represents a contribution to the description of $f(x)$ by a particular *frequency* $u$.
+
+On an image $f(x, y)$ we can do the same, but we must describe two *spatial frequencies* e.g. $u, v$, which are aligned with $x, y$.
+
+---
+
+<iframe src="http://localhost:9091/fourier-image" width="1150" height="650" frameBorder="0"></iframe>
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+
+![height:450 center](figures/fourier.svg)
+
+---
+
+## Uses of the Fourier transform for images
+
+- The transform is reversible, it contains exactly the same information as the image
+* It can be computed quickly with Fast Fourier Transform (**FFT**)
+* Representing the image as frequency components allows us to performing *filtering*, e.g. remove high-frequency noise while leaving the main content intact
+* Many mathematical operations are much more efficient in frequency space than direct space, for example correlation and convolution
+
+---
+
+## Uses of the Fourier transform in Microscopy
+
+- High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
+* Electron holography extracts the complex transmission function of the sample from the FFT of the interference between the known reference wavefront and that passing through the sample.
+* Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phase of peaks in the FFT of a high-resolution image.
+
+---
+<!-- <style scoped>h2 { position: absolute; top: 10%; }</style> -->
+## Aliasing
+
+When we sample a signal at a rate less than its highest frequency content then we get *aliasing*, which appears as a low-frequency signal superimposed on our sampled image
+
+<iframe src="http://localhost:9091/aliasing" width="1150" height="550" frameBorder="0"></iframe>
+
+---
+
+
 - Moirés
 - Image interpolation
 - "Sub-pixel" methods / upsampling
@@ -626,9 +713,7 @@ A uniform resize operation is the scaling matrix multiplication with $s_x = s_y$
 
 ---
 
-Figures of different transforms on an image
-
-centreforcities.org
+<iframe src="http://localhost:9091/transform-affine" width="1150" height="750" frameBorder="0"></iframe>
 
 ---
 <style scoped>h2 { position: absolute; top: 3%; }</style>
@@ -640,12 +725,12 @@ When an imaging system is heavily distorted, a simple matrix transformation may 
 
 
 ---
-<style scoped>h2 { position: absolute; top: 3%; }</style>
+<style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Polar image transform
 
 Some image signals, e.g. diffraction patterns, can be better-interpreted in polar coordinates $(r, \theta)$ rather than Cartesian $(x, y)$.
 
-<iframe src="http://localhost:9091/warp-polar" width="1150" height="600" frameBorder="0"></iframe>
+<iframe src="http://localhost:9091/warp-polar" width="1150" height="550" frameBorder="0"></iframe>
 
 ---
 

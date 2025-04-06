@@ -26,8 +26,8 @@ yy, xx = img1.shape
 step = 16
 src_pts = np.mgrid[:yy + 1:step, :xx + 1:step].reshape(2, -1)
 cy, cx = src_pts
-cy = cy.ravel()
-cx = cx.ravel()
+cy = cy.ravel().tolist()
+cx = cx.ravel().tolist()
 src_pts = src_pts.T[:, ::-1]
 
 fig2 = (
@@ -57,6 +57,7 @@ def _update_warped(attr, old, new):
     new_cy = np.asarray(pointset.cds.data["cy"]).ravel()
     dst = np.stack([new_cx, new_cy], axis=-1)
 
+    # Could add different transform estimates here
     tform = PiecewiseAffineTransform()
     tform.estimate(src_pts, dst)
 
