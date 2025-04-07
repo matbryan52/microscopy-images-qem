@@ -58,7 +58,6 @@ fig2.fig.background_fill_alpha = 0.
 fig2.fig.border_fill_color = None
 fig2.fig.right[0].background_fill_alpha = 0.
 
-
 fig2.fig.xaxis.axis_label = "x"
 fig2.fig.yaxis.axis_label = "y"
 

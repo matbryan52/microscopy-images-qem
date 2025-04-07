@@ -645,6 +645,22 @@ img[alt~="center"] {
 * Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phase of peaks in the FFT of a high-resolution image.
 
 ---
+
+## Image interpolation
+
+A discrete image can be *interpolated* into a continuous coordinate system so that it can be *re-sampled* at new coordinates.
+
+* Interpolation does not add additional information, but can reconstruct a higher-fidelity version of the image if we have a good model of the true signal.
+* Interpolating schemes can be very basic (e.g. bi-linear between adjacent pixels) or very flexible (polynomial splines) and take into account a wider region when interpolating locally.
+* Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image.
+
+---
+
+## Inerpolated line profile
+
+<iframe src="http://localhost:9091/interpolation-sampling" width="1150" height="650" frameBorder="0"></iframe>
+
+---
 <!-- <style scoped>h2 { position: absolute; top: 10%; }</style> -->
 ## Aliasing
 
@@ -656,7 +672,6 @@ When we sample a signal at a rate less than its highest frequency content then w
 
 
 - Moirés
-- Image interpolation
 - "Sub-pixel" methods / upsampling
 
 ---
