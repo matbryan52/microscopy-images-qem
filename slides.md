@@ -656,7 +656,7 @@ A discrete image can be *interpolated* into a continuous coordinate system so th
 
 ---
 
-## Inerpolated line profile
+## Interpolated line profile from image
 
 <iframe src="http://localhost:9091/interpolation-sampling" width="1150" height="650" frameBorder="0"></iframe>
 
@@ -664,15 +664,33 @@ A discrete image can be *interpolated* into a continuous coordinate system so th
 <!-- <style scoped>h2 { position: absolute; top: 10%; }</style> -->
 ## Aliasing
 
-When we sample a signal at a rate less than its highest frequency content then we get *aliasing*, which appears as a low-frequency signal superimposed on our sampled image
+A signal sampled at a rate less than its highest frequency content can be subject to *aliasing*. The samples can ambiguously fit both the true signal and many other signals at combinations of the true and sampling frequency.
 
 <iframe src="http://localhost:9091/aliasing" width="1150" height="550" frameBorder="0"></iframe>
 
 ---
 
+## Moiré patterns
 
-- Moirés
-- "Sub-pixel" methods / upsampling
+A moiré pattern is a form of interference (constructive and destructive) between two periodic signals, or between a signal and a sampling rate.
+
+It is a form of aliasing in that the pattern is a product to the two characteristic frequencies.
+
+![bg right:50% 90%](figures/moire-lines.gif)
+
+---
+
+## Moirés in microscopy
+
+Moiré imaging in microscopy is the intentional undersampling of a periodic structure, e.g. a lattice, to record a lower-frequency alias.
+
+The alias still represents the lattice, but each period in the alias covers multiple periods in the true signal. This allows us to see changes to the lattice from a larger field of view.
+
+---
+
+## Moirés in microscopy
+
+<iframe src="http://localhost:9091/stem-moire" width="1350" height="750" frameBorder="0"></iframe>
 
 ---
 
