@@ -773,15 +773,46 @@ Some image signals, e.g. diffraction patterns, can be better-interpreted in pola
 
 # **Image Filtering**
 
-![bg right:50% 90%](./figures/skimage-transform.png)
+![bg right:40% 105%](./figures/filtering.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+# Filtering
+
+Filters enhance certain information in an image, compensate for issues in the imaging system or highlight properties of the image which are beyond a simple intensity distribution.
+
+In most cases filters change the value of any given pixel based on its neighbours, or on the population of all pixels in the image.
+
+![height:300 center](./figures/filtering-examples.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+<!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
+## Patch-based filters
+
+The simplest type of filter is *patch-based*. These run some local procedure in the vicinity of each pixel to generate a new value for that pixel. Edges always need special treatment as their neighbourhood is limited. The patch size determines the range of the effect.
+
+![height:425 center](./figures/filtering-maximum.svg)
 
 ---
 
+## Convolution filters
+
+Convolution 
+
+
 ---
 
-# Image filters
-
-- 2D Convolution as a process
 - Simple filters (blur, edge)
 - Non-convolutional filters (median etc)
 - Filtering of images in frequency space
