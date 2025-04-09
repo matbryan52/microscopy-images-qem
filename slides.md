@@ -722,7 +722,7 @@ img[alt~="center"] {
 </style>
 ## Resizing
 
-The simplest transform is resizing - `(0, 0)` remains static, all other values are moved onto a larger or smaller grid
+The simplest transform is resizing → `(0, 0)` remains static, all other values are moved onto a larger or smaller grid
 
 Missing values are added via *interpolation* (upscaling), multiple values are merged using *averaging* (downscaling)
 
@@ -745,8 +745,10 @@ Uniform transformations can be represented as a matrix multiplication that appli
 A uniform resize operation is the scaling matrix multiplication with $s_x = s_y$
 
 ---
+<style scoped>h2 { position: absolute; top: 3%; }</style>
+## Matrix transforms
 
-<iframe src="http://localhost:9091/transform-affine" width="1150" height="750" frameBorder="0"></iframe>
+<iframe src="http://localhost:9091/transform-affine" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
 <style scoped>h2 { position: absolute; top: 3%; }</style>

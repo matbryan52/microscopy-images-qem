@@ -66,6 +66,14 @@ def _update_warped(attr, old, new):
 
 pointset.cds.on_change("data", _update_warped)
 
+clear_btn = pn.widgets.Button(name="Reset", button_type="warning")
+
+def clear_cb(*e):
+    pointset.update(x=cx, y=cy)
+
+clear_btn.on_click(clear_cb)
+fig2._toolbar.append(clear_btn)
+
 pn.Row(
     fig1.layout,
     pn.layout.HSpacer(max_width=50),
