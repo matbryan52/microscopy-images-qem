@@ -1,21 +1,25 @@
 import panel as pn
 import numpy as np
 from libertem_ui.figure import ApertureFigure
+from skimage.io import imread
+import pathlib
+rootdir = pathlib.Path(__file__).parent
 
 pn.extension('codeeditor', 'floatpanel')
 
 
-img1 = (np.linalg.norm(np.mgrid[-200: 200, -300: 300], axis=0) < 100).astype(np.float32)
-img2 = np.roll(img1, (-50, 80), axis=(0, 1))
+img = imread(rootdir.parent / "Region-ReferenceImage-Graphene.png", as_gray=True).astype(np.float32)
+img = img[:800, ...]
+h, w = img.shape
+
+cat = imread(rootdir.parent / "cat.png", as_gray=True).astype(np.float32)
+cat = cat[25: 25 + h, 150:150 + w]
 
 fig1 = (
     ApertureFigure
     .new(
-        {
-            "Image 1": img1,
-            "Image 2": img2,
-        },
-        title='Inputs'
+        img,
+        title='Input image',
     )
 )
 fig1.fig.background_fill_alpha = 0.
@@ -24,7 +28,7 @@ fig1.fig.right[0].background_fill_alpha = 0.
 fig2 = (
     ApertureFigure
     .new(
-        img1 + img2,
+        (img > 0.75).astype(np.float32),
         title='Output'
     )
 )    
@@ -32,8 +36,10 @@ fig2.fig.background_fill_alpha = 0.
 fig2.fig.border_fill_color = None
 fig2.fig.right[0].background_fill_alpha = 0.
 
-py_code = """def do_math(img1, img2):
-    return img1 + img2
+py_code = """def image_function(img):
+    return img > 0.75
+
+#  img ** 2 // np.log(0.01 + img) // img * np.linspace(0, 1, w)[np.newaxis]
 """
 editor = pn.widgets.CodeEditor(
     value=py_code,
@@ -60,13 +66,15 @@ def run_callback(*e):
     try:
         locals_dict = {}
         exec(editor.value, globals(), locals_dict)
-        do_math = locals_dict["do_math"]
-        result = do_math(img1, img2)
+        image_function = locals_dict["image_function"]
+        result = image_function(img.copy())
         if not isinstance(result, np.ndarray):
-            raise RuntimeError()
+            raise RuntimeError("Not an array")
         if result.ndim != 2:
-            raise RuntimeError()
-        fig2.update(result)
+            raise RuntimeError("Not 2D")
+        if np.iscomplexobj(result):
+            raise RuntimeError("Result is complex")
+        fig2.update(result.astype(np.float32))
         button.button_type="success"
         error_text.value = ""
     except Exception as ex:
@@ -82,5 +90,6 @@ pn.Column(
     pn.Row(
         fig1.layout,
         fig2.layout,
+        align=("center", "center"),        
     )
 ).servable("image-math")

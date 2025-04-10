@@ -2,12 +2,14 @@ import panel as pn
 import numpy as np
 from libertem_ui.figure import ApertureFigure, figure
 from libertem_ui.display.display_base import Curve
+from skimage.io import imread
+import pathlib
+rootdir = pathlib.Path(__file__).parent
 
 pn.extension('floatpanel')
 
 
-img1 = np.random.uniform(size=(128, 128)).astype(np.float32)
-img1 *= 5.
+img1 = imread(rootdir.parent / "overview_100K-binned.jpg", as_gray=True).astype(np.float32)
 
 fig1 = (
     ApertureFigure
@@ -38,6 +40,14 @@ fig2.y_range.end = 255
 num_pts = 255
 data_vals = np.linspace(*(fig1.im.current_minmax), num=num_pts, endpoint=True)
 data_vals_norm = (data_vals - data_vals.min()) / (data_vals.max() - data_vals.min())
+
+bins = np.linspace(*(fig1.im.current_minmax), 30)
+hist, edges = np.histogram(img1.ravel(), density=True, bins=bins)
+hist /= hist.max()
+hist *= 240.
+fig2.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],
+         fill_color="skyblue", line_color="white")
+
 curve = (
     Curve
     .new()
@@ -53,12 +63,14 @@ brightness = pn.widgets.FloatSlider(
     start=0.01,
     end=0.99,
     step=0.01,
-    value=0.5
+    value=0.5,
+    width=200,
 )
 brightness_btn = pn.widgets.Button(name="Reset", button_type="primary")
 
 def reset_brightness(*e):
     brightness.value = 0.5
+    brightness.value_throttled = 0.5
 
 brightness_btn.on_click(reset_brightness)
 
@@ -67,16 +79,18 @@ contrast = pn.widgets.FloatSlider(
     start=0.01,
     end=0.99,
     step=0.01,
-    value=0.5
+    value=0.5,
+    width=200,
 )
 contrast_btn = pn.widgets.Button(name="Reset", button_type="primary")
 
 def reset_contrast(*e):
     contrast.value = 0.5
+    contrast.value_throttled = 0.5
 
 contrast_btn.on_click(reset_contrast)
 
-cmap_select = fig1.im.color.get_cmap_select()
+cmap_select = fig1.im.color.get_cmap_select(width=200)
 
 def _set_vminmax(*e):
     cmin, cmax = fig1.im.current_minmax
@@ -90,19 +104,25 @@ def _set_vminmax(*e):
     fig1.im.color._lin_mapper.update(
         low=low, high=high
     )
-    mapped = 0.5 + ((cval + 0.5) * (data_vals_norm - 0.5)) - ((bval - 0.5) * 2)
+    mapped = 0.5 + ((cval + 0.5) * (data_vals_norm - 0.5)) - ((0.5 - bval) * 2)
+    # mapped = (2 * cval) * data_vals_norm + 2 * (bval - 0.5) - (cval - 0.5)
     mapped = np.clip(mapped  * 255, 0, 255)
     curve.update(xvals=data_vals, yvals=mapped)
 
-brightness.param.watch(_set_vminmax, "value")
-contrast.param.watch(_set_vminmax, "value")
+brightness.param.watch(_set_vminmax, "value_throttled")
+contrast.param.watch(_set_vminmax, "value_throttled")
+
+fig1._outer_toolbar.height = 0
 
 pn.Row(
-    fig1.layout,
     pn.Column(
+        fig1.layout,
+
+    ),
+    pn.Column(
+        pn.pane.Bokeh(fig2, align='end'),
+        pn.Row(brightness, brightness_btn, contrast, contrast_btn, align='end'),
         cmap_select,
-        pn.Row(brightness, brightness_btn),
-        pn.Row(contrast, contrast_btn),
-        pn.pane.Bokeh(fig2),
-    )
+    ),
+    align='end'
 ).servable("colour-map")

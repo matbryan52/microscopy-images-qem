@@ -29,6 +29,10 @@ fig1.fig.right[0].background_fill_alpha = 0.
 fig1.fig.xaxis.axis_label = "u"
 fig1.fig.yaxis.axis_label = "v"
 
+view_text = fig1._toolbar.pop(0)
+view_select = fig1._toolbar.pop(0)
+fig1._outer_toolbar.height = 0
+
 # fig1.fig.extra_x_ranges['freqx'] = Range1d(-1 / hx, 1 / hx)
 # ax2 = LinearAxis(
 #     axis_label="X-Freq (1 / px)",
@@ -46,37 +50,10 @@ fig1.fig.yaxis.axis_label = "v"
 # img2 = np.zeros(out_shape, dtype=np.float32)
 img2 = np.fft.irfft2(img1_fft, s=out_shape).astype(np.float32)
 
-fig2 = (
-    ApertureFigure
-    .new(
-        img2,
-        title='Image',
-        maxdim=400,
-    )
-)
-fig2.fig.background_fill_alpha = 0.
-fig2.fig.border_fill_color = None
-fig2.fig.right[0].background_fill_alpha = 0.
 
-fig2.fig.xaxis.axis_label = "x"
-fig2.fig.yaxis.axis_label = "y"
-
-
-period_slider = pn.widgets.IntSlider(value=2, start=2, end=16, name="Frequency")
-angle_slider = pn.widgets.FloatSlider(value=0, start=0, end=90, step=5, name="Angle (deg)")
+period_slider = pn.widgets.IntSlider(value=2, start=2, end=16, name="Frequency", width=250)
+angle_slider = pn.widgets.FloatSlider(value=0, start=0, end=90, step=5, name="Angle (deg)", width=250)
 cos_sin = pn.widgets.RadioBoxGroup(value="sin()", options=["sin()", "cos()"], name="Component")
-
-
-def _rfft2_to_fft2shifted(img):
-    shifted = np.fft.fftshift(img, axes=0)
-    return np.concatenate(
-        (
-            np.conjugate(np.flipud(np.fliplr(shifted[:, 1:]))),
-            shifted,
-        ),
-        axis=1,
-    )
-
 
 extra_img = np.zeros_like(img1_fft)
 
@@ -91,6 +68,39 @@ def _current_component():
     extra_img[yidx, xidx] += component
 
 
+_current_component()
+
+fig2 = (
+    ApertureFigure
+    .new(
+        np.fft.irfft2(img1_fft + extra_img, s=out_shape).astype(np.float32),
+        title='Image',
+        maxdim=400,
+    )
+)
+fig2.fig.background_fill_alpha = 0.
+fig2.fig.border_fill_color = None
+fig2.fig.right[0].background_fill_alpha = 0.
+
+fig2.fig.xaxis.axis_label = "x"
+fig2.fig.yaxis.axis_label = "y"
+
+fig2._outer_toolbar.height = 0
+
+
+def _rfft2_to_fft2shifted(img):
+    shifted = np.fft.fftshift(img, axes=0)
+    return np.concatenate(
+        (
+            np.conjugate(np.flipud(np.fliplr(shifted[:, 1:]))),
+            shifted,
+        ),
+        axis=1,
+    )
+
+
+
+
 def _live_version(*e):
     _current_component()
     fig1.update(_rfft2_to_fft2shifted(img1_fft + extra_img))
@@ -99,6 +109,8 @@ def _live_version(*e):
 period_slider.param.watch(_live_version, "value")
 angle_slider.param.watch(_live_version, "value")
 cos_sin.param.watch(_live_version, "value")
+
+_live_version()
 
 
 def add_fft(*e):
@@ -121,17 +133,17 @@ def add_dc(*e):
     _live_version()
 
 
-increase_level_btn = pn.widgets.Button(name="Add DC")
+increase_level_btn = pn.widgets.Button(name="Add DC", button_type="primary")
 increase_level_btn.on_click(add_dc)
 
-add_btn = pn.widgets.Button(name="Store")
+add_btn = pn.widgets.Button(name="Store", button_type="primary")
 add_btn.on_click(add_fft)
 
-clear_btn = pn.widgets.Button(name="Clear")
+clear_btn = pn.widgets.Button(name="Clear", button_type="warning")
 clear_btn.on_click(clear_fft)
 
 pn.Column(
-    pn.Row(period_slider, cos_sin, angle_slider, add_btn, clear_btn, increase_level_btn),
+    pn.Row(view_text, view_select, period_slider, cos_sin, angle_slider, add_btn, clear_btn, increase_level_btn),
     pn.Row(
         fig1.layout,
         pn.layout.HSpacer(max_width=50),

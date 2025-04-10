@@ -224,7 +224,7 @@ These are a logical extension of colour images, where each sub-image or *channel
 
 # **Images as digital information**
 
-![bg right:50% 70%](figures/pixellated-atoms.png)
+![bg right:40% 100%](figures/pixellated-atoms.png)
 
 ---
 
@@ -291,7 +291,7 @@ Most camera sensors generate raw data as unsigned integers (8-, 16- or more bits
 ---
 
 <style scoped>h2 { position: absolute; top: 5%; }</style>
-## Image math
+## Maths with images
 
 <iframe src="http://localhost:9091/image-math" width="1150" height="700" frameBorder="0"></iframe>
 
@@ -478,9 +478,9 @@ Scientific cameras produce images of intensity as unsigned integers, typically, 
 The choice of colormap or data transformation for display can massively influence how the data are perceived.
 
 ---
-<style scoped>h3 { position: absolute; top: 3%; }</style>
+<!-- <style scoped>h3 { position: absolute; top: 3%; }</style> -->
 ### Brightness + Contrast
-<iframe src="http://localhost:9091/colour-map" width="1150" height="650" frameBorder="0"></iframe>
+<iframe src="http://localhost:9091/colour-map" width="1150" height="600" frameBorder="0"></iframe>
 
 <!-- Interactive figure of brightness, contrast, clip, gamma transform
 
@@ -492,11 +492,19 @@ Interactive colourmap figure with some symmetric data, too -->
 
 ## Dynamic range
 
-In microscopy we frequently see data which span orders of magnitude in value, with detail at both the low and high-ends. A logarithmic transform is one way display such data on screen.
+In microscopy we frequently see data which span many orders of magnitude in intesity, with detail at both the low and high-ends (e.g. diffraction patterns).
+
+A non-linear transform between data and colour can be used to bridge the gap, trading local for global contrast.
+
+- Logarithmic colour colours data by order of intensity magnitude:
+    - $I_{disp} = \log (I_{img})$
+- Gamma-based colour scales the data with a power law before display:
+    - $I_{disp} = I_{img}^\gamma$
 
 ---
-<style scoped>h3 { position: absolute; top: 3%; }</style>
+
 ### Gamma + Logarithmic colour
+
 <iframe src="http://localhost:9091/gamma-log" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
@@ -514,7 +522,13 @@ This is a well-studied problem, and uniform colourmaps are available for many ap
 
 ---
 
-<iframe src="http://localhost:9091/colour-uniformity" width="1150" height="650" frameBorder="0"></iframe>
+## Perceptual uniformity
+
+The visualisation is of a linear ramp with a sinusoidal comb superimposed. The comb perturbs the intensity slightly up/down, so if the comb is visible then the colourmap is capable of representing small value changes in this part of its range.
+
+<iframe src="http://localhost:9091/colour-uniformity" width="1150" height="280" frameBorder="0"></iframe>
+
+If any part of the comb is invisible, then the colourmap is nonuniform. If any other patterns are visible then it is *highly* nonuniform!
 
 ---
 <style scoped>
@@ -614,6 +628,8 @@ each $A_u$ represents a contribution to the description of $f(x)$ by a particula
 On an image $f(x, y)$ we can do the same, but we must describe two *spatial frequencies* e.g. $u, v$, which are aligned with $x, y$.
 
 ---
+
+## Image Fourier Transform
 
 <iframe src="http://localhost:9091/fourier-image" width="1150" height="650" frameBorder="0"></iframe>
 
@@ -800,16 +816,21 @@ img[alt~="center"] {
 <!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
 ## Patch-based filters
 
-The simplest type of filter is *patch-based*. These run some local procedure in the vicinity of each pixel to generate a new value for that pixel. Edges always need special treatment as their neighbourhood is limited. The patch size determines the range of the effect.
+The simplest type of filter is *patch-based*. These run some procedure in the vicinity of each pixel to generate a new value for that pixel.
 
-![height:425 center](./figures/filtering-maximum.svg)
+![height:400 center](./figures/filtering-maximum.svg)
+
+Edges always need special treatment as their neighbourhood is limited, else the filtered image becomes smaller. Padding with zeros, periodic boundaries or reflecting the boundary are common ways to handle this.
 
 ---
 
 ## Convolution filters
 
-Convolution 
+Convolutional filters are patch-based but only use elementwise multiplication with a small *kernel* to compute each new pixel value. They are equivalent to the convolution operation $a * b$, and so can be efficiently computed using a Fourier transform via $\hat{F}(a*b) = \hat{F}(a)\hat{F}(b)$.
 
+Linearly separable?
+
+The kernel determines the effect of the filter,
 
 ---
 
