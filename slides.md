@@ -74,8 +74,9 @@ h1 {
 - [Images as signals](#sampling)
 - [Images and geometry](#transforms)
 - [Image filtering](#filtering)
-- Image enhancement
-- Image segmentation
+- [Image segmentation](#segmentation)
+- [Image enhancement](#restoration)
+- [Image alignment](#alignment)
 
 ---
 
@@ -548,21 +549,27 @@ Certain colour blindness forms are experienced in 1-5% of the population (biased
 ![height:240 center](figures/cblind.svg)
 
 ---
-
+<!-- _class: columns2 -->
 ## Transparency (Alpha)
 
-Digital images can also be combined using transparency, often called *alpha*. This allows overlaying one information atop another. Transparency can apply on a per-pixel basis so can be used to convey information itself.
+Digital images can also be combined using transparency, often called *alpha*. This allows overlaying one information atop another.
+
+Transparency can be defined on a per-pixel basis to convey information like density.
+
+In colour images this is referred to as `RGBA` where `A` acts as a 4th colour channel.
+
+<iframe src="http://localhost:9091/transparency" width="650" height="600" frameBorder="0"></iframe>
 
 ---
 
 ## Complex and 2D-vector images
 
-Complex numbers cannot be directly displayed, we need to choose how to map the real and imaginary part onto an intensity image.
+For complex images we must choose how convert real + imaginary into an intensity image.
 
 - A typical example in microscopy is electron holography, where the reconstructed wavefront is complex
-  - The `abs()` of the wave represents its amplitude
-  - The `angle()` of the wave displays its phase
-
+  - The `abs()` of the wave represents the amplitude
+  - The `angle()` of the wave displays the phase
+- We also need to be careful about how to display periodic phase with a colourmap, and can use a *cyclic* map display to acheive this, though we lose visualisation of phase ramps.
 <!-- phase unwrapping -->
 
 ---
@@ -631,6 +638,8 @@ On an image $f(x, y)$ we can do the same, but we must describe two *spatial freq
 
 ## Image Fourier Transform
 
+NEED A BETTER INTRO TO FREQUENCY IMAGES HERE
+
 <iframe src="http://localhost:9091/fourier-image" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
@@ -645,7 +654,7 @@ img[alt~="center"] {
 
 ---
 
-## Uses of the Fourier transform for images
+## Uses of image Fourier transforms
 
 - The transform is reversible, it contains exactly the same information as the image
 * It can be computed quickly with Fast Fourier Transform (**FFT**)
@@ -654,7 +663,7 @@ img[alt~="center"] {
 
 ---
 
-## Uses of the Fourier transform in Microscopy
+## Fourier transforms in Microscopy
 
 - High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
 * Electron holography extracts the complex transmission function of the sample from the FFT of the interference between the known reference wavefront and that passing through the sample.
@@ -677,7 +686,7 @@ A discrete image can be *interpolated* into a continuous coordinate system so th
 <iframe src="http://localhost:9091/interpolation-sampling" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
-<!-- <style scoped>h2 { position: absolute; top: 10%; }</style> -->
+<style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Aliasing
 
 A signal sampled at a rate less than its highest frequency content can be subject to *aliasing*. The samples can ambiguously fit both the true signal and many other signals at combinations of the true and sampling frequency.
@@ -813,63 +822,264 @@ img[alt~="center"] {
   margin: 0 auto;
 }
 </style>
-<!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
+<style scoped>h2 { position: absolute; top: 5%; }</style>
+
 ## Patch-based filters
 
-The simplest type of filter is *patch-based*. These run some procedure in the vicinity of each pixel to generate a new value for that pixel.
+The simplest type of filter is *patch-based*. These run a procedure in the vicinity of each pixel to generate a new value for that pixel.
 
-![height:400 center](./figures/filtering-maximum.svg)
+![height:350 center](./figures/filtering-maximum.svg)
 
 Edges always need special treatment as their neighbourhood is limited, else the filtered image becomes smaller. Padding with zeros, periodic boundaries or reflecting the boundary are common ways to handle this.
+
+<!-- Median filter? -->
+---
+<!-- _class: columns2 -->
+
+## Convolution filters
+
+Convolutional filters are a type of patch-based filter using elementwise multiplication and summation with a small *kernel* to compute each new pixel value.
+
+They are equivalent to the convolution operation $a * b$, and so can be efficiently computed using a Fourier transform via $\hat{F}(a*b) = \hat{F}(a)\hat{F}(b)$.
+
+The size and shape of the kernel's elements determines the range of the filter.
+<figure>
+<img src="./figures/same-padding-no-strides.gif" width=350px style="display: block; margin-left: auto;"/>
+<figcaption  style="text-align: right; font-size: 14px"><a href="https://arxiv.org/abs/1603.07285">Dumoulin and Visin (2016)</a></figcaption>
+</figure>
 
 ---
 
 ## Convolution filters
 
-Convolutional filters are patch-based but only use elementwise multiplication with a small *kernel* to compute each new pixel value. They are equivalent to the convolution operation $a * b$, and so can be efficiently computed using a Fourier transform via $\hat{F}(a*b) = \hat{F}(a)\hat{F}(b)$.
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+![height:450 center](./figures/convolution-filters.svg)
 
-Linearly separable?
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Edge filters (Sobel etc.)
 
-The kernel determines the effect of the filter,
+Edge filters respond to sharp transitions in image intensity, or large image gradient, and are useful in applications like peak finding or contour detection for metrology.
+
+![height:300 center](./figures/edge-filters.svg)
+
+The size of the filter influences how sharp an edge must be to be retained by the filter.
 
 ---
 
-- Simple filters (blur, edge)
-- Non-convolutional filters (median etc)
-- Filtering of images in frequency space
-  - Clean power spectrum
-  - Low-pass, High-pass
-  - Selective Bragg filter
-  -
+## Frequency space filtering
+
+Zero-ing or modifying certain frequencies in the FFT of an image acts as a filtering process.
+
+The most well-known are *low-pass*, *high-pass* and *band-pass* filters, which preserve low-, high- or a band- of frequencies.
+
+---
+
+## Frequency space filtering
+
+<iframe src="http://localhost:9091/fourier-filtering" width="1150" height="550" frameBorder="0"></iframe>
+
+<!-- --- -->
+  <!-- - Clean power spectrum -->
+  <!-- - Selective Bragg filter -->
+---
+<a name='segmentation'></a>
+
+# **Image Segmentation**
+
+![bg right:25% 100%](./figures/segmentation.svg)
 
 ---
 
 # Image segmentation
 
-- Thresholding (auto-threshold detection)
-- Operations on binary images (erode, dilate etc)
-- Labelled images, measures on labelled regions
-- Basic segmentation algorithms
-- "Machine learning" segmentation
+Image segmentation algorithms label pixels of an image based on what they represent.
+
+- Labelling phases of a poly-crystal based on orientation is a form of image segmentation, in order to measure a grain size distribution.
+
+Segmentation algorithms can use local- and non-local information to label a pixel.
+
+![bg right:25% 100%](./figures/segmentation2.svg)
 
 ---
 
-# Image alignment / pattern matching
+## Binary thresholding
 
-- Image correlation / autocorrelation
-- Common alignment tools and approaches
-- Image difference metrics
+The simplest segmentation is a hard cutoff in intensity, above the cutoff is assigned category `1` or `True`, below a `0` or `False`. For simple, good-contrast data this is often sufficient.
+
+<iframe src="http://localhost:9091/thresholding" width="1100" height="450" frameBorder="0"></iframe>
+
+---
+
+## Theshold choice
+
+The right cutoff depends on the data, its range, and the intended analysis.
+
+Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method), based on spliting the intensity histogram in a way which maximises variance.
+
+---
+
+## Binary image labelling
+
+The *connected components* algorithm numbers isolated regions in a binary image, allowing us to then count and measure properties like area and dimension.
+
+---
+
+## Binary image operations
+
+A binary image can be modified using *morphological operations*, which shrink or expand a region, or fill holes. Skeletonization reduces binary shapes to one pixel wide paths.
+
+---
+
+## Segmentation algorithms
+
+When an image contains single regions with varying intensity or noise makes pixel-wise segmentation impossible, more advanced algorithms can use *features* of the image - edges, textures etc. - to group pixels together.
+
+Maybe a demo of skimage `image_features` based segmentation (as done in ilastik ?). Might need to consider compute time on the laptop.
+
+---
+
+## Deep learning for image segmentation
+
+Image segmentation was an early application of convolutional neural networks, as a natural extension of whole-image classification. Rather than compress all of the image information into a single category label, instead each pixel is classified individually taking into account local- and global- content.
+
+The most well-know, intuitive, albeit now quite old architecture are the U-Nets, which are designed to preserve information from multiple image scales until the final classification layer.
+
+---
+<a name='restoration'></a>
+
+# **Image Restoration**
+
+![bg right:40% 105%](./figures/restoration.svg)
 
 ---
 
 # Image restoration
 
-- Binning
-- Denoising
-  - BM(3D), Noise2Noise etc
-- Inpainting
+Image restoration is any technique to remove artefacts or noise from an image while preserving the content. In microscopy we frequently encounter low signal-to-noise data, especially in low-dose conditions, and so denoising in particular is of great interest.
 
 ---
+
+## Binning
+
+Many modern electron cameras are built with dense pixel arrays, and 2K or 4K images are not unusual. A simple approach to improve noisy data is to apply *binning*, i.e. sum or average the recorded intensity within non-overlapping patches. Ignoring complexities of detector physics, this is almost equivalent to a camera with larger but fewer pixels.
+
+One small advantage is that sampling the intensity NxN times per-patch does give slightly improved statistics, not least we can estimate the deviation from the mean in each patch.
+
+---
+
+## Stacking
+
+When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers. Experimentally, stacking can avoid problems such as sample drift during long acquisitions, leading to reduced distortion.
+
+---
+
+## Denoising
+
+Denoising algorithms try to split an image into signal and noise components in order to suppress the latter more than the former. They are an important algorithmic tool to improve the performance of other techniques such as image alignment or segmentation.
+
+---
+
+## Denoising: PCA
+
+Principal Component Analysis is a well-known tool to express data as a set of *components* of decreasing importance to re-create that data. Excluding lower-weighted components acts to exclude outliers and noise, since these only represent a small portion of the whole data. It is a matrix factorisation approach and so is very computationally intensive on large images, but can provide an easy way to de-noise a dataset.
+
+---
+
+## Denoising: Non-Local means
+
+This algorithm performs averaging at each pixel, but averages over all pixels in the image that share a similar local neighbourhood to it, not just its immediate neighbours. In this way the maximum amount of information is used, and dissimilar pixels are ignored, which means edges and textures are preserved more effectively.
+
+The well-known [Block Matching 3D](https://ieeexplore.ieee.org/document/4271520) (BM3D) algorithm is an extension of the non-local means approach.
+
+---
+
+## Deep-learning for denoising
+
+Denoising is a problem which is well-suited to unsupervised deep learning, as noise has simple statistics compared to image content. The most well-known approach here is the [Noise2Noise](https://arxiv.org/abs/1803.04189) architecture, which can efficiently denoise images without clean data to train from.
+
+---
+
+## Inpainting
+
+Inpainting is the process of replacing corrupted or missing data based on that available. It could be used, for example, to infill the part of an image obscured by a beamstopper, or by a bonding gap in a multi-chip camera sensor.
+
+At its simplest inpainting can be acheived using interpolation from the good data, but this will not re-create noise or texture except over short distances.
+
+---
+<a name='alignment'></a>
+
+# **Pattern matching and alignment**
+
+![bg right:40% 105%](./figures/alignment.svg)
+
+---
+
+# Pattern matching and alignment
+
+A common problem in microscopy is to locate some image feature, an edge, a spot or a corner, in order to measure somthing about it. This is an application of *pattern matching*.
+
+A related problem is *image alignment*, where two-or-more images are separated by acquisition drift or change of scale, but we would like to compare the data from both images on the same grid or plot, requiring us to transform one image into the coordinate system of the other(s).
+
+---
+
+## Peak-finding
+
+When the feature to detect is a local minimum or maximum in the intensity image, we can apply *peak-finding* to locate it.
+
+A simple peak-finding algorithm returns the pixels which are unchanged by a local maximum filter. The size of the filter determines the minimum distance between separate maxima. The raw peaks cna be further sorted or pruned by peak height, prominence, sharpness etc to obtain more satisfactory results.
+
+---
+
+An additional step to refine maxima in an intensity map is to perform local centre-of-mass around each detected peak. This reduces the influence of noise and can be justifiably used as a sub-pixel feature location.
+
+---
+
+## Template matching
+
+When the feature to find is not a local maximum, or we need to detect a particular pattern in the intensity rather than a point, one approach is *template matching*. We generate a *correlation* map between our target image and the *template* or pattern that we want to find, then find peaks in this correlation image rather than the image itself.
+
+---
+
+## Image alignment
+
+If we want to align whole images for shift error we can use the *cross-correlation* between them to identify a vector that would bring them into alignment. The optimal shift is at the maximum of the correlation map, and so we can again use peak-finding to locate it.
+
+In practice whole-image correlation-based alignment is not very robust, but instead aligning two patches, both containing a clear feature is both faster and more reliable. If the images are not deformed relative to each other then the result will apply globally.
+
+<!-- ---
+
+## Alignment tools and libraries
+
+There exist a number of tools for image alignment,  -->
+---
+
+## Image similarity metrics
+
+When aligning or evaluating pairs of images, it is useful to have metrics which describe if two images are "close" to each other in some way, whether their level and distribution of intensity or some shape.
+
+---
+
+Tools used for this presentation
+Further resources
+GPUs
+
+---
+
+Slide for the PFNC
+
+---
+<!-- ---
 
 # Extra topics
 
@@ -879,4 +1089,4 @@ A bit more physics ??
 - STEM scan patterns ?
 - GPA
 - Phase Reconstruction (holo etc)
-- Distortion correction
+- Distortion correction -->

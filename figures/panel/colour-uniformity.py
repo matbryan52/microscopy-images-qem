@@ -16,6 +16,7 @@ sin_image = np.tile(sin_coord[np.newaxis, :], (h, 1))
 sin_image *= sin_intensity[:, np.newaxis]
 
 img1 = img1 * (1 + sin_image)
+img1 = np.clip(img1, 0., 1.)
 fig1 = (
     ApertureFigure
     .new(

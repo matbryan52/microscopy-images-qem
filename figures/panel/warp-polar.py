@@ -1,3 +1,5 @@
+import pathlib
+rootdir = pathlib.Path(__file__).parent.parent
 import panel as pn
 import numpy as np
 from libertem_ui.figure import ApertureFigure
@@ -8,24 +10,27 @@ from bokeh.models import LinearAxis, Range1d
 pn.extension('floatpanel')
 
 
-img1 = (np.linalg.norm(np.mgrid[-200: 200, -300: 300], axis=0) < 100).astype(np.float32)
+img1 = np.load(rootdir / "dp-spots.npy").astype(np.float32)
+img1 = img1 ** 0.25
 
 fig1 = (
     ApertureFigure
     .new(
         img1,
-        title='Input'
+        title='Input',
+        maxdim=350,
     )
 )
 fig1.fig.background_fill_alpha = 0.
 fig1.fig.border_fill_color = None
 fig1.fig.right[0].background_fill_alpha = 0.
+fig1._outer_toolbar.height = 0
 
 cy, cx = np.asarray(img1.shape) / 2.
 cursor = (
     Cursor
     .new()
-    .from_pos(cx, cy)
+    .from_pos(288, 292)
     .on(fig1.fig)
     .editable(
         selected=True,
@@ -48,6 +53,7 @@ fig2.fig.right[0].background_fill_alpha = 0.
 
 fig2.fig.xaxis.axis_label = "Radius (px)"
 fig2.fig.yaxis.axis_label = "Pixels"
+fig2._outer_toolbar.height = 0
 
 fig2.fig.extra_y_ranges['theta'] = Range1d(180., -180.)
 ax2 = LinearAxis(

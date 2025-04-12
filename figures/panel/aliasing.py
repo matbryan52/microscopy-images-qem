@@ -28,7 +28,7 @@ freq = 16
 high_xvals = np.linspace(0., 1., num=high_num, endpoint=True)
 high_yvals = np.sin(2 * np.pi * freq * high_xvals)
 
-low_num = 48
+low_num = 34
 low_xvals = np.linspace(0., 1., num=low_num, endpoint=True)
 low_yvals = np.sin(2 * np.pi * freq * low_xvals)
 interpolated = sinc_interpolation(low_yvals, low_xvals, high_xvals)

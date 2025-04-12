@@ -1,3 +1,5 @@
+import pathlib
+rootdir = pathlib.Path(__file__).parent.parent
 import panel as pn
 import numpy as np
 from libertem_ui.figure import ApertureFigure
@@ -6,8 +8,7 @@ from libertem_ui.applications.image_transformer import ImageTransformer
 pn.extension('floatpanel')
 
 
-size = 64
-img1 = (np.linalg.norm(np.mgrid[-size: size, -size: size], axis=0) < 25).astype(np.float32)
+img1 = np.load(rootdir / "overview_100K_binned.npy").astype(np.float32)
 
 fig1 = (
     ApertureFigure
@@ -20,6 +21,7 @@ fig1 = (
 fig1.fig.background_fill_alpha = 0.
 fig1.fig.border_fill_color = None
 fig1.fig.right[0].background_fill_alpha = 0.
+fig1._outer_toolbar.height = 0
 
 yy, xx = img1.shape
 step = 16
@@ -42,6 +44,7 @@ fig2 = (
 fig2.fig.background_fill_alpha = 0.
 fig2.fig.border_fill_color = None
 fig2.fig.right[0].background_fill_alpha = 0.
+fig2._outer_toolbar.height = 0
 
 def format_transform():
     tform = it.get_combined_transform().params
@@ -52,11 +55,22 @@ def format_transform():
 | **{tform[2, 0]:.0f}** | **{tform[2, 1]:.0f}** | **{tform[2, 2]:.0f}** | **1** | 
 """
 
+def format_summary():
+    transform = it.get_combined_transform()
+    scale_x, scale_y = transform.scale
+    trans_x, trans_y = transform.translation
+    return f"""| Rotation | Scale   | Shear    | Translation   |
+| -------- | ------- | -------- | -------       |
+| {np.rad2deg(transform.rotation):.1f}  | ({scale_x:.3f}, {scale_y:.3f}) | {transform.shear:.2f}  | ({trans_x:.1f}, {trans_y:.1f}) |
+"""  # noqa
+
 transform_md = pn.pane.Markdown(object=format_transform())
+summary_md = pn.pane.Markdown(object=format_summary())
 
 def update_figures():
     fig2.update(it.get_transformed_image())
     transform_md.object = format_transform()
+    summary_md.object = format_summary()
 
 common_kwargs = dict(
     button_type="primary",
@@ -107,33 +121,61 @@ rotate_btn_c.on_click(rotate_cb_c)
 # flip_x_btn.on_click(flip_x_cb)
 # flip_y_btn.on_click(flip_y_cb)
 
-shear_x_btn = pn.widgets.Button(name="Shear-X", **common_kwargs)
-shear_y_btn = pn.widgets.Button(name="Shear-Y", **common_kwargs)
+shear_x_pos_btn = pn.widgets.Button(name="Shear-X +", **common_kwargs)
+shear_y_pos_btn = pn.widgets.Button(name="Shear-Y +", **common_kwargs)
 
-def shear_x_cb(*e):
-    it.shear(xshear=np.random.choice([0.05, -0.05]))
+def shear_x_pos_cb(*e):
+    it.shear(xshear=0.05)
     update_figures()
 
-def shear_y_cb(*e):
-    it.shear(yshear=np.random.choice([0.05, -0.05]))
+def shear_y_pos_cb(*e):
+    it.shear(yshear=0.05)
     update_figures()
 
-shear_x_btn.on_click(shear_x_cb)
-shear_y_btn.on_click(shear_y_cb)
+shear_x_pos_btn.on_click(shear_x_pos_cb)
+shear_y_pos_btn.on_click(shear_y_pos_cb)
 
-shift_x_btn = pn.widgets.Button(name="Shift-X", **common_kwargs)
-shift_y_btn = pn.widgets.Button(name="Shift-Y", **common_kwargs)
+shear_x_neg_btn = pn.widgets.Button(name="Shear-X -", **common_kwargs)
+shear_y_neg_btn = pn.widgets.Button(name="Shear-Y -", **common_kwargs)
 
-def shift_x_cb(*e):
-    it.translate(xshift=np.random.choice([10, -10]), yshift=0.)
+def shear_x_neg_cb(*e):
+    it.shear(xshear=-0.05)
     update_figures()
 
-def shift_y_cb(*e):
-    it.translate(xshift=0., yshift=np.random.choice([10, -10]))
+def shear_y_neg_cb(*e):
+    it.shear(yshear=-0.05)
     update_figures()
 
-shift_x_btn.on_click(shift_x_cb)
-shift_y_btn.on_click(shift_y_cb)
+shear_x_neg_btn.on_click(shear_x_neg_cb)
+shear_y_neg_btn.on_click(shear_y_neg_cb)
+
+shift_x_pos_btn = pn.widgets.Button(name="Shift-X →", **common_kwargs)
+shift_y_pos_btn = pn.widgets.Button(name="Shift-Y ↓", **common_kwargs)
+
+def shift_x_pos_cb(*e):
+    it.translate(xshift=-10, yshift=0.)
+    update_figures()
+
+def shift_y_pos_cb(*e):
+    it.translate(xshift=0., yshift=-10)
+    update_figures()
+
+shift_x_pos_btn.on_click(shift_x_pos_cb)
+shift_y_pos_btn.on_click(shift_y_pos_cb)
+
+shift_x_neg_btn = pn.widgets.Button(name="Shift-X ←", **common_kwargs)
+shift_y_neg_btn = pn.widgets.Button(name="Shift-Y ↑", **common_kwargs)
+
+def shift_x_neg_cb(*e):
+    it.translate(xshift=10, yshift=0.)
+    update_figures()
+
+def shift_y_neg_cb(*e):
+    it.translate(xshift=0., yshift=10)
+    update_figures()
+
+shift_x_neg_btn.on_click(shift_x_neg_cb)
+shift_y_neg_btn.on_click(shift_y_neg_cb)
 
 clear_btn = pn.widgets.Button(name="Clear", button_type="warning")
 
@@ -144,15 +186,15 @@ def clear_cb(*e):
 clear_btn.on_click(clear_cb)
 
 pn.Column(
-    # pn.pane.Markdown(object=text),
     pn.Row(
-        pn.Column(scale_up_btn, scale_down_btn, margin=(5, 2)),
+        pn.Column(scale_up_btn, scale_down_btn, clear_btn, margin=(5, 2)),
         pn.Column(rotate_btn_ac, rotate_btn_c, margin=(5, 2)),
-        # pn.Column(flip_x_btn, flip_y_btn, margin=(5, 2)),
-        pn.Column(shear_x_btn, shear_y_btn, margin=(5, 2)),
-        pn.Column(shift_x_btn, shift_y_btn, margin=(5, 2)),
-        clear_btn,
+        pn.Column(shear_x_pos_btn, shear_x_neg_btn, margin=(5, 2)),
+        pn.Column(shear_y_pos_btn, shear_y_neg_btn, margin=(5, 2)),
+        pn.Column(shift_x_pos_btn, shift_x_neg_btn, margin=(5, 2)),
+        pn.Column(shift_y_pos_btn, shift_y_neg_btn, margin=(5, 2)),
         transform_md,
+        summary_md,
     ),
     pn.Row(
         fig1.layout,

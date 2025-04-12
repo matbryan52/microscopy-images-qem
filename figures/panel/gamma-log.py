@@ -81,7 +81,7 @@ gamma = pn.widgets.FloatSlider(
     start=-0.99,
     end=2.,
     step=0.05,
-    value=0,
+    value=0.8,
     disabled=True,
 )
 gamma_btn = pn.widgets.Button(
