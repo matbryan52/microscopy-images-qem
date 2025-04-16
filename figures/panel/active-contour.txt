@@ -1,0 +1,111 @@
+import panel as pn
+import numpy as np
+from libertem_ui.figure import ApertureFigure
+from libertem_ui.display.vectors import MultiLine
+from libertem_ui.display.image_db import BokehImage
+from skimage.io import imread
+from skimage.segmentation import random_walker
+import pathlib
+rootdir = pathlib.Path(__file__).parent
+
+pn.extension('floatpanel')
+
+
+img1 = imread(rootdir.parent / "overview_100K-binned.jpg", as_gray=True).astype(np.float32)
+img1 = img1[:380, :380]
+vmin, vmax = img1.min(), img1.max()
+
+
+frame_height = 350
+fig1 = (
+    ApertureFigure
+    .new(
+        img1,
+        title="Image",
+        tools=False,
+        maxdim=frame_height,
+    )
+)
+fig1.fig.toolbar_location = "below"
+fig1.fig.background_fill_alpha = 0.
+fig1.fig.border_fill_color = None
+fig1.im.color.add_colorbar(width=20)
+fig1.fig.right[0].background_fill_alpha = 0.
+
+
+
+output_image = (
+    BokehImage
+    .new()
+    .from_numpy(np.zeros(img1.shape, dtype=np.float32))
+    .on(fig1.fig)
+)
+output_image.color.change_cmap("Temperature")
+alpha_slider = output_image.color.get_alpha_slider()
+
+input_polyline = (
+    MultiLine
+    .new()
+    .empty()
+    .on(fig1.fig)
+    .editable(selected=True)
+)
+# output_polyline = (
+#     MultiLine
+#     .new()
+#     .empty()
+#     .on(fig1.fig)
+# )
+# output_polyline.lines.line_color = "yellow"
+
+def clear_cb(*e):
+    input_polyline.clear()
+    # output_polyline.clear()
+    
+
+clear_button = pn.widgets.Button(name="Clear", button_type="warning")
+clear_button.on_click(clear_cb)
+
+w_edge = pn.widgets.FloatSlider(name="w_edge", value=1., start=-1., end=5., step=0.1)
+w_line = pn.widgets.FloatSlider(name="w_line", value=0., start=-1., end=5., step=0.1)
+alpha = pn.widgets.FloatSlider(name="alpha", value=0.01, start=-1., end=1., step=0.01)
+beta = pn.widgets.FloatSlider(name="beta", value=130, start=1, end=500, step=1)
+
+def run_cb(*e):
+    data = input_polyline.cds.data
+    if len(data['xs']) == 0:
+        return
+    labels = np.zeros(img1.shape, dtype=int)
+    for ix, (xvals, yvals) in enumerate(zip(data['ys'], data['ys']), start=1):
+        labels[np.asarray(yvals).astype(int), np.asarray(xvals).astype(int)] = ix
+    labels = random_walker(
+        img1,
+        labels,
+        mode='bf',
+        beta=beta.value,
+    )
+    print("done")
+    output_image.update(
+        labels.astype(np.float32)
+    )
+    output_image.color._lin_mapper.update(
+        low=0, high=ix
+    )
+
+run_button = pn.widgets.Button(name="Run", button_type="primary")
+run_button.on_click(run_cb)
+
+fig1._toolbar.append(run_button)
+fig1._toolbar.append(clear_button)
+fig1._toolbar.append(alpha_slider)
+
+pn.Row(
+    fig1.layout,
+    pn.Column(
+        # w_edge,
+        # w_line,
+        # alpha,
+        beta,
+    ),
+    align="center",
+).servable("active-contour")

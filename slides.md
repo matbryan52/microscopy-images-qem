@@ -887,6 +887,8 @@ The most well-known are *low-pass*, *high-pass* and *band-pass* filters, which p
 
 ## Frequency space filtering
 
+Butterworth filters!
+
 <iframe src="http://localhost:9091/fourier-filtering" width="1150" height="550" frameBorder="0"></iframe>
 
 <!-- --- -->
@@ -925,96 +927,199 @@ The simplest segmentation is a hard cutoff in intensity, above the cutoff is ass
 
 The right cutoff depends on the data, its range, and the intended analysis.
 
-Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method), based on spliting the intensity histogram in a way which maximises variance.
+Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method).
 
 ---
-
+<style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Binary image labelling
 
-The *connected components* algorithm numbers isolated regions in a binary image, allowing us to then count and measure properties like area and dimension.
+The *connected components* algorithm can be used to number isolated regions in a binary image, allowing us to then count and measure properties like area and dimension.
+
+<iframe src="http://localhost:9091/connected-components" width="1100" height="500" frameBorder="0"></iframe>
 
 ---
-
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+<!-- _class: columns2 -->
 ## Binary image operations
 
-A binary image can be modified using *morphological operations*, which shrink or expand a region, or fill holes. Skeletonization reduces binary shapes to one pixel wide paths.
+A binary image can be modified using *morphological operations*, which shrink or expand a region, or fill holes.
+
+![height:250 center](./figures/dilation-bg.png)
+<!-- Mardiris (2016) -->
+
+Skeletonization reduces binary shapes to one pixel wide paths.
+
+<iframe src="http://localhost:9091/morphological" width="500" height="600" frameBorder="0"></iframe>
 
 ---
 
 ## Segmentation algorithms
 
-When an image contains single regions with varying intensity or noise makes pixel-wise segmentation impossible, more advanced algorithms can use *features* of the image - edges, textures etc. - to group pixels together.
+When an image contains regions of variable intensity or strong noise this can make purely intensity-based segmentation impossible.
 
-Maybe a demo of skimage `image_features` based segmentation (as done in ilastik ?). Might need to consider compute time on the laptop.
+More advanced algorithms can use *features* of the image - edges, textures etc. - to group pixels together.
+
+![bg right:30% 100%](./figures/feature-segmentation.svg)
 
 ---
-
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+<!-- _class: columns2 -->
 ## Deep learning for image segmentation
 
-Image segmentation was an early application of convolutional neural networks, as a natural extension of whole-image classification. Rather than compress all of the image information into a single category label, instead each pixel is classified individually taking into account local- and global- content.
+Image segmentation was an early application of convolutional neural networks, each pixel is classified individually taking into account local- and global- content.
 
-The most well-know, intuitive, albeit now quite old architecture are the U-Nets, which are designed to preserve information from multiple image scales until the final classification layer.
+The most well-know, intuitive, albeit now quite old architecture are the U-Nets, which are designed to combine information from multiple image scales to inform the segmentation.
+
+<br/>
+<figure>
+<img class="center" src="./figures/u-net.png" height="auto" width="550px"/>
+<figcaption style="text-align: right; font-size: 20px"><a href="https://github.com/ternaus/TernausNet">TernausNet</a></figcaption>
+</figure>
 
 ---
 <a name='restoration'></a>
 
 # **Image Restoration**
 
-![bg right:40% 105%](./figures/restoration.svg)
+![bg right:40% 100%](./figures/restoration.svg)
 
 ---
 
 # Image restoration
 
-Image restoration is any technique to remove artefacts or noise from an image while preserving the content. In microscopy we frequently encounter low signal-to-noise data, especially in low-dose conditions, and so denoising in particular is of great interest.
+Image restoration are techniques to remove artefacts or noise from an image while preserving the content.
 
+In microscopy we frequently encounter low signal-to-noise data, especially in low-dose conditions, and so *denoising* in particular is of great interest.
+
+![bg right:50% 90%](./figures/noisy.png)
+
+<!-- 
 ---
 
 ## Binning
 
-Many modern electron cameras are built with dense pixel arrays, and 2K or 4K images are not unusual. A simple approach to improve noisy data is to apply *binning*, i.e. sum or average the recorded intensity within non-overlapping patches. Ignoring complexities of detector physics, this is almost equivalent to a camera with larger but fewer pixels.
+Many modern electron cameras are built with dense pixel arrays, and 2K or 4K images are not unusual. A simple approach to improve noisy data is to apply *binning*.
+
+- Sum or average the recorded intensity within non-overlapping patches
+- This is almost equivalent to a camera with larger but fewer pixels
+- Loss of spatial resolution might be important in certain cases
 
 One small advantage is that sampling the intensity NxN times per-patch does give slightly improved statistics, not least we can estimate the deviation from the mean in each patch.
+
+Overview-100k with noise, and with noise but binned 2x, 4x
 
 ---
 
 ## Stacking
 
-When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers. Experimentally, stacking can avoid problems such as sample drift during long acquisitions, leading to reduced distortion.
-
----
-
-## Denoising
-
-Denoising algorithms try to split an image into signal and noise components in order to suppress the latter more than the former. They are an important algorithmic tool to improve the performance of other techniques such as image alignment or segmentation.
+When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers. Experimentally, stacking can avoid problems such as sample drift during long acquisitions, leading to reduced distortion. -->
 
 ---
 
 ## Denoising: PCA
 
-Principal Component Analysis is a well-known tool to express data as a set of *components* of decreasing importance to re-create that data. Excluding lower-weighted components acts to exclude outliers and noise, since these only represent a small portion of the whole data. It is a matrix factorisation approach and so is very computationally intensive on large images, but can provide an easy way to de-noise a dataset.
+**P**rincipal **C**omponent **A**nalysis is a well-known tool to decompose the data into a set of *components* that each capture the maximum variance for the data they represent.
+
+- Excluding smaller components excludes outliers and noise, since each only explains a small portion of the whole dataset
+- PCA is a matrix factorisation and so is **very** computationally intensive on large images
+- **Must take care as PCA will delete infrequent features!**
+
+![bg right:40% 80%](./figures/denoising-pca.svg)
 
 ---
-
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Denoising: Non-Local means
 
-This algorithm performs averaging at each pixel, but averages over all pixels in the image that share a similar local neighbourhood to it, not just its immediate neighbours. In this way the maximum amount of information is used, and dissimilar pixels are ignored, which means edges and textures are preserved more effectively.
+Rather than a simple average of local patches around each pixel, instead average all pixels in the image weighted by their similarity to the pixel being denoised.
 
-The well-known [Block Matching 3D](https://ieeexplore.ieee.org/document/4271520) (BM3D) algorithm is an extension of the non-local means approach.
+![height:400 center](./figures/denoise-nonlocal.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Denoising: Block-Matching 3D ([BM3D](https://webpages.tuni.fi/foi/GCF-BM3D/))
+
+The BM3D algorithm improves non-local means by grouping similar image patches and filtering them as a unit. Going beyond a simple weighted average greatly improves edge and texture preservation.
+
+<figure>
+<img src="https://webpages.tuni.fi/foi/GCF-BM3D/images/cameraman_thr.gif" height="300px" width="auto"/>
+<img src="https://webpages.tuni.fi/foi/GCF-BM3D/images/house_thr.gif" height="300px" width="auto"/>
+<img src="./figures/house-denoised.png" height="300px" width="auto"/>
+<figcaption style="text-align: right; font-size: 20px"><a href="https://webpages.tuni.fi/foi/GCF-BM3D/">Dabov et al. (2006)</a></figcaption>
+</figure>
 
 ---
 
 ## Deep-learning for denoising
 
-Denoising is a problem which is well-suited to unsupervised deep learning, as noise has simple statistics compared to image content. The most well-known approach here is the [Noise2Noise](https://arxiv.org/abs/1803.04189) architecture, which can efficiently denoise images without clean data to train from.
+Denoising is a problem which is well-suited to *unsupervised* deep learning, because noise has simple statistics compared to image content.
+
+A well-known architecture are the *Noise2-* models, e.g. [Noise2Noise](https://arxiv.org/abs/1803.04189), which can efficiently denoise images without clean data to train from.
+
+- These models are available as command line tools(!):
+
+```bash
+careamics train noisy-images/*.tif
+caremics predict noisy-images/001.tif -pd denoised.tif
+```
+[Careamics](https://careamics.github.io/0.1/)
+
+![bg right:40% 80%](./figures/denoise-n2v.svg)
 
 ---
 
 ## Inpainting
 
-Inpainting is the process of replacing corrupted or missing data based on that available. It could be used, for example, to infill the part of an image obscured by a beamstopper, or by a bonding gap in a multi-chip camera sensor.
+Inpainting replaces corrupted or missing data with a best-estimate. Some examples are to infill:
 
-At its simplest inpainting can be acheived using interpolation from the good data, but this will not re-create noise or texture except over short distances.
+- dead pixels  
+- image area covered by a beamstopper
+- a sensor bonding gap.
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Inpainting - Interpolation
+
+Simple *interpolation* is a good approach for small defects such as dead pixels.
+
+![height:400 center](./figures/gap-filling.svg)
+
+---
+
+## Deep Learning Inpainting
+
+Inpainting is a very active field in deep learning, notably for natural images (e.g. background modification on smartphones).
+
+An example is [Large Mask Inpainting - LaMa](https://github.com/advimman/lama) (Suvorov et al., 2022).
+
+**Take care** with scientific images as common models are not trained on these domains, and the "invented" data are likely misleading!
+
+![bg right:50% 90%](./figures/inpainting.gif)
+[cleanup.pictures](https://cleanup.pictures/)
 
 ---
 <a name='alignment'></a>
