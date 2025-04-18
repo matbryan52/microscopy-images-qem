@@ -24,8 +24,11 @@ def simulator_ui(simulator: STEMImageSimulator):
         .new()
         .empty()
         .on(survey_fig.fig)
-        .editable(selected=True, num_objects=1)
+        .editable(selected=True)
     )
+
+    tools = rectangles.tools("rectangles", survey_fig.fig)
+    tools[survey_fig.fig][0].num_objects = 1
 
     survey_button = pn.widgets.Button(
         name="Update survey",
