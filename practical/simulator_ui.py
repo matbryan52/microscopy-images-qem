@@ -111,7 +111,8 @@ def simulator_ui(simulator: STEMImageSimulator):
 if __name__ == "__main__":
     import pathlib
     rootdir = pathlib.Path(__file__).parent
-    image = np.load(rootdir / "particles.npy")
-    size = 1000
-    simulator = STEMImageSimulator(image, (size, size), drift_speed=10.)
+    sim_data = np.load(rootdir / "particles.npz")
+    image = sim_data["data"]
+    extent = sim_data["extent"]
+    simulator = STEMImageSimulator(image, extent, drift_speed=0.)
     simulator_ui(simulator).show()

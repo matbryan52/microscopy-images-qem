@@ -225,9 +225,10 @@ if __name__ == "__main__":
     rootdir = pathlib.Path(__file__).parent
     import matplotlib.pyplot as plt
 
-    image = np.load(rootdir / "particles.npy")
-    size = 1000
-    simulator = STEMImageSimulator(image, (size, size), drift_speed=10.)
+    sim_data = np.load(rootdir / "particles.npz")
+    image = sim_data["data"]
+    extent = sim_data["extent"]
+    simulator = STEMImageSimulator(image, extent, drift_speed=0.)
 
     tl = PointYX(70, 560)
     survey = simulator.survey_image((512, 512), 0.001)
