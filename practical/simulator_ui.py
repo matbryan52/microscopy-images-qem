@@ -2,10 +2,11 @@ import numpy as np
 import panel as pn
 import humanize
 from bokeh.models import LinearAxis, Range1d
+from bokeh.plotting import figure
 pn.extension("floatpanel")
 
 from libertem_ui.figure import ApertureFigure, set_frame_height
-from libertem_ui.display.display_base import Rectangles
+from libertem_ui.display.display_base import Rectangles, Curve
 from simulator import STEMImageSimulator, YX
 
 MAXDIM = 512
@@ -60,6 +61,19 @@ def simulator_ui(simulator: STEMImageSimulator):
     tools = rectangles.tools("rectangles", survey_fig.fig)
     tools[survey_fig.fig][0].num_objects = 1
 
+
+    drift_fig = figure(title='Drift', match_aspect=True)
+    drift_fig_pane = pn.pane.Bokeh(drift_fig)
+    drift_curve = (
+        Curve
+        .new()
+        .empty()
+        .on(drift_fig)
+    )
+    drift_fig.xaxis.axis_label="x-drift (nm)"
+    drift_fig.yaxis.axis_label="y-drift (nm)"
+
+
     survey_button = pn.widgets.Button(
         name="Update survey",
         button_type="primary",
@@ -69,6 +83,9 @@ def simulator_ui(simulator: STEMImageSimulator):
         survey = simulator.survey_image(survey_dwell_time)
         survey_fig.update(
             survey.astype(np.float32)
+        )
+        drift_curve.update(
+            **simulator._drift_history
         )
 
     update_cb = pn.state.add_periodic_callback(
@@ -203,6 +220,7 @@ No ROI defined
                 survey_fig.layout,
                 scan_fig.layout,
             ),
+            drift_fig_pane,
         ],
         main_layout=None,
         theme_toggle=False,

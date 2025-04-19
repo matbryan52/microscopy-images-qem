@@ -13,6 +13,7 @@ NMPerSecond: TypeAlias = float
 Seconds: TypeAlias = float
 PicoAmps: TypeAlias = float
 ELECTRON_PER_PA = 1e-12 * (1 / constants.e)
+DRIFT_HISTORY = 300
 
 
 class YX(NamedTuple):
@@ -155,6 +156,7 @@ class STEMImageSimulator:
 
         self._tstart = time.time()
         self._drift_gen = self._curve_generator(drift_speed)
+        self._drift_history = {"xvals": [], "yvals": []}
         _ = next(self._drift_gen)
 
     def rel_time(self):
@@ -163,6 +165,11 @@ class STEMImageSimulator:
     def _curve_generator(self, speed: float = 1.):
         for curve_idx, curve in enumerate(generate_curve(scale=speed), start=-1):
             self._drift_state = curve_idx, curve
+            if len(self._drift_history["yvals"]) > DRIFT_HISTORY:
+                self._drift_history["xvals"].pop(0)
+                self._drift_history["yvals"].pop(0)
+            self._drift_history["xvals"].append(curve.p0.real)
+            self._drift_history["yvals"].append(curve.p0.imag)
             yield self._drift_state
     
     def _drift_for_times(self, start: Seconds, number: int, step: Seconds):
