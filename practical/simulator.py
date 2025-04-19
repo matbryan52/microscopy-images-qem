@@ -346,7 +346,7 @@ class STEMImageSimulator:
             wait="Scanning" if wait else wait,
         )
         if with_grid:
-            grid, _ = self._get_grid(tl, extent, scan_shape, rotation)
+            grid = self._get_grid(tl, extent, scan_shape, rotation)
             return image, grid - self.survey.tl  # in continuous coords
         return image
 
