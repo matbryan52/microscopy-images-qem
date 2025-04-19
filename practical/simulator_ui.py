@@ -43,7 +43,7 @@ def simulator_ui(simulator: STEMImageSimulator):
 
     update_cb = pn.state.add_periodic_callback(
         update_survey,
-        period=2000,
+        period=1000,
         start=False,
     )
 
@@ -113,5 +113,5 @@ if __name__ == "__main__":
     sim_data = np.load(rootdir / "particles.npz")
     image = sim_data["data"]
     extent = sim_data["extent"]
-    simulator = STEMImageSimulator(image, extent, drift_speed=0.)
+    simulator = STEMImageSimulator(image, extent, drift_speed=0.1)
     simulator_ui(simulator).show()

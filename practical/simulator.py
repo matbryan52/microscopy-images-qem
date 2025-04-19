@@ -166,25 +166,26 @@ class STEMImageSimulator:
             self._drift_state = curve_idx, curve
             yield self._drift_state
     
-    @staticmethod
-    def _split_at_integers(times):
-        int_times = np.floor(times).astype(int)
-        tvals, first_indices = np.unique(int_times, return_index=True)
-        first_indices = first_indices.tolist() + [len(times)]
-        rel_times = times - int_times
-        for tval, (start, end) in zip(tvals, pairwise(first_indices)):
-            yield tval, rel_times[start: end]
-
-    def _drift_for_times(self, times: np.ndarray):
+    def _drift_for_times(self, start: Seconds, number: int, step: Seconds):
         coordinates = []
         curve_idx, curve = self._drift_state
-        for int_tval, rel_times in self._split_at_integers(times):
+        int_tval = np.floor(start)
+        num_in_curve = int(1. / step)
+        tvals = np.linspace(0., 1., num=num_in_curve)
+        start_in_curve = int((start % 1) * num_in_curve)
+        while number > 0:
             if int_tval < curve_idx:
                 raise RuntimeError("Cannot index into past")
             while int_tval > curve_idx:
                 curve_idx, curve = next(self._drift_gen)
             assert int_tval == curve_idx
-            coordinates.append(curve.coordinate_at(rel_times))
+            rel_times = tvals[start_in_curve: min(num_in_curve, start_in_curve + number)]
+            coordinates.append(
+                curve.coordinate_at(rel_times)
+            )
+            int_tval += 1
+            number -= rel_times.size
+            start_in_curve = 0
         return np.concatenate(coordinates, axis=0)
 
     def _apply_defocus(self, point: YX):
@@ -195,9 +196,8 @@ class STEMImageSimulator:
         xvals += np.asarray([0, -df, df, -df, df])
         return YX(yvals.ravel(), xvals.ravel())
 
-    def _apply_drift(self, point: YX, indices: np.ndarray, dwell_time: float):
-        scan_times = self.rel_time() + indices * dwell_time
-        drift = self._drift_for_times(scan_times)
+    def _apply_drift(self, point: YX, dwell_time: float):
+        drift = self._drift_for_times(self.rel_time(), point.x.size, dwell_time)
         drift = YX(drift.imag, drift.real)
         return point + drift
 
@@ -215,10 +215,9 @@ class STEMImageSimulator:
         y_coords = np.linspace(y0, y1, num=h, endpoint=True)
         x_coords = np.linspace(x0, x1, num=w, endpoint=True)
         xx, yy = np.meshgrid(x_coords, y_coords)
-        indices = np.arange(xx.ravel().size)
         grid = YX(yy.ravel(), xx.ravel())
         grid = grid.rotate(rotation, tl + extent / 2)
-        return grid, indices
+        return grid
 
     def _sample(self, grid_coords: YX, dwell_time: float):
         scattering_factor = self._interpolator(grid_coords)
@@ -240,8 +239,8 @@ class STEMImageSimulator:
         # could add a scan pattern option
         tstart = time.perf_counter()
         shape = YX(*shape)
-        grid, indices = self._get_grid(tl, extent, shape, rotation)
-        grid = self._apply_drift(grid, indices, dwell_time)
+        grid = self._get_grid(tl, extent, shape, rotation)
+        grid = self._apply_drift(grid, dwell_time)
         has_defocus = self._defocus > 0.
         if has_defocus:
             grid = self._apply_defocus(grid)
@@ -256,18 +255,19 @@ class STEMImageSimulator:
             image = image.reshape(-1, 5).mean(axis=-1)
             grid = YX(grid.y[::5], grid.x[::5])
         image = image.reshape(shape)
+        tspent = time.perf_counter() - tstart
+        npts = grid.x.size
+        true_time = npts * dwell_time
+        time_to_wait = max(0, (true_time - tspent))
         if wait:
-            tspent = time.perf_counter() - tstart
-            npts = indices.size
-            true_time = npts * dwell_time
-            effective_dwell_time = max(0, (true_time - tspent) / npts)
+            effective_dwell_time = time_to_wait / npts
             step = 256
             bar = tqdm.tqdm(total=npts, desc=wait if isinstance(wait, str) else "Scanning")
             for _ in range(0, npts, step):
                 bar.update(step)
                 time.sleep(effective_dwell_time * step)
         else:
-            self._tstart -= indices.size * dwell_time
+            self._tstart -= time_to_wait
         return image
 
     @property
@@ -361,7 +361,7 @@ if __name__ == "__main__":
     image = sim_data["data"]
     data_extent = YX(*sim_data["extent"])
     print(f"Data shape: {image.shape}, extent {data_extent} nm")
-    simulator = STEMImageSimulator(image, data_extent, drift_speed=0.)
+    simulator = STEMImageSimulator(image, data_extent, drift_speed=0.1)
 
     survey = simulator.survey_image(0.000_001, wait=False)
     h, w = survey.shape
