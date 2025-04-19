@@ -45,6 +45,7 @@ def simulator_ui(simulator: STEMImageSimulator):
             survey.astype(np.float32),
             title="Survey image",
             maxdim=MAXDIM,
+            downsampling=False,
         )
     )
 
@@ -72,6 +73,7 @@ def simulator_ui(simulator: STEMImageSimulator):
     )
     drift_fig.xaxis.axis_label="x-drift (nm)"
     drift_fig.yaxis.axis_label="y-drift (nm)"
+    drift_fig.y_range.flipped = True
 
 
     live_survey_button = pn.widgets.Toggle(
@@ -88,14 +90,23 @@ def simulator_ui(simulator: STEMImageSimulator):
     )
     live_survey_button.jslink(single_survey, **{"value": "disabled"})
 
+    survey_spinner = pn.indicators.LoadingSpinner(
+        value=False,
+        width=35, height=35,
+    )
+
     def update_survey(*e):
-        survey = simulator.survey_image(survey_dwell_time)
-        survey_fig.update(
-            survey.astype(np.float32)
-        )
-        drift_curve.update(
-            **simulator._drift_history
-        )
+        try:
+            survey_spinner.value = True
+            survey = simulator.survey_image(survey_dwell_time)
+            survey_fig.update(
+                survey.astype(np.float32)
+            )
+            drift_curve.update(
+                **simulator._drift_history
+            )
+        finally:
+            survey_spinner.value = False
 
     update_cb = pn.state.add_periodic_callback(
         update_survey,
@@ -106,11 +117,14 @@ def simulator_ui(simulator: STEMImageSimulator):
     def toggle_update(e):
         if e.new and not update_cb.running:
             update_cb.start()
+            live_survey_button.name = "Stop..."
         elif not e.new and update_cb.running:
             update_cb.stop()
+            live_survey_button.name = "Live survey"
         else:
             update_cb.stop()
             live_survey_button.value = False
+            live_survey_button.name = "Live survey"
 
     live_survey_button.param.watch(toggle_update, "value")
     single_survey.on_click(update_survey)
@@ -177,14 +191,7 @@ def simulator_ui(simulator: STEMImageSimulator):
     scan_fig._outer_toolbar.height = 0
 
     def scan_info_str():
-        
-        stub = f"""## Survey info
-- Shape: {simulator.survey.shape[0]} x {simulator.survey.shape[1]} px
-- Extent: {simulator.survey.extent[0]:.1f} x {simulator.survey.extent[1]:.1f} nm
-- Dwell time: {humanize.naturaldelta(survey_dwell_time, minimum_unit='microseconds')}
-- Duration {humanize.naturaldelta(survey_dwell_time * np.prod(simulator.survey.shape), minimum_unit='microseconds')}
-
-## Scan info"""
+        stub = ""
         data = rectangles.cds.data
         if len(data["cx"]) == 0:
             return stub + """
@@ -222,13 +229,27 @@ No ROI defined
     return pn.template.FastListTemplate(
         title="STEM Image Simulator",
         sidebar=[
-            pn.Row(live_survey_button, single_survey, width_policy="max"),
+            pn.pane.Markdown(object="## Survey"),
+            pn.Row(
+                live_survey_button,
+                single_survey,
+                survey_spinner,
+                width_policy="max",
+            ),
+            pn.pane.Markdown(object=f"""
+- Shape: {simulator.survey.shape[0]} x {simulator.survey.shape[1]} px
+- Extent: {simulator.survey.extent[0]:.0f} x {simulator.survey.extent[1]:.0f} nm
+- Dwell time: {humanize.naturaldelta(survey_dwell_time, minimum_unit='microseconds')}
+- Duration {humanize.naturaldelta(survey_dwell_time * np.prod(simulator.survey.shape), minimum_unit='microseconds')}
+
+## Scan"""),
             scan_step_input,
             dwell_time_input,
             scan_button,
             scan_info_md,
+            pn.pane.Markdown(object="## Drift correction"),
         ],
-        accent="#00A170",
+        accent="#005da1",
         main=[
             pn.Row(
                 survey_fig.layout,
