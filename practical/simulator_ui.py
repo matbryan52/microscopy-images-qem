@@ -4,13 +4,12 @@ pn.extension("floatpanel")
 
 from libertem_ui.figure import ApertureFigure
 from libertem_ui.display.display_base import Rectangles
-from simulator import STEMImageSimulator, PointYX
+from simulator import STEMImageSimulator, YX
 
 
 def simulator_ui(simulator: STEMImageSimulator):
-    survey_shape = (512, 512)
     survey_dwell_time = 0.000_001
-    survey = simulator.survey_image(survey_shape, survey_dwell_time)
+    survey = simulator.survey_image(survey_dwell_time)
     survey_fig = (
         ApertureFigure
         .new(
@@ -37,7 +36,7 @@ def simulator_ui(simulator: STEMImageSimulator):
     survey_fig._toolbar.append(survey_button)
 
     def update_survey(*e):
-        survey = simulator.survey_image(survey_shape, survey_dwell_time)
+        survey = simulator.survey_image(survey_dwell_time)
         survey_fig.update(
             survey.astype(np.float32)
         )
@@ -80,23 +79,17 @@ def simulator_ui(simulator: STEMImageSimulator):
     survey_fig._outer_toolbar.height = 100
 
     def do_scan(*e):
-        sh, sw = survey_shape
         data = rectangles.cds.data
         if len(data["cx"]) == 0:
             return
         cx, cy = data["cx"][0], data["cy"][0]
         w, h = abs(data["w"][0]), abs(data["h"][0])
-        ex_y, ex_x = simulator._extent
-        xscale = ex_x / sw
-        yscale = ex_y / sh
-        extent = PointYX(yscale * h, xscale * w)
-        top = (cy * yscale) - extent.y / 2
-        left = (cx * xscale) - extent.x / 2
-        tl = PointYX(top, left)
+
+        extent = YX(h, w) * simulator.survey.scaling
         scan_step = scan_step_input.value
-        scan_shape = (int(extent.y / scan_step), int(extent.x / scan_step))
-        scan_img = simulator._scan(
-            tl, extent, scan_shape, 0.001
+        scan_shape = (extent / scan_step).to_int()
+        scan_img = simulator.scan(
+            YX(cy, cx), scan_shape, scan_step, 0.001, rotation=0,
         )
         scan_fig.update(scan_img.astype(np.float32))
 

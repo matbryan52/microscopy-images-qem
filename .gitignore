@@ -179,3 +179,5 @@ marp-cli/
 *.pdf
 
 node_modules/
+
+*.lprof
