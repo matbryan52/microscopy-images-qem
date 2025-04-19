@@ -2,7 +2,7 @@ import numpy as np
 import panel as pn
 pn.extension("floatpanel")
 
-from libertem_ui.figure import ApertureFigure
+from libertem_ui.figure import ApertureFigure, set_frame_height
 from libertem_ui.display.display_base import Rectangles
 from simulator import STEMImageSimulator, YX
 
@@ -33,7 +33,6 @@ def simulator_ui(simulator: STEMImageSimulator):
         name="Update survey",
         button_type="primary",
     )
-    survey_fig._toolbar.append(survey_button)
 
     def update_survey(*e):
         survey = simulator.survey_image(survey_dwell_time)
@@ -80,9 +79,6 @@ def simulator_ui(simulator: STEMImageSimulator):
         name="Scan",
         button_type="success",
     )
-    survey_fig._toolbar.append(scan_button)
-    survey_fig._toolbar.append(scan_step_input)
-    survey_fig._outer_toolbar.height = 100
 
     def do_scan(*e):
         data = rectangles.cds.data
@@ -97,21 +93,37 @@ def simulator_ui(simulator: STEMImageSimulator):
         scan_img = simulator.scan(
             YX(cy, cx), scan_shape, scan_step, 0.001, rotation=0,
         )
+
+        set_frame_height(scan_fig.fig, scan_img.shape)
         scan_fig.update(scan_img.astype(np.float32))
 
     scan_button.on_click(do_scan)
 
-    return pn.Row(
-        survey_fig.layout,
-        scan_fig.layout,
+    survey_fig._outer_toolbar.height = 0
+    scan_fig._outer_toolbar.height = 0
+
+    return pn.template.FastListTemplate(
+        title="STEM Image Simulator",
+        sidebar=[
+            survey_button,
+            scan_button,
+            scan_step_input,
+        ],
+        accent="#00A170",
+        main=[
+            pn.Row(
+                survey_fig.layout,
+                scan_fig.layout,
+            ),
+        ],
+        main_layout=None,
     )
 
 
-if __name__ == "__main__":
-    import pathlib
-    rootdir = pathlib.Path(__file__).parent
-    sim_data = np.load(rootdir / "particles.npz")
-    image = sim_data["data"]
-    extent = sim_data["extent"]
-    simulator = STEMImageSimulator(image, extent, drift_speed=0.1)
-    simulator_ui(simulator).show()
+import pathlib
+rootdir = pathlib.Path(__file__).parent
+sim_data = np.load(rootdir / "particles.npz")
+image = sim_data["data"]
+extent = sim_data["extent"]
+simulator = STEMImageSimulator(image, extent, drift_speed=0.1)
+simulator_ui(simulator).servable("stem-simulator")
