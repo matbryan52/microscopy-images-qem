@@ -2,14 +2,18 @@ import numpy as np
 from itertools import pairwise
 import time
 import operator
+from scipy import constants
 import tqdm.auto as tqdm
-from typing import NamedTuple, TypeAlias
-from skimage.transform import AffineTransform
+from typing import NamedTuple, TypeAlias, Self
 from scipy.interpolate import RegularGridInterpolator
 from bezier_curve import generate_curve
 
 Degrees: TypeAlias = float
-Distance: TypeAlias = float
+NanoMetres: TypeAlias = float
+NMPerSecond: TypeAlias = float
+Seconds: TypeAlias = float
+PicoAmps: TypeAlias = float
+ELECTRON_PER_PA = 1e-12 * (1 / constants.e)
 
 
 class YX(NamedTuple):
@@ -28,19 +32,22 @@ class YX(NamedTuple):
                 x=op(self.x, val),
             )
 
-    def __mul__(self, val: float | int):
+    def __mul__(self, val: float | int | Self):
         return self.__binary_op(operator.mul, val)
 
-    def __truediv__(self, val: float | int):
+    def __truediv__(self, val: float | int | Self):
         return self.__binary_op(operator.truediv, val)
 
-    def __mod__(self, val: float | int):
+    def __floordiv__(self, val: float | int | Self):
+        return self.__binary_op(operator.floordiv, val)
+
+    def __mod__(self, val: float | int | Self):
         return self.__binary_op(operator.mod, val)
 
-    def __add__(self, val: float | int):
+    def __add__(self, val: float | int | Self):
         return self.__binary_op(operator.add, val)
 
-    def __sub__(self, val: float | int):
+    def __sub__(self, val: float | int | Self):
         return self.__binary_op(operator.sub, val)
 
     def to_int(self):
@@ -68,10 +75,14 @@ class YX(NamedTuple):
     def rotate(self, angle: Degrees, about: 'YX'):
         if angle == 0.:
             return self
+        angle = np.deg2rad(angle)
         about = YX(*about)
         assert about.is_scalar()
         translated = self - about
-        transform = AffineTransform(rotation=np.deg2rad(angle)).params[:2, :2]
+        transform = np.asarray([
+            [np.cos(angle), -np.sin(angle)],
+            [np.sin(angle), np.cos(angle)],
+        ])
         points = translated.asarray(yx=False)
         rotated = points @ transform
         return YX(
@@ -79,28 +90,35 @@ class YX(NamedTuple):
         ) + about
 
 
+PixelShapeYX: TypeAlias = YX
+PixelYX: TypeAlias = YX
+NanoMetreShapeYX: TypeAlias = YX
+NanoMetreYX: TypeAlias = YX
+NanoMetrePerPixelYX: TypeAlias = YX
+
+
 class ScanDef(NamedTuple):
-    tl: YX
-    extent: YX
-    shape: YX
+    tl: NanoMetreYX
+    extent: NanoMetreShapeYX
+    shape: PixelShapeYX
 
     @property
-    def scaling(self) -> YX:
+    def scaling(self) -> NanoMetrePerPixelYX:
         """
         Scale factors in Distance / Pixel
         """
         return self.extent / self.shape
 
-    def to_continuous(self, point: YX) -> YX:
+    def to_continuous(self, point: PixelYX) -> NanoMetreYX:
         """
-        Convert from survey pixel units to continuous units
+        Convert from survey pixel to continuous units
         """
         point = YX(*point)
         return self.tl + (point * self.scaling)
 
-    def to_pixels(self, point: YX) -> YX:
+    def to_pixels(self, point: NanoMetreYX) -> PixelYX:
         """
-        Convert from continuous units to survey pixel
+        Convert from continuous to survey pixel units
         """
         point = YX(*point)
         return (point - self.tl) / self.scaling
@@ -110,10 +128,10 @@ class STEMImageSimulator:
     def __init__(
         self,
         image: np.ndarray,
-        extent_yx: tuple[float, float],
-        current: int = 10_000_000,  # electron / s,
-        drift_speed: float = 1.,
-        defocus: float = 0.,
+        extent_yx: NanoMetreShapeYX,
+        current: PicoAmps = 10,
+        drift_speed: NMPerSecond = 0.1,
+        defocus: NanoMetres = 0.,
     ):
         self._shape = YX(*image.shape)
         self._extent = YX(*extent_yx)
@@ -199,41 +217,23 @@ class STEMImageSimulator:
         xx, yy = np.meshgrid(x_coords, y_coords)
         indices = np.arange(xx.ravel().size)
         grid = YX(yy.ravel(), xx.ravel())
-        grid = grid.rotate(rotation, tl)
+        grid = grid.rotate(rotation, tl + extent / 2)
         return grid, indices
 
     def _sample(self, grid_coords: YX, dwell_time: float):
         scattering_factor = self._interpolator(grid_coords)
         samples = self._rng.poisson(
-            lam=dwell_time * scattering_factor * self._current
+            lam=scattering_factor * (self._current * dwell_time * ELECTRON_PER_PA)
         )
         return samples
-
-    @property
-    def survey(self) -> ScanDef:
-        """
-        The definition of the survey image coordinate system
-        with methods to convert from survey pixels to continuous units
-        """
-        return self._survey_def
-
-    def survey_image(self, dwell_time: float, wait: bool = False):
-        """
-        Acquire a new survey image with the given dwell time
-        """
-        return self._scan(
-            **self.survey._asdict(),
-            dwell_time=dwell_time,
-            wait="Survey" if wait else wait,
-        )
 
     def _scan(
         self,
         *,
-        tl: YX,
-        extent: YX,
-        shape: YX,
-        dwell_time: float,
+        tl: NanoMetreYX,
+        extent: NanoMetreShapeYX,
+        shape: PixelShapeYX,
+        dwell_time: Seconds,
         rotation: Degrees = 0.,
         wait: bool | str = False,
     ) -> np.ndarray:
@@ -270,18 +270,70 @@ class STEMImageSimulator:
             self._tstart -= indices.size * dwell_time
         return image
 
+    @property
+    def survey(self) -> ScanDef:
+        """
+        Get the definition of the survey image coordinate system
+        with methods to convert from survey pixels to continuous units
+        """
+        return self._survey_def
+
+    def survey_image(self, dwell_time: Seconds, wait: bool = False):
+        """
+        Acquire a new survey image with the given dwell time
+        """
+        return self._scan(
+            **self.survey._asdict(),
+            dwell_time=dwell_time,
+            wait="Survey" if wait else wait,
+        )
+
     def scan(
         self,
-        centre: YX,  # float-pixel survey coordinates of scan grid centre
-        scan_shape: YX,  # shape of desired scan in pixels
-        scan_step: Distance,  # stepsize of desired scan in continuous units
-        dwell_time: float,
+        centre: PixelYX,
+        scan_shape: PixelShapeYX,
+        scan_step: NanoMetres,
+        dwell_time: Seconds,
         rotation: Degrees = 0.,
         with_grid: bool = False,
         wait: bool = False,
     ):
         """
-        Acquire a scan image
+        Acquire a scan image centered at a specified point.
+
+        Performs a raster scan over a rectangular region centered 
+        at the given survey coordinates, with optional rotation. 
+        The scan is defined by its shape (in pixels), step size (in nanometres), 
+        and dwell time per pixel (in seconds).
+
+        Parameters
+        ----------
+        centre : PixelYX
+            The center of the scan grid in float-pixel survey coordinates.
+        scan_shape : PixelShapeYX
+            The dimensions (rows, columns) of the scan in pixels.
+        scan_step : NanoMetres
+            The distance between scan points in nanometres.
+        dwell_time : Seconds
+            The dwell time of each pixel
+        rotation : Degrees, optional
+            Angle to rotate the scan grid (default is 0 degrees). Positive is anticlockwise.
+        with_grid : bool, optional
+            If True, also return the grid coordinates used in the scan (default is False).
+        wait : bool, optional
+            If True, block execution for the duration of the scan as-if
+            waiting for the real microscope (default is False).
+
+        Returns
+        -------
+        image : ndarray
+            The acquired scan image.
+        grid : ndarray, optional
+            The scan grid in survey continuous coordinates, only returned if `with_grid` is True.
+
+        Notes
+        -----
+        The returned grid, if requested, is relative to the survey's top-left origin.
         """
         centre_scan = self.survey.to_continuous(centre)
         extent = YX(*scan_shape) * scan_step
@@ -310,12 +362,12 @@ if __name__ == "__main__":
     extent = sim_data["extent"]
     simulator = STEMImageSimulator(image, extent, drift_speed=0.)
 
-    survey = simulator.survey_image(0.000_001, wait=True)
+    survey = simulator.survey_image(0.000_001, wait=False)
     h, w = survey.shape
     scan_centre = YX(h // 2, w // 2)
     scan_shape = YX(512, 512)
     scan, grid = simulator.scan(
-        scan_centre, scan_shape, 1.5, 0.00001, rotation=10, with_grid=True, wait=True
+        scan_centre, scan_shape, 1., 0.00001, rotation=10, with_grid=True, wait=False
     )
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
