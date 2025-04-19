@@ -4,3 +4,4 @@ numpy
 ase
 abtem
 tqdm
+humanize
