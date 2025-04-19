@@ -56,7 +56,13 @@ def simulator_ui(simulator: STEMImageSimulator):
 
 
     scan_step_input = pn.widgets.FloatInput(
-        name="Scan step", value=0.5, start=0.01, end=20., step=0.01, width=100, align='end'
+        name="Scan step",
+        value=0.2,
+        start=0.01,
+        end=20.,
+        step=0.01,
+        width=100,
+        align='end',
     )
 
     scan_shape = (64, 64)

@@ -359,15 +359,16 @@ if __name__ == "__main__":
 
     sim_data = np.load(rootdir / "particles.npz")
     image = sim_data["data"]
-    extent = sim_data["extent"]
-    simulator = STEMImageSimulator(image, extent, drift_speed=0.)
+    data_extent = YX(*sim_data["extent"])
+    print(f"Data shape: {image.shape}, extent {data_extent} nm")
+    simulator = STEMImageSimulator(image, data_extent, drift_speed=0.)
 
     survey = simulator.survey_image(0.000_001, wait=False)
     h, w = survey.shape
     scan_centre = YX(h // 2, w // 2)
     scan_shape = YX(512, 512)
     scan, grid = simulator.scan(
-        scan_centre, scan_shape, 1., 0.00001, rotation=10, with_grid=True, wait=False
+        scan_centre, scan_shape, 0.1, 0.00001, rotation=10, with_grid=True, wait=False
     )
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
