@@ -296,7 +296,7 @@ class STEMImageSimulator:
         rotation: Degrees = 0.,
         with_grid: bool = False,
         wait: bool = False,
-    ):
+    ) -> np.ndarray | tuple[np.ndarray, YX]:
         """
         Acquire a scan image centered at a specified point.
 
@@ -327,7 +327,7 @@ class STEMImageSimulator:
         -------
         image : ndarray
             The acquired scan image.
-        grid : ndarray, optional
+        grid : YX, optional
             The scan grid in survey continuous coordinates, only returned if `with_grid` is True.
 
         Notes
