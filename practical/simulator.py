@@ -1,5 +1,4 @@
 import numpy as np
-from itertools import pairwise
 import time
 import operator
 from scipy import constants
