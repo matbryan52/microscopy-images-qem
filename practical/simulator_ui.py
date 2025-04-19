@@ -74,10 +74,19 @@ def simulator_ui(simulator: STEMImageSimulator):
     drift_fig.yaxis.axis_label="y-drift (nm)"
 
 
-    survey_button = pn.widgets.Button(
-        name="Update survey",
-        button_type="primary",
+    live_survey_button = pn.widgets.Toggle(
+        name="Live survey",
+        value=False,
+        width_policy="max",
+        button_type="warning",
     )
+    single_survey = pn.widgets.Button(
+        name="Single survey",
+        disabled=False,
+        button_type="success",
+        width_policy="max",
+    )
+    live_survey_button.jslink(single_survey, **{"value": "disabled"})
 
     def update_survey(*e):
         survey = simulator.survey_image(survey_dwell_time)
@@ -94,12 +103,17 @@ def simulator_ui(simulator: STEMImageSimulator):
         start=False,
     )
 
-    def toggle_update(*e):
-        if update_cb.running:
-            return
-        update_cb.start()
+    def toggle_update(e):
+        if e.new and not update_cb.running:
+            update_cb.start()
+        elif not e.new and update_cb.running:
+            update_cb.stop()
+        else:
+            update_cb.stop()
+            live_survey_button.value = False
 
-    survey_button.on_click(toggle_update)
+    live_survey_button.param.watch(toggle_update, "value")
+    single_survey.on_click(update_survey)
 
     scan_step_input = pn.widgets.Select(
         name="Scan step (nm)",
@@ -208,7 +222,7 @@ No ROI defined
     return pn.template.FastListTemplate(
         title="STEM Image Simulator",
         sidebar=[
-            survey_button,
+            pn.Row(live_survey_button, single_survey, width_policy="max"),
             scan_step_input,
             dwell_time_input,
             scan_button,
