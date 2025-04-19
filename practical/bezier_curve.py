@@ -1,5 +1,7 @@
 import numpy as np
+from typing import TypeAlias
 
+Degrees: TypeAlias = float
 
 class QuadBezier:
     def __init__(self, p0: complex, p1: complex, p2: complex):
@@ -21,7 +23,8 @@ class QuadBezier:
         return tvals, xy, lengths.sum()
 
 
-def continuing_angle(angle, max_change: float = np.pi / 6):
+def continuing_angle(angle, max_change: Degrees = 5):
+    max_change = np.deg2rad(max_change)
     delta_angle = np.clip(
         np.random.normal(scale=0.5 * max_change),
         -max_change,
@@ -43,7 +46,7 @@ def random_between(start: complex, end: complex, new_length: bool = None) -> com
 def continue_line(start: complex, end: complex, min_length: float = 0.):
     length = np.abs(end - start)
     angle = np.angle(end - start)
-    length_factor = np.random.uniform(0.75, 1.25)
+    length_factor = np.random.uniform(0.8, 1.2)
     new_length = length_factor * length
     new_length = max(min_length, new_length)
     return end + new_length * np.exp(1j * angle)
@@ -58,14 +61,14 @@ def generate_curve(start: complex = 0j, scale: float = 1.):
             p0 * scale, p1 * scale, p2 * scale,
         )
         p0 = p2
-        p1 = continue_line(p1, p0, min_length=0.4)
+        p1 = continue_line(p1, p2, min_length=0.4)
         p2 = random_between(p0, p1, new_length=1.)
 
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
-    for ix, curve in enumerate(generate_curve(scale=0.)):
+    for ix, curve in enumerate(generate_curve(scale=0.1)):
         _, B = curve.evaluate()
         ax.plot(B.real, B.imag, 'k-')
         if ix > 40:
