@@ -1012,7 +1012,7 @@ The most well-known of these filters are:
 
 Image segmentation algorithms label pixels of an image based on what they represent.
 
-- Labelling phases of a poly-crystal based on orientation is a form of image segmentation, in order to measure a grain size distribution.
+- Labelling phases of a poly-crystal is a form of image segmentation, used to measure a grain size distribution.
 
 Segmentation algorithms can use local- and non-local information to label a pixel.
 
@@ -1022,23 +1022,23 @@ Segmentation algorithms can use local- and non-local information to label a pixe
 
 ## Binary thresholding
 
-The simplest segmentation is a hard cutoff in intensity, above the cutoff is assigned category `1` or `True`, below a `0` or `False`. For simple, good-contrast data this is often sufficient.
+The simplest segmentation is a hard cut in intensity, above the cut is assigned category `1` or `True`, below a `0` or `False`. For simple data this is often sufficient.
 
 <iframe src="http://localhost:9091/thresholding" width="1100" height="450" frameBorder="0"></iframe>
 
----
+<!-- ---
 
 ## Theshold choice
 
 The right cutoff depends on the data, its range, and the intended analysis.
 
-Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method).
+Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method). -->
 
 ---
 <style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Binary image labelling
 
-The *connected components* algorithm can be used to number isolated regions in a binary image, allowing us to then count and measure properties like area and dimension.
+The *connected components* algorithm can be used to number isolated regions in a binary image, allowing us to count and measure properties like area and dimension.
 
 <iframe src="http://localhost:9091/connected-components" width="1100" height="500" frameBorder="0"></iframe>
 
@@ -1063,13 +1063,39 @@ Skeletonization reduces binary shapes to one pixel wide paths.
 
 ---
 
-## Segmentation algorithms
+## Multi-level thresholding
 
-When an image contains regions of variable intensity or strong noise this can make purely intensity-based segmentation impossible.
+If the image contains multiple regions at different intensity levels then we can repeatedly apply intensity thresholding to segment it.
 
-More advanced algorithms can use *features* of the image - edges, textures etc. - to group pixels together.
+![bg right:50% 100%](./figures/multi-threshold.svg)
+
+---
+
+## Image features
+
+When an image contains intensity gradients or noise then threshold-based segmentation can be impossible.
+
+More advanced algorithms compute *feature vectors* on the data - combining intensity, edges, textures etc. - to distinguish categories which share some but not all properties.
+
+This is difficult to demonstrate, but classical approaches include:
+
+- Gabor filters
+- Gray-level co-occurrence matrices
+- Local binary patterns
 
 ![bg right:30% 100%](./figures/feature-segmentation.svg)
+
+---
+
+## Clustering
+
+Clustering is a machine learning approach to find consistent groups within data. Good image features will make it easy for a clustering algorithm to split the data in feature space, and in doing so segment the image.
+
+Two common algorithms here are `k-Means` and `Mean-Shift` clustering.
+
+[Chire, Wikimedia](https://commons.wikimedia.org/wiki/File:K-means_convergence.gif)
+
+![bg right:45% 90%](./figures/k-means.gif)
 
 ---
 <style scoped>
@@ -1081,9 +1107,9 @@ img[alt~="center"] {
 <!-- _class: columns2 -->
 ## Deep learning for image segmentation
 
-Image segmentation was an early application of convolutional neural networks, each pixel is classified individually taking into account local- and global- content.
+Image segmentation was an early application of convolutional neural networks, particularly as image features are difficult to construct. The model can instead learn optimal features for the data it is trained on.
 
-The most well-know, intuitive, albeit now quite old architecture are the U-Nets, which are designed to combine information from multiple image scales to inform the segmentation.
+The most well-know, albeit now quite old architecture are the **U-Nets**, which are designed to combine information at multiple image scales to inform the segmentation.
 
 <br/>
 <figure>
@@ -1133,11 +1159,11 @@ When acquisition condition allow, taking multiple rapid scans or images to form 
 
 ## Denoising: PCA
 
-**P**rincipal **C**omponent **A**nalysis is a well-known tool to decompose the data into a set of *components* that each capture the maximum variance for the data they represent.
+**P**rincipal **C**omponent **A**nalysis is a well-known tool to decompose data into a set of *components* that each capture the maximum variance for the data they represent.
 
 - Excluding smaller components excludes outliers and noise, since each only explains a small portion of the whole dataset
 - PCA is a matrix factorisation and so is **very** computationally intensive on large images
-- **Must take care as PCA will delete infrequent features!**
+- **Must take care as PCA will delete rare features!**
 
 ![bg right:40% 80%](./figures/denoising-pca.svg)
 
