@@ -729,15 +729,24 @@ Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phas
 A discrete image can be *interpolated* into a continuous coordinate system so that it can be *re-sampled* at new coordinates.
 
 * Interpolation does not add additional information, but can reconstruct a higher-fidelity version of the image if we have a good model of the true signal.
-* Interpolating schemes can be very basic (e.g. bi-linear between adjacent pixels) or very flexible (polynomial splines) and take into account a wider region when interpolating locally.
 * Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image.
 
----
-
-Excalidraw diagram of an interpolation scheme
+![bg right:30% 80%](figures/interpolation.svg)
 
 ---
 
+## Interpolation schemes
+
+Interpolating schemes can be very basic (e.g. bi-linear between adjacent pixels) or very flexible (polynomial splines).
+
+- Interpolation can *smooth* an image if desired → the interpolant doesn't perfectly reproduce values at input positions.
+* Also possible to interpolate an image from unstructured samples (i.e. not originally on a grid).
+
+![bg right:30% 60%](figures/2D-interpolation.svg)
+Adapted from [Cmglee](https://commons.wikimedia.org/wiki/File:Comparison_of_1D_and_2D_interpolation.svg)
+
+---
+<style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Interpolated line profile from image
 
 <iframe src="http://localhost:9091/interpolation-sampling" width="1150" height="650" frameBorder="0"></iframe>
