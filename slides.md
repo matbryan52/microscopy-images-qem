@@ -981,15 +981,20 @@ The size of the filter influences whether it catches sharp edges or soft edges.
 
 Zero-ing or modifying certain frequencies in the FFT of an image acts as a filtering process.
 
-The most well-known are *low-pass*, *high-pass* and *band-pass* filters, which preserve low-, high- or a band- of frequencies.
+The most well-known of these filters are:
 
-Image of FFT filters, smooth edged!!
+- *Low-pass* or *high-cut*, which retain low-frequency information like **gradients**
+  - Block the FFT far from the centre
+- *High-pass* or *low-cut*, which retain high-frequency information like **edges**
+  - Block the central part of the FFT
+- *Band-pass* → cut both high-frequency information like **noise** and gradients
+  - Block everything except a ring of frequencies
 
 ---
-
+<!-- <style scoped>h2 { position: absolute; top: 3%; }</style> -->
 ## Frequency space filtering
 
-<iframe src="http://localhost:9091/fourier-filtering" width="1150" height="550" frameBorder="0"></iframe>
+<iframe src="http://localhost:9091/fourier-filtering" width="1150" height="600" frameBorder="0"></iframe>
 
 <!-- --- -->
   <!-- - Clean power spectrum -->

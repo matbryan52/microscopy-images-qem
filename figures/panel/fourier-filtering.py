@@ -13,16 +13,19 @@ pn.extension('floatpanel')
 
 shape = (32, 32)
 hy, hx = np.asarray(shape) // 2
-out_shape = (128, 128)
-img1 = imread(rootdir / "fourier-input.png", as_gray=True)
+# img1 = imread(rootdir / "AlN_2D_sousGaNx6M.tif", as_gray=True)
+# img1 = img1[:512, :512]
+img1 = imread(rootdir / "tiled-roofing-new-roof.jpg", as_gray=True)
 img1_fft = np.fft.fftshift(np.fft.fft2(img1))
+
+initial_mode = "Low-pass"
 
 fig1 = (
     ApertureFigure
     .new(
-        np.log(0.001 + img1_fft),
-        title="FFT",
-        # maxdim=400,
+        np.log(img1_fft),
+        title=f"FFT - {initial_mode}",
+        maxdim=400,
     )
 )
 fig1.fig.background_fill_alpha = 0.
@@ -43,7 +46,7 @@ fig2 = (
     .new(
         img1,
         title='Filtered image',
-        # maxdim=400,
+        maxdim=400,
     )
 )
 fig2.fig.background_fill_alpha = 0.
@@ -57,6 +60,8 @@ fig2._outer_toolbar.height = 0
 
 
 (cy, cx), (ri, ro), max_dim = get_initial_pos(img1_fft.shape)
+ri = 50
+ro = 150
 ring_db = (
     RingSet
     .new()
@@ -67,7 +72,7 @@ ring_db = (
         outer_radius=2 * max(img1.shape),
     )
     .on(fig1.fig)
-    .set_visible(False)
+    # .set_visible(True)
 )
 disk_db = (
     DiskSet
@@ -78,29 +83,38 @@ disk_db = (
         radius=ri,
     )
     .on(fig1.fig)
+    .set_visible(False)
 )
+ring_db.rings.line_alpha = 0.
+ring_db.rings.fill_alpha = 1.
+ring_db.rings.fill_color = "black"
+disk_db.disks.line_alpha = 0.
+disk_db.disks.fill_alpha = 1.
+disk_db.disks.fill_color = "black"
 
 mode_selector = pn.widgets.RadioButtonGroup(
     name='Filter mode',
-    value="High-pass",
+    value=initial_mode,
     options=["Low-pass", "High-pass", "Band-pass"],
     button_type='primary',
 )
 
 radius_slider = pn.widgets.FloatSlider(
     name='Disk radius',
-    value=ri,
-    start=0.3,
+    value=ro,
+    start=1.,
     end=max_dim,
+    step=1.,
     width=250,
 )
 
 radii_slider = pn.widgets.RangeSlider(
     name='Annulus radii',
     value=(ri, ro),
-    start=0.3,
+    start=1.,
     end=max_dim,
     visible=False,
+    step=1.,
     width=250,
 )
 
@@ -136,6 +150,7 @@ def change_vis(e):
         radius_slider.visible = True
         radii_slider.visible = False
         disk_db.update(radius=radius_slider.value)
+        fig1.fig.title.text = "FFT - High-Pass"
         _update_image()
     elif e.new == "Band-pass":
         ring_db.set_visible(True)
@@ -144,6 +159,7 @@ def change_vis(e):
         radii_slider.visible = True
         ring_db.update(inner_radius=radii_slider.value[1])
         disk_db.update(radius=radii_slider.value[0])
+        fig1.fig.title.text = "FFT - Band-Pass"
         _update_image()
     elif e.new == "Low-pass":
         ring_db.set_visible(True)
@@ -151,6 +167,7 @@ def change_vis(e):
         radius_slider.visible = True
         radii_slider.visible = False
         ring_db.update(inner_radius=radii_slider.value[0])
+        fig1.fig.title.text = "FFT - Low-Pass"
         _update_image()
 
 
