@@ -44,8 +44,9 @@ dilate_btn = pn.widgets.Button(name="Dilate", **common_kwargs)
 close_btn = pn.widgets.Button(name="Close", **common_kwargs)
 open_btn = pn.widgets.Button(name="Open", **common_kwargs)
 skel_btn = pn.widgets.Button(name="Skeletonize", **common_kwargs)
-remove_small_btn = pn.widgets.Button(name="Remove small", **common_kwargs)
-fill_small_btn = pn.widgets.Button(name="Fill small", **common_kwargs)
+common_kwargs["width"] = 150
+remove_small_btn = pn.widgets.Button(name="Remove small regions", **common_kwargs)
+fill_small_btn = pn.widgets.Button(name="Fill small holes", **common_kwargs)
 
 def reset(*e):
     global img1
@@ -95,13 +96,12 @@ fill_small_btn.on_click(fill_small)
 
 
 fig1.layout.insert(
-    0, pn.Row(reset_btn, skel_btn, remove_small_btn, fill_small_btn)
+    0, pn.Row(reset_btn, skel_btn, remove_small_btn)
 )
 fig1._toolbar.extend((
     erode_btn,
     dilate_btn,
-    open_btn,
-    close_btn,
+    fill_small_btn,
 ))
 
 pn.Row(
