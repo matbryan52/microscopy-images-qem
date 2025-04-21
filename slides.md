@@ -892,31 +892,61 @@ img[alt~="center"] {
 
 ## Patch-based filters
 
-The simplest type of filter is *patch-based*. These run a procedure in the vicinity of each pixel to generate a new value for that pixel.
+A simple type of filter is *patch-based*. These run a procedure in the vicinity of each pixel to generate a new value for that pixel.
 
 ![height:350 center](./figures/filtering-maximum.svg)
 
 Edges always need special treatment as their neighbourhood is limited, else the filtered image becomes smaller. Padding with zeros, periodic boundaries or reflecting the boundary are common ways to handle this.
 
-<!-- Median filter? -->
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+<!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
+
+## Gaussian blur
+
+Gaussian blur is a patch-based filter which computes a local Gaussian-weighted average of each pixel's local neighbourhood.
+
+![height:450 center](./figures/blur.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+<!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
+
+## Median filter
+
+The Median filter is a patch-based filter which is quite useful for removing **extreme values**, for example hot or dead pixels. A Gaussian blur would incorporate these unwanted extremes into the blurred image.
+
+![height:425 center](./figures/median.svg)
+
 ---
 <!-- _class: columns2 -->
 
 ## Convolution filters
 
-Convolutional filters are a type of patch-based filter using elementwise multiplication and summation with a small *kernel* to compute each new pixel value.
+Convolutional filters are a class of patch-based filters using **elementwise multiplication** and summation with a small *kernel* to compute each new pixel value.
 
-They are equivalent to the convolution operation $a * b$, and so can be efficiently computed using a Fourier transform via $\hat{F}(a*b) = \hat{F}(a)\hat{F}(b)$.
+- They can be efficiently computed using a Fourier transform as $\hat{F}(a*b) = \hat{F}(a)\hat{F}(b)$.
 
-The size and shape of the kernel's elements determines the range of the filter.
+GPUs are very efficient at computing image convolutions.
+
 <figure>
 <img src="./figures/same-padding-no-strides.gif" width=350px style="display: block; margin-left: auto;"/>
 <figcaption  style="text-align: right; font-size: 14px"><a href="https://arxiv.org/abs/1603.07285">Dumoulin and Visin (2016)</a></figcaption>
 </figure>
 
 ---
-
-## Convolution filters
+<style scoped>h2 { position: absolute; top: 5%; }</style>
+## Example kernels
 
 <style scoped>
 img[alt~="center"] {
@@ -926,6 +956,8 @@ img[alt~="center"] {
 </style>
 ![height:450 center](./figures/convolution-filters.svg)
 
+Kernels can be designed to respond to arbitrary features, e.g. corners or textures. Convolutional filters are the basis of many image neural networks, which combine countless *learned filters* to help classify image content.
+
 ---
 <style scoped>
 img[alt~="center"] {
@@ -933,13 +965,15 @@ img[alt~="center"] {
   margin: 0 auto;
 }
 </style>
-## Edge filters (Sobel etc.)
+## Edge filters (Sobel filter)
 
 Edge filters respond to sharp transitions in image intensity, or large image gradient, and are useful in applications like peak finding or contour detection for metrology.
 
-![height:300 center](./figures/edge-filters.svg)
+![height:250 center](./figures/edge-filter-input.svg)
 
-The size of the filter influences how sharp an edge must be to be retained by the filter.
+The size of the filter influences whether it catches sharp edges or soft edges.
+
+![bg right:40% 90%](./figures/edge-filters.svg)
 
 ---
 
@@ -965,7 +999,7 @@ Image of FFT filters, smooth edged!!
 
 # **Image Segmentation**
 
-![bg right:25% 100%](./figures/segmentation.svg)
+![bg right:35% 70%](./figures/segmentation.svg)
 
 ---
 
