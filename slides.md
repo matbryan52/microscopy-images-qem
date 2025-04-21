@@ -477,7 +477,7 @@ Scientific cameras produce images of intensity as unsigned integers, typically, 
 - We can use artificial colour to achieve more on-screen contrast, known as a *lookup table* or *colormap*, of which there are many choices for different applications.
 
 The choice of colormap or data transformation for display can massively influence how the data are perceived.
-
+<!-- Something about other colourspaces? -->
 ---
 <!-- <style scoped>h3 { position: absolute; top: 3%; }</style> -->
 ### Brightness + Contrast
@@ -554,9 +554,9 @@ Certain colour blindness forms are experienced in 1-5% of the population (biased
 
 Digital images can also be combined using transparency, often called *alpha*. This allows overlaying one information atop another.
 
-Transparency can be defined on a per-pixel basis to convey information like density.
+Transparency can be defined on a per-pixel basis to convey information such as density.
 
-In colour images this is referred to as `RGBA` where `A` acts as a 4th colour channel.
+- When working with colour images you may see `RGBA` where `A` is a 4th "colour" channel coding the transparency information.
 
 <iframe src="http://localhost:9091/transparency" width="650" height="600" frameBorder="0"></iframe>
 
@@ -564,16 +564,22 @@ In colour images this is referred to as `RGBA` where `A` acts as a 4th colour ch
 
 ## Complex and 2D-vector images
 
-For complex images we must choose how convert real + imaginary into an intensity image.
+For complex images we must choose how convert *real* + *imaginary* into an intensity image.
 
-- A typical example in microscopy is electron holography, where the reconstructed wavefront is complex
+- A typical example is holography, where the reconstruction is complex
   - The `abs()` of the wave represents the amplitude
   - The `angle()` of the wave displays the phase
-- We also need to be careful about how to display periodic phase with a colourmap, and can use a *cyclic* map display to acheive this, though we lose visualisation of phase ramps.
+
+We also need to be careful about how to display periodic phase with a colourmap:
+
+- We can use a *cyclic* map → lose visualisation of phase ramps.
+- A common technique to work around this is *phase unwrapping*
 <!-- phase unwrapping -->
 
 ---
-
+<style scoped>h2 { position: absolute; top: 3%; }</style>
+## Complex image display
+[Grillo et al. (2020)](https://zenodo.org/records/3878720)
 <iframe src="http://localhost:9091/complex-image" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
@@ -624,23 +630,17 @@ img[alt~="top-right"] {
 
 ![top-right](figures/fourier-components.gif)
 
-In 1D we can perform a Fourier *transform* to describe a function $f(x)$ as a sum of periodic components each $A_ue^{-\mathrm{i} 2\pi u x}$ i.e. $A_u\cos(2\pi u x +\theta) + \mathrm{i}A_u\sin(2\pi u x)$, for which we can evaluate the coefficients $A_u$:
+In 1D we can perform a Fourier *transform* to describe a function $f(x)$ as a sum of periodic components each $A_ue^{-\mathrm{i} 2\pi u x}$ i.e. $A_u\cos(2\pi u x +\theta) + \mathrm{i}A_u\sin(2\pi u x)$. We can evaluate the coefficients $A_u$:
 
 $$
 A_u = \int_{-\infty}^{\infty} f(x)\ e^{-\mathrm{i} 2\pi u x}\,dx, \quad \forall u \in \mathbb{R}
 $$
 
-each $A_u$ represents a contribution to the description of $f(x)$ by a particular *frequency* $u$.
+each $A_u$ represents a contribution to $f(x)$ by a particular *frequency* $u$.
 
-On an image $f(x, y)$ we can do the same, but we must describe two *spatial frequencies* e.g. $u, v$, which are aligned with $x, y$.
+On an image $f(x, y)$ we can do the same, but we must use two *spatial frequencies* e.g. $u, v$.
 
----
-
-## Image Fourier Transform
-
-NEED A BETTER INTRO TO FREQUENCY IMAGES HERE
-
-<iframe src="http://localhost:9091/fourier-image" width="1150" height="650" frameBorder="0"></iframe>
+A Fourier transform can be computed quickly with a Fast Fourier Transform (**FFT**).
 
 ---
 <style scoped>
@@ -650,24 +650,77 @@ img[alt~="center"] {
 }
 </style>
 
-![height:450 center](figures/fourier.svg)
+Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and $\cos$ terms.
+
+![height:550 center](figures/fourier.svg)
 
 ---
+<style scoped>h2 { position: absolute; top: 5%; }</style>
+## Fourier components
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+![height:550 center](figures/fourier-components.svg)
+
+Zero-frequency (mean value) is a much larger component than the rest of the transform!
+
+---
+<!-- ## Image Fourier Transform
+
+<iframe src="http://localhost:9091/fourier-image" width="1150" height="650" frameBorder="0"></iframe>
+
+--- -->
 
 ## Uses of image Fourier transforms
 
 - The transform is reversible, it contains exactly the same information as the image
-* It can be computed quickly with Fast Fourier Transform (**FFT**)
-* Representing the image as frequency components allows us to performing *filtering*, e.g. remove high-frequency noise while leaving the main content intact
+* We can performing *filtering* by modifying the FFT, e.g. remove high-frequency noise while leaving the main content intact
 * Many mathematical operations are much more efficient in frequency space than direct space, for example correlation and convolution
 
 ---
 
 ## Fourier transforms in Microscopy
 
-- High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
-* Electron holography extracts the complex transmission function of the sample from the FFT of the interference between the known reference wavefront and that passing through the sample.
-* Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phase of peaks in the FFT of a high-resolution image.
+High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+![height:450 center](figures/fourier-lattice.svg)
+
+---
+
+## Fourier transforms in Microscopy
+
+High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+![height:450 center](figures/fourier-lattice.svg)
+
+---
+
+## Fourier transforms in Microscopy
+Electron holography uses FFTs to extract information from the interference pattern created by the biprism:
+
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+![height:450 center](figures/fourier-holography.svg)
+<!-- ---
+
+Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phase of peaks in the FFT of a high-resolution image. -->
 
 ---
 
@@ -678,6 +731,10 @@ A discrete image can be *interpolated* into a continuous coordinate system so th
 * Interpolation does not add additional information, but can reconstruct a higher-fidelity version of the image if we have a good model of the true signal.
 * Interpolating schemes can be very basic (e.g. bi-linear between adjacent pixels) or very flexible (polynomial splines) and take into account a wider region when interpolating locally.
 * Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image.
+
+---
+
+Excalidraw diagram of an interpolation scheme
 
 ---
 
@@ -883,11 +940,11 @@ Zero-ing or modifying certain frequencies in the FFT of an image acts as a filte
 
 The most well-known are *low-pass*, *high-pass* and *band-pass* filters, which preserve low-, high- or a band- of frequencies.
 
+Image of FFT filters, smooth edged!!
+
 ---
 
 ## Frequency space filtering
-
-Butterworth filters!
 
 <iframe src="http://localhost:9091/fourier-filtering" width="1150" height="550" frameBorder="0"></iframe>
 
