@@ -26,7 +26,7 @@ build-backend = "setuptools.build_meta" # If not defined, then legacy behavior c
 # There are some restrictions on what makes a valid project name
 # specification here:
 # https://packaging.python.org/specifications/core-metadata/#name
-name = "qem_practical" # REQUIRED, is the only field that cannot be marked as dynamic.
+name = "qem_updater" # REQUIRED, is the only field that cannot be marked as dynamic.
 
 # Versions should comply with PEP 440:
 # https://www.python.org/dev/peps/pep-0440/
@@ -38,7 +38,7 @@ version = "0.1.0" # REQUIRED, although can be dynamic
 # This is a one-line description or tagline of what your project does. This
 # corresponds to the "Summary" metadata field:
 # https://packaging.python.org/specifications/core-metadata/#summary
-description = "STEM Image simulator for QEM 2025"
+description = "Updater tool"
 
 # This is an optional longer description of your project that represents
 # the body of text which users will see when they visit PyPI.
@@ -102,16 +102,7 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 
-dependencies = [
-    "numpy",
-    "numba",
-    "scipy",
-    "scikit-image",
-    "tqdm",
-    "humanize",
-    "bokeh",
-    "libertem_ui@git+https://github.com/LiberTEM/LiberTEM-panel-ui.git"
-]
+dependencies = []
 
 # List additional groups of dependencies here (e.g. development
 # dependencies). Users will be able to install these using the "extras"
@@ -122,12 +113,10 @@ dependencies = [
 # Optional dependencies the project provides. These are commonly
 # referred to as "extras". For a more extensive definition see:
 # https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras
-[project.optional-dependencies]
-data = [
-    "abtem",
-    "ase",
-]
 
 [project.urls]
 "Homepage" = "https://github.com/matbryan52/microscopy-images-qem"
 "Source" = "https://github.com/matbryan52/microscopy-images-qem"
+
+[project.scripts]
+tp-update = "qem_updater.update:update"
