@@ -127,11 +127,10 @@ data = [
     "abtem",
     "ase",
 ]
-test = ["coverage"]
 
 [project.urls]
 "Homepage" = "https://github.com/matbryan52/microscopy-images-qem"
 "Source" = "https://github.com/matbryan52/microscopy-images-qem"
 
-# [project.scripts]
-# simulator = "sample:main"
+[project.scripts]
+tp-update = "qem_practical.update:update"
