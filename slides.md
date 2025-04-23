@@ -46,7 +46,6 @@ Matthew Bryan<br />
 
 **Research Software Engineer**<br />
 ![w:150 h:auto](figures/cea-leti.png)  Grenoble :fr:  Alps :mountain_snow:
-<br>
 
 Not really a Microscopist!
 <br>
@@ -56,6 +55,8 @@ Background:
 - chemical engineering
 - image processing
 - computer vision
+
+Developer on the [LiberTEM](https://libertem.github.io/LiberTEM/) project
 
 ---
 <!-- _class: columns2 -->
@@ -68,15 +69,16 @@ h1 {
 </style>
 # Content
 
-- [Images and Photographs](#photographs-images)
+- [Images](#photographs-images)
 - [Digital Images](#digital-images)
-- [Image visualisation](#visualising-images)
-- [Images as signals](#sampling)
-- [Images and geometry](#transforms)
-- [Image filtering](#filtering)
-- [Image segmentation](#segmentation)
-- [Image enhancement](#restoration)
-- [Image alignment](#alignment)
+- [Visualisation](#visualising-images)
+- [Signals](#sampling)
+- [Geometry](#transforms)
+- [Filtering](#filtering)
+- [Segmentation](#segmentation)
+- [Enhancement](#restoration)
+- [Alignment](#alignment)
+- [Summary](#summary)
 
 ---
 
@@ -148,7 +150,7 @@ Any light-reacting chemistry could record a photograph, even photosynthesis
 
 ## Digital images
 
-Recording light with numbers
+Recording images with numbers
 
 - Measure local intensity electrically (conversion to charge, voltage), then *digitize* the analog signal to a numerical value
 - Discrete sampling of the wavefront, usually onto a 2D grid
@@ -183,7 +185,6 @@ Interpretation of digital images in physical units requires a *calibration*, acc
 
 - Pixel size, spacing, shape
 - Sensor response, readout characteristics
-
 
 ---
 
@@ -245,7 +246,7 @@ Computers store numbers as sequences of binary digits, which we interpret accord
 
 ![w:100% h:450](figures/memory-layout.svg)
 
-This becomes very important for >2D data, it pays to store data in a way which
+This becomes very important for >2D data - it pays to store data in a way which
 matches the processing being done (whole images, or one pixel from many images?).
 
 ---
@@ -269,12 +270,6 @@ There are many conventions for storing numbers, here are some common ones in ima
 | Floating         | `float32`   | 32          | \-3.40E+38   | \-3.40E+38 | Computation |
 |                  | `float64`   | 64          | \-1.70E+308  | 1.70E+308  | Computation |
 | Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 | Waves, FFT |
-
----
-
-## Number types - Uses
-
-Most camera sensors generate raw data as unsigned integers (8-, 16- or more bits). When we begin to transform raw data we usually need to convert its type to hold our results correctly.
 
 ---
 
@@ -310,6 +305,19 @@ Depending on the tool or language you use, image coordinate systems can vary
 * Most place `y == 0` at the "top" when displayed, with positive "down"
   - This matches matrix notation, but is opposite to convention for axes / graphs
   - Implies a change of direction for rotations (clockwise not anticlockwise!)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Image histogram
+
+An image histogram represents the frequency of intensity values in an image. Useful way to visualise contrast between background and content, and see outlier pixels.
+
+![height:450 center](./figures/histogram.svg)
 
 ---
 
@@ -456,6 +464,17 @@ iio.imwrite("test.gif", frames, fps=10)
 - Good for combining images with results + annotations
 
 ![bg right:50% 95%](figures/diff.png)
+
+---
+
+## Graphics Processing Units (GPUs)
+
+A Graphics Processing Unit GPU is a computation *accelerator* which can be added to most computers. Originally designed to render 3D scenes to 2D images on a display, they are now used to speed up many forms of scientific computation, especially with images.
+
+* GPUs are specialised to perform simple math operations in parallel on multi-dimensional arrays of data (such as images)
+  * In contrast to CPUs, which may only be able to compute with ~512 elements of an array in one operation, a GPU can process many thousands.
+* Operations necessary for 3D graphics (coordinate transformations, filtering, raytracing) use identical maths as needed in scientific computing (Fast Fourier Transforms, convolutions, matrix algebra and inversion).
+* GPUs are dedicated accelerator cards, they don't run operating system
 
 ---
 
@@ -668,11 +687,6 @@ img[alt~="center"] {
 Zero-frequency (mean value) is a much larger component than the rest of the transform!
 
 ---
-<!-- ## Image Fourier Transform
-
-<iframe src="http://localhost:9091/fourier-image" width="1150" height="650" frameBorder="0"></iframe>
-
---- -->
 
 ## Uses of image Fourier transforms
 
@@ -1128,7 +1142,7 @@ The most well-know, albeit now quite old architecture are the **U-Nets**, which 
 
 # Image restoration
 
-Image restoration are techniques to remove artefacts or noise from an image while preserving the content.
+Image restoration refers to techniques to remove artefacts or noise from an image while preserving the content.
 
 In microscopy we frequently encounter low signal-to-noise data, especially in low-dose conditions, and so *denoising* in particular is of great interest.
 
@@ -1255,66 +1269,191 @@ An example is [Large Mask Inpainting - LaMa](https://github.com/advimman/lama) (
 ---
 <a name='alignment'></a>
 
-# **Pattern matching and alignment**
+# **Pattern matching and image alignment**
 
-![bg right:40% 105%](./figures/alignment.svg)
-
----
-
-# Pattern matching and alignment
-
-A common problem in microscopy is to locate some image feature, an edge, a spot or a corner, in order to measure somthing about it. This is an application of *pattern matching*.
-
-A related problem is *image alignment*, where two-or-more images are separated by acquisition drift or change of scale, but we would like to compare the data from both images on the same grid or plot, requiring us to transform one image into the coordinate system of the other(s).
+![bg right:50% 90%](./figures/align.gif)
 
 ---
 
+# Pattern matching and image alignment
+
+A common need in microscopy is to locate some image feature: an edge, a spot a corner - in order to measure somthing about it. This is an application of **pattern matching**.
+
+A related problem is **image alignment**, where two-or-more images are separated by acquisition drift or change of scale, but we would like to compare the data from both images on the same grid or plot, requiring us to transform one image into the coordinate system of the other(s). Image alignment is also often referred to as image **registration**.
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Peak-finding
 
-When the feature to detect is a local minimum or maximum in the intensity image, we can apply *peak-finding* to locate it.
+When the feature to detect is a local minimum or maximum in the intensity image, we can use *peak-finding* to locate it. A simple algorithm uses a *maximum filter*:
 
-A simple peak-finding algorithm returns the pixels which are unchanged by a local maximum filter. The size of the filter determines the minimum distance between separate maxima. The raw peaks cna be further sorted or pruned by peak height, prominence, sharpness etc to obtain more satisfactory results.
+![height:400 center](./figures/peaks.svg)
+
+<!-- A simple peak-finding algorithm returns the pixels which are unchanged by a local maximum filter. The size of the filter determines the minimum distance between separate maxima. The raw peaks cna be further sorted or pruned by peak height, prominence, sharpness etc to obtain more satisfactory results. -->
+---
+
+Peak-finding in 1D:
+
+In practice with noisy data it is also necessary to:
+- optimise the maximum filter window
+- sort the peaks by value and perform a cut
+- filter any peaks which are too similar
+
+![bg right:60% 90%](./figures/peaks-plot.png)
 
 ---
 
-An additional step to refine maxima in an intensity map is to perform local centre-of-mass around each detected peak. This reduces the influence of noise and can be justifiably used as a sub-pixel feature location.
+## Subpixel refinement with Centre-of-Mass
+
+The simple peak finding algorithm only returns maxima at integer pixel coordinates.
+
+We can acheive greater precision by performing intensity-weighted local **centre-of-mass** around each peak.
+
+![bg right:50% 90%](./figures/peaks-com.png)
 
 ---
-
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Template matching
 
-When the feature to find is not a local maximum, or we need to detect a particular pattern in the intensity rather than a point, one approach is *template matching*. We generate a *correlation* map between our target image and the *template* or pattern that we want to find, then find peaks in this correlation image rather than the image itself.
+When the feature to find is not a local maximum, or we need to detect a particular pattern in the intensity rather than a point, one approach is *template matching*, based on the **correlation** between our target image and the *template* or pattern that we want to find.
+
+![height:425 center](./figures/template.gif)
 
 ---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Template matching: locate matches
 
+Checking all template positions generates a 2D correlation map with peaks at all "good" matches. Then use a peak-finding algorithm (with refinement) to locate the best positions.
+
+![height:450 center](./figures/template-matches.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+## Template matching: filtering
+
+Template matching is very sensitive to both template choice and image quality.
+
+Often useful to *filter* the target image to acheive the sharper peaks in the correlation image, leading to more precise results.
+
+![bg right:60% 95%](./figures/template-filtering.svg)
+
+---
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
 ## Image alignment
 
-If we want to align whole images for shift error we can use the *cross-correlation* between them to identify a vector that would bring them into alignment. The optimal shift is at the maximum of the correlation map, and so we can again use peak-finding to locate it.
+If we want to align whole images in translation we can use the **cross-correlation** between them.
 
-In practice whole-image correlation-based alignment is not very robust, but instead aligning two patches, both containing a clear feature is both faster and more reliable. If the images are not deformed relative to each other then the result will apply globally.
+![height:350 center](./figures/to-align.gif)
 
-<!-- ---
+Again, the maximum in the correlation map can be found using peak-finding.
 
-## Alignment tools and libraries
-
-There exist a number of tools for image alignment,  -->
----
-
-## Image similarity metrics
-
-When aligning or evaluating pairs of images, it is useful to have metrics which describe if two images are "close" to each other in some way, whether their level and distribution of intensity or some shape.
+![bg right:40% 100%](./figures/xcorr-align.png)
 
 ---
 
-Tools used for this presentation
+## Image alignment, correlation-based
+
+In practice whole-image correlation-based alignment is not very robust, and will fail for changes of scale or image rotation.
+
+* In some cases, aligning on just a subset of the image simplifies the correlation map
+* Downscaling the images can improve results, as noise is minimised and the alignment uses only "large" features of the image
+  * Multi-scale or "pyramid" alignment first aligns at a large scale, then progressively increases resolution while constraining the maximum shift.
+
+---
+## Image alignment, point-based
+
+An alternative approach is to fit a geometric transform between the two images based on **corresponding points** visible in both.
+
+These points can be estimated automatically using a feature extractor like `SIFT` [(Scale Invariant Feature Transform)](https://ieeexplore.ieee.org/document/790410) or chosen manually.
+
+![bg right:50% 90%](./figures/align-sift.svg)
+
+---
+<style scoped>h2 { position: absolute; top: 3%; }</style>
+## Image alignment, point-based
+
+<iframe src="http://localhost:9091/points-align" width="1150" height="600" frameBorder="0"></iframe>
+
+---
+
+## Image similarity measures
+
+When aligning or comparing pairs of images, it is useful to have metrics which describe if two images are "close" to each other in some way. A direct subtraction of images is rarely useful as intensity levels vary and noise influences the mean.
+
+- Structural Similarity Index [(SSI)](https://ieeexplore.ieee.org/document/1284395) tries to account for similarity of structure, contrast and intensity level separately, and was designed to replicate how humans perceive similarity between images.
+
+---
+
+<a name='summary'></a>
+
+# **Summary**
+
+![bg right:40% 60%](figures/qem.png)
+
+---
+
+# Summary
+
+Digital images underpin almost all of modern microscopy, and influence how data are acquired, interpreted and perceived.
+
+This presentation was a very rapid overview of a lot of topics, and should be seen as a inspiration for what you could do with your data.
+
+Please reach out if you have questions or ideas at [Github: @matbryan52](https://github.com/matbryan52).
+
+---
+<!-- 
 Further resources
-GPUs
+
+--- -->
+
+## About the slides
+
+These slides are written in [Marp](https://marp.app/se) using [Markdown](https://en.wikipedia.org/wiki/Markdown).
+
+The interactive components are based on [Panel](https://panel.holoviz.org/) and [Bokeh](https://bokeh.org/), which can be used both in standalone web-pages and within Jupyter to put interactivity in-line with your analysis.
+
+Diagrams were drawn with [Excalidraw](https://excalidraw.com/).
+
+The source, figures and code for this presentation are on [Github: matbryan52/microscopy-images-qem](https://github.com/matbryan52/microscopy-images-qem). (*No guarantees!*)
 
 ---
 
+<a name='thanks'></a>
+
+# **Thank you for listening**
+
+![bg right:40% 60%](figures/qem.png)
+
+---
+<!-- 
 Slide for the PFNC
 
----
+--- -->
 <!-- ---
 
 # Extra topics
