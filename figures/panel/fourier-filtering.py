@@ -202,6 +202,5 @@ pn.Column(
         pn.layout.HSpacer(max_width=50),
         fig2.layout,
         align="center",
-        # sizing_mode="stretch_both",
-    )
+    ),
 ).servable("fourier-filtering")

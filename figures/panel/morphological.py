@@ -105,7 +105,6 @@ fig1._toolbar.extend((
 ))
 
 pn.Row(
-    pn.HSpacer(max_width=100),
     fig1.layout,
     align="center",
 ).servable("morphological")

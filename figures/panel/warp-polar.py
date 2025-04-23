@@ -70,6 +70,6 @@ cursor.cds.on_change("data", _update_warped)
 
 pn.Row(
     fig1.layout,
-    pn.layout.HSpacer(width=25),
+    pn.layout.HSpacer(max_width=25),
     fig2.layout,
 ).servable("warp-polar")

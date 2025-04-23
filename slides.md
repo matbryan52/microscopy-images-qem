@@ -290,6 +290,7 @@ There are many conventions for storing numbers, here are some common ones in ima
 ## Maths with images
 
 <iframe src="http://localhost:9091/image-math" width="1150" height="700" frameBorder="0"></iframe>
+<!-- <img src="figures/panel/tests/image-math.png" width="auto" height="auto"></img> -->
 
 ---
 
