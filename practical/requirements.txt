@@ -1,7 +1,0 @@
-pint
-scipy
-numpy
-ase
-abtem
-tqdm
-humanize

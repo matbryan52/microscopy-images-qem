@@ -7,7 +7,7 @@ pn.extension("floatpanel")
 
 from libertem_ui.figure import ApertureFigure, set_frame_height
 from libertem_ui.display.display_base import Rectangles, Curve
-from simulator import STEMImageSimulator, YX
+from .simulator import STEMImageSimulator, YX
 
 MAXDIM = 512
 
@@ -260,12 +260,3 @@ No ROI defined
         main_layout=None,
         theme_toggle=False,
     )
-
-
-import pathlib
-rootdir = pathlib.Path(__file__).parent
-sim_data = np.load(rootdir / "particles.npz")
-image = sim_data["data"]
-extent = sim_data["extent"]
-simulator = STEMImageSimulator(image, extent, current=1., drift_speed=0.1)
-simulator_ui(simulator).servable("stem-simulator")

@@ -5,7 +5,7 @@ from scipy import constants
 import tqdm.auto as tqdm
 from typing import NamedTuple, TypeAlias, Self
 from scipy.interpolate import RegularGridInterpolator
-from bezier_curve import generate_curve
+from .bezier_curve import generate_curve
 
 Degrees: TypeAlias = float
 NanoMetres: TypeAlias = float
