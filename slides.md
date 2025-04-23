@@ -1383,6 +1383,7 @@ In practice whole-image correlation-based alignment is not very robust, and will
 * In some cases, aligning on just a subset of the image simplifies the correlation map
 * Downscaling the images can improve results, as noise is minimised and the alignment uses only "large" features of the image
   * Multi-scale or "pyramid" alignment first aligns at a large scale, then progressively increases resolution while constraining the maximum shift.
+* Image filtering and pre-processing (e.g. normalisation) can also hugely affect the reliability
 
 ---
 ## Image alignment, point-based
