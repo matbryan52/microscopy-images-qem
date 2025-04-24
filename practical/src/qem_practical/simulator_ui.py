@@ -98,12 +98,13 @@ def simulator_ui(simulator: STEMImageSimulator):
     def update_survey(*e):
         try:
             survey_spinner.value = True
-            survey = simulator.survey_image(survey_dwell_time)
+            survey = simulator.survey_image(survey_dwell_time, progress=False)
             survey_fig.update(
                 survey.astype(np.float32)
             )
             drift_curve.update(
-                **simulator._drift_history
+                xvals=simulator._drift_history["xvals"],
+                yvals=simulator._drift_history["yvals"],
             )
         finally:
             survey_spinner.value = False
@@ -179,7 +180,8 @@ def simulator_ui(simulator: STEMImageSimulator):
         scan_shape = (extent / scan_step).to_int()
         dwell_time = float(dwell_time_input.value) * 1e-6
         scan_img = simulator.scan(
-            YX(cy, cx), scan_shape, scan_step, dwell_time, rotation=0,
+            YX(cy, cx), scan_shape, scan_step, dwell_time,
+            rotation=0, progress=False,
         )
 
         update_cal_axes(scan_fig.fig, extent)

@@ -18,7 +18,7 @@ tp-update
 
 ## Objective
 
-The objective is to carry out measurements on a sample of gold nanoparticles using STEM imaging on a simulated microscope suffering from severe sample drift. Imaging quickly to mitigate the drift leads to poor signal-to-noise ratio images, while scanning too large an area slowy adds distortion as the sample drifts during a scan.
+The objective is to carry out STEM imaging measurements of a sample of gold nanoparticles using on a simulated microscope suffering from severe sample drift. Imaging quickly to mitigate the drift leads to poor signal-to-noise ratio images, while slowy scanning too large an area adds distortion as the sample drifts during a scan.
 
 There are multiple approaches to measure the particles and acquire enough data to display a particle size distribution.
 
@@ -31,9 +31,7 @@ import numpy as np
 from qem_practical.simulator import STEMImageSimulator
 
 sim_data = np.load("data/particles.npz")
-image = sim_data["data"]
-extent = sim_data["extent"]
-simulator = STEMImageSimulator(image, extent, current=1., drift_speed=0.1)
+simulator = STEMImageSimulator(**sim_data)
 ```
 
 The simulator object has two user-facing methods:
@@ -82,3 +80,23 @@ There is also a UI version of the simulator which will launch in a web browser w
 ```python
 simulator.show()
 ```
+
+## Exercises
+
+### 1 - Detect, image and measure particles without drift
+
+Create the simulator with argument `drift_speed=0.` to disable drifting. This means we can treat the survey image as *static* and measure any particle within the field of view without distortion or tracking.
+
+- From a survey image taken at a long dwell time locate all of the particles in the field of view using a peak-finding or similar approach
+- For some of the detected particles run a detailed STEM scan of each and display the high-resolution images on the same figure
+- For each high-resolution image segment the particle from the background and measure its properties (e.g. diameter, circumference, area, circularity). Try to express the measurements in *nanometres* rather than pixels based on the information you have about each scan.
+- Plot the distributions of the above values as histograms.
+
+### 2 - Estimate the drift rate and direction
+
+Create a simulator with a random drift speed `drift_speed="random"`. The survey image will now change over time as particles move through the field of view. The drift rate will be approximately constant while the drift direction slowly changes over time.
+
+- Create a survey image with a short dwell time
+- Identify a cluster of particles to scan in detail
+- Scan the particles repeatedly and estimate the drift vector between successive frames
+- Plot the drift vector over time and compare it to the simulator's true drift curve

@@ -4,7 +4,7 @@ import operator
 from threading import Lock
 from scipy import constants
 import tqdm.auto as tqdm
-from typing import NamedTuple, TypeAlias, Self
+from typing import NamedTuple, TypeAlias, Self, Literal
 from scipy.interpolate import RegularGridInterpolator
 from .bezier_curve import generate_curve
 
@@ -17,6 +17,10 @@ ELECTRON_PER_PA = 1e-12 * (1 / constants.e)
 DRIFT_HISTORY = 300
 
 SCAN_WAIT = True
+
+class no_op_tqdm:
+    def update(self, *args, **kwargs):
+        pass
 
 
 class YX(NamedTuple):
@@ -130,20 +134,20 @@ class ScanDef(NamedTuple):
 class STEMImageSimulator:
     def __init__(
         self,
-        image: np.ndarray,
-        extent_yx: NanoMetreShapeYX,
-        current: PicoAmps = 10,
-        drift_speed: NMPerSecond = 0.1,
+        data: np.ndarray,
+        extent: NanoMetreShapeYX,
+        current: PicoAmps = 1,
+        drift_speed: NMPerSecond | Literal["random"] = "random",
         defocus: NanoMetres = 0.,
     ):
         self._scan_lock = Lock()
-        self._shape = YX(*image.shape)
-        self._extent = YX(*extent_yx)
-        cy = np.linspace(0, self._extent.y, num=image.shape[0], endpoint=True)
-        cx = np.linspace(0, self._extent.x, num=image.shape[1], endpoint=True)
+        self._shape = YX(*data.shape)
+        self._extent = YX(*extent)
+        cy = np.linspace(0, self._extent.y, num=data.shape[0], endpoint=True)
+        cx = np.linspace(0, self._extent.x, num=data.shape[1], endpoint=True)
         self._interpolator = RegularGridInterpolator(
             (cy, cx),
-            image,
+            data,
             bounds_error=False,
             fill_value=None,
         )
@@ -160,20 +164,27 @@ class STEMImageSimulator:
 
         self._tstart = time.time()
         self._drift_gen = self._curve_generator(drift_speed)
-        self._drift_history = {"xvals": [], "yvals": []}
+        self._drift_history = {"xvals": [], "yvals": [], "time": []}
         _ = next(self._drift_gen)
 
     def rel_time(self):
         return time.time() - self._tstart
 
-    def _curve_generator(self, speed: float = 1.):
-        for curve_idx, curve in enumerate(generate_curve(scale=speed), start=-1):
+    def _curve_generator(self, speed: float | Literal["random"] = 1.):
+        if isinstance(speed, str) and speed == "random":
+            speed = float(np.random.uniform(low=0.3, high=0.6))
+        for curve_idx, curve in enumerate(
+            generate_curve(scale=speed),
+            start=-1,
+        ):
             self._drift_state = curve_idx, curve
             if len(self._drift_history["yvals"]) > DRIFT_HISTORY:
                 self._drift_history["xvals"].pop(0)
                 self._drift_history["yvals"].pop(0)
+                self._drift_history["time"].pop(0)
             self._drift_history["xvals"].append(curve.p0.real)
             self._drift_history["yvals"].append(curve.p0.imag)
+            self._drift_history["time"].append(self.rel_time())
             yield self._drift_state
     
     def _drift_for_times(self, start: Seconds, number: int, step: Seconds):
@@ -245,6 +256,7 @@ class STEMImageSimulator:
         dwell_time: Seconds,
         rotation: Degrees = 0.,
         wait: bool | str = False,
+        progress: bool = True,
     ) -> np.ndarray:
         with self._scan_lock:
             tstart = time.perf_counter()
@@ -273,7 +285,10 @@ class STEMImageSimulator:
             if wait:
                 effective_dwell_time = time_to_wait / npts
                 step = 256
-                bar = tqdm.tqdm(total=npts, desc=wait if isinstance(wait, str) else "Scanning")
+                if progress:
+                    bar = tqdm.tqdm(total=npts, desc=wait if isinstance(wait, str) else "Scanning")
+                else:
+                    bar = no_op_tqdm()
                 for idx in range(0, npts, step):
                     bar.update(min(step, npts - idx))
                     time.sleep(effective_dwell_time * step)
@@ -289,7 +304,7 @@ class STEMImageSimulator:
         """
         return self._survey_def
 
-    def survey_image(self, dwell_time: Seconds):
+    def survey_image(self, dwell_time: Seconds, progress: bool = True):
         """
         Acquire a new survey image with the given dwell time
         """
@@ -297,6 +312,7 @@ class STEMImageSimulator:
             **self.survey._asdict(),
             dwell_time=dwell_time,
             wait="Survey" if SCAN_WAIT else False,
+            progress=progress,
         )
 
     def scan(
@@ -307,6 +323,7 @@ class STEMImageSimulator:
         dwell_time: Seconds,
         rotation: Degrees = 0.,
         with_grid: bool = False,
+        progress: bool = True,
     ) -> np.ndarray | tuple[np.ndarray, YX]:
         """
         Acquire a scan image centered at a specified point.
@@ -330,6 +347,8 @@ class STEMImageSimulator:
             Angle to rotate the scan grid (default is 0 degrees). Positive is anticlockwise.
         with_grid : bool, optional
             If True, also return the grid coordinates used in the scan (default is False).
+        progress: bool, optional
+            If True, display a progress bar during the scan (default is True).
 
         Returns
         -------
@@ -352,6 +371,7 @@ class STEMImageSimulator:
             dwell_time=dwell_time,
             rotation=rotation,
             wait="Scanning" if SCAN_WAIT else False,
+            progress=progress,
         )
         if with_grid:
             grid = self._get_grid(tl, extent, scan_shape, rotation)
