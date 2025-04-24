@@ -1,6 +1,3 @@
 [submodule "static/Rose-Pine-For-Marp"]
 	path = static/Rose-Pine-For-Marp
 	url = https://github.com/matbryan52/Rose-Pine-For-Marp.git
-[submodule "practical/LiberTEM-panel-ui"]
-	path = practical/LiberTEM-panel-ui
-	url = https://github.com/LiberTEM/LiberTEM-panel-ui
