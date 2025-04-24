@@ -1,3 +1,6 @@
 [submodule "static/Rose-Pine-For-Marp"]
 	path = static/Rose-Pine-For-Marp
 	url = https://github.com/matbryan52/Rose-Pine-For-Marp.git
+[submodule "microscopy-images-qem-practical"]
+	path = microscopy-images-qem-practical
+	url = git@github.com:matbryan52/microscopy-images-qem-practical.git
