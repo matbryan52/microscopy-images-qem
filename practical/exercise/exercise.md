@@ -56,3 +56,29 @@ scan_image = simulator.scan(
 ```
 
 where `scan_image` is a numpy array of size `scan_shape` scanned around `centre`.
+
+A helper for the survey image coordinate system is also available at 
+
+```python
+survey_def = simulator.survey
+```
+
+with properties:
+
+```python
+(sy, sx) = survey_def.scaling  #  scaling of the survey field of view in nm / pixel
+(ey, ex) = survey_def.extent  # shape of the survey field of view in nm
+```
+
+and methods
+
+```python
+(ny, nx) = survey_def.to_continuous((py, px))  # convert from pixels to nanometres
+(py, px) = survey_def.to_pixels((ny, nx))  # convert from nanometres to pixels
+```
+
+There is also a UI version of the simulator which will launch in a web browser with:
+
+```python
+simulator.show()
+```

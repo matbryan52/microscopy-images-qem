@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import operator
+from threading import Lock
 from scipy import constants
 import tqdm.auto as tqdm
 from typing import NamedTuple, TypeAlias, Self
@@ -14,6 +15,8 @@ Seconds: TypeAlias = float
 PicoAmps: TypeAlias = float
 ELECTRON_PER_PA = 1e-12 * (1 / constants.e)
 DRIFT_HISTORY = 300
+
+SCAN_WAIT = True
 
 
 class YX(NamedTuple):
@@ -133,6 +136,7 @@ class STEMImageSimulator:
         drift_speed: NMPerSecond = 0.1,
         defocus: NanoMetres = 0.,
     ):
+        self._scan_lock = Lock()
         self._shape = YX(*image.shape)
         self._extent = YX(*extent_yx)
         cy = np.linspace(0, self._extent.y, num=image.shape[0], endpoint=True)
@@ -242,38 +246,39 @@ class STEMImageSimulator:
         rotation: Degrees = 0.,
         wait: bool | str = False,
     ) -> np.ndarray:
-        # could add a scan pattern option
-        tstart = time.perf_counter()
-        shape = YX(*shape)
-        grid = self._get_grid(tl, extent, shape, rotation)
-        grid = self._apply_drift(grid, dwell_time)
-        has_defocus = self._defocus > 0.
-        if has_defocus:
-            grid = self._apply_defocus(grid)
-        grid = self._wrap_coordinate(grid)
-        image = (
-            self._sample(
-                (grid.y, grid.x),
-                dwell_time,
+        with self._scan_lock:
+            tstart = time.perf_counter()
+            # could add a scan pattern option
+            shape = YX(*shape)
+            grid = self._get_grid(tl, extent, shape, rotation)
+            grid = self._apply_drift(grid, dwell_time)
+            has_defocus = self._defocus > 0.
+            if has_defocus:
+                grid = self._apply_defocus(grid)
+            grid = self._wrap_coordinate(grid)
+            image = (
+                self._sample(
+                    (grid.y, grid.x),
+                    dwell_time,
+                )
             )
-        )
-        if has_defocus:
-            image = image.reshape(-1, 5).mean(axis=-1)
-            grid = YX(grid.y[::5], grid.x[::5])
-        image = image.reshape(shape)
-        tspent = time.perf_counter() - tstart
-        npts = grid.x.size
-        true_time = npts * dwell_time
-        time_to_wait = max(0, (true_time - tspent))
-        if wait:
-            effective_dwell_time = time_to_wait / npts
-            step = 256
-            bar = tqdm.tqdm(total=npts, desc=wait if isinstance(wait, str) else "Scanning")
-            for _ in range(0, npts, step):
-                bar.update(step)
-                time.sleep(effective_dwell_time * step)
-        else:
-            self._tstart -= time_to_wait
+            if has_defocus:
+                image = image.reshape(-1, 5).mean(axis=-1)
+                grid = YX(grid.y[::5], grid.x[::5])
+            image = image.reshape(shape)
+            tspent = time.perf_counter() - tstart
+            npts = grid.x.size
+            true_time = npts * dwell_time
+            time_to_wait = max(0, (true_time - tspent))
+            if wait:
+                effective_dwell_time = time_to_wait / npts
+                step = 256
+                bar = tqdm.tqdm(total=npts, desc=wait if isinstance(wait, str) else "Scanning")
+                for idx in range(0, npts, step):
+                    bar.update(min(step, npts - idx))
+                    time.sleep(effective_dwell_time * step)
+            else:
+                self._tstart -= time_to_wait
         return image
 
     @property
@@ -284,14 +289,14 @@ class STEMImageSimulator:
         """
         return self._survey_def
 
-    def survey_image(self, dwell_time: Seconds, wait: bool = False):
+    def survey_image(self, dwell_time: Seconds):
         """
         Acquire a new survey image with the given dwell time
         """
         return self._scan(
             **self.survey._asdict(),
             dwell_time=dwell_time,
-            wait="Survey" if wait else wait,
+            wait="Survey" if SCAN_WAIT else False,
         )
 
     def scan(
@@ -302,7 +307,6 @@ class STEMImageSimulator:
         dwell_time: Seconds,
         rotation: Degrees = 0.,
         with_grid: bool = False,
-        wait: bool = False,
     ) -> np.ndarray | tuple[np.ndarray, YX]:
         """
         Acquire a scan image centered at a specified point.
@@ -326,9 +330,6 @@ class STEMImageSimulator:
             Angle to rotate the scan grid (default is 0 degrees). Positive is anticlockwise.
         with_grid : bool, optional
             If True, also return the grid coordinates used in the scan (default is False).
-        wait : bool, optional
-            If True, block execution for the duration of the scan as-if
-            waiting for the real microscope (default is False).
 
         Returns
         -------
@@ -350,12 +351,19 @@ class STEMImageSimulator:
             shape=scan_shape,
             dwell_time=dwell_time,
             rotation=rotation,
-            wait="Scanning" if wait else wait,
+            wait="Scanning" if SCAN_WAIT else False,
         )
         if with_grid:
             grid = self._get_grid(tl, extent, scan_shape, rotation)
             return image, grid - self.survey.tl  # in continuous coords
         return image
+
+    def show(self):
+        from .simulator_ui import simulator_ui
+        simulator_ui(self).show(
+            title="STEM Image Simulator",
+            open=True,
+        )
 
 
 if __name__ == "__main__":

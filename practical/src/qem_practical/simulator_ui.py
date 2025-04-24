@@ -165,6 +165,7 @@ def simulator_ui(simulator: STEMImageSimulator):
         button_type="success",
         width_policy="max",
     )
+    live_survey_button.jslink(scan_button, **{"value": "disabled"})
 
     def do_scan(*e):
         data = rectangles.cds.data
