@@ -47,16 +47,26 @@ Matthew Bryan<br />
 **Research Software Engineer**<br />
 ![w:150 h:auto](figures/cea-leti.png)  Grenoble :fr:  Alps :mountain_snow:
 
-Not really a Microscopist!
-<br>
-
 Background:
 
-- chemical engineering
+- fluids + engineering
 - image processing
 - computer vision
 
-Developer on the [LiberTEM](https://libertem.github.io/LiberTEM/) project
+Not really a Microscopist!
+<br>
+
+Developer on the <a href="https://libertem.github.io/LiberTEM/"><img src="./figures/LiberTEM logo-transparent.png" height="60px"></a> project
+
+<!-- [LiberTEM]() project -->
+
+---
+
+![width:110% align:center](figures/pfnc-2.png)
+
+---
+
+![width:110% align:center](figures/pfnc-3.png)
 
 ---
 <!-- _class: columns2 -->
