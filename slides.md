@@ -8,7 +8,7 @@ author: Matthew Bryan
 keywords: images,electron-microscopy
 url: https://github.com/matbryan52/microscopy-images-qem
 ---
-
+<a name='start'></a>
 ![bg left:40% 60%](figures/qem.png)
 
 # **What is an image?**
@@ -19,6 +19,7 @@ Matthew Bryan
 GitHub: [@matbryan52](https://github.com/matbryan52)
 
 ---
+<!-- footer: '[↞](#start)' -->
 <!-- paginate: true -->
 
 # Preamble
@@ -77,14 +78,15 @@ h1 {
 }
 
 </style>
+<a name='contents'></a>
 # Content
 
 - [Images](#photographs-images)
-- [Digital Images](#digital-images)
+- [Digital Images](#images-as-information)
 - [Visualisation](#visualising-images)
 - [Signals](#sampling)
 - [Geometry](#transforms)
-- [Filtering](#filtering)
+- [Filtering](#image-filtering)
 - [Segmentation](#segmentation)
 - [Enhancement](#restoration)
 - [Alignment](#alignment)
@@ -92,6 +94,7 @@ h1 {
 
 ---
 
+<!-- footer: '[⇤](#photographs-images) [↞](#contents)' -->
 <!-- _class: columns2 -->
 
 <a name='photographs-images'></a>
@@ -231,8 +234,8 @@ These are a logical extension of colour images, where each sub-image or *channel
 <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAJ3BAAAAAAAAABFqcrGU8hqLFnpmU9ERVKNPZUF_UC06pYFGJ1gc_njnHAQ6BXGzId4JbUgUJrFgoJPTEfFuZOf0bY8BwMqBZV8NrKKRSvAA9m43y39zcRl8lCzeUCyA3x4JnD674GPMtaoWVPEsjpMieHf5R7ApLoHn4OT8kVTDY_qbD8TnXNH001ocSc0CuNO4GUNRfg3-TXXvciAO7U4VXCmTBlKekTTHeZ7v9qpXgVE3_3P5izYztOABQ9ckBVyf0aRCV3Fxaw8iNtxBKTec7AoIRcS6A0Gao83hicekSdKAwwKEPRMEfv7yz6z0npCdqa05f_ldJ2sD9zAmePmysK6CDqseNMJzsZVj9Yi81Q9s6g-U4anGUhpb5SOYLmlrTX5WLNHeozEso50HhMbmuzgOkrGt0iZPCl8qv8R0Xi5_j9zO4QxiramoGqakP2EGKBo_6mC0h-jlUWS3sDpH77QS3xAG9raZWWFIK3ZoTV_z5_hnB-bujE-nFa4DGaUwB5GvejlwA9HpvDZGrfDuxKL-vAa5YaJ3PeklKyimXGLK5tMqg3KgtcpyS2wF8Q0Gsi4HitjNOMMKCTt6U0bICx4vJ3SROXOgT254PoUDTqj4Q1nXBbJuCTnKA8j8bJsVEBhie1Q3c7G-WSytXp046csH6mnwcW6IvoWXD4f5wLwPcllUrHFjyqhzsO6JCZqZhPC9yf3GnkKrSciS-0NCPZyOCzA42B6wNb0I9sIAzRcrw2oZuuM6RSrfM0tyRKlkwvTGWCky63zIgu9g4396i4sowkpFR93FrP-w1Crem3TqntFxxgxOkKOs-HvoC2J01hhmuQnvLcrDsJkubZ9XCnFVmMsKA9PXaYpuFbA4pR02lToD8l0J6n38__o_I8o" style="position:fixed; top:5%; left:5%; width:90%; height:90%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
 
 ---
-
-<a name='digital-images'></a>
+<!-- footer: '[⇤](#images-as-information) [↞](#contents)' -->
+<a name='images-as-information'></a>
 
 # **Images as digital information**
 
@@ -318,12 +321,7 @@ Depending on the tool or language you use, image coordinate systems can vary
   - Implies a change of direction for rotations (clockwise not anticlockwise!)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Image histogram
 
 An image histogram represents the frequency of intensity values in an image. Useful way to visualise contrast between background and content, and see outlier pixels.
@@ -405,13 +403,6 @@ Good support for 3D volumes
 
 ---
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
-
 ### Gatan Digital Micrograph ([gatan.com](https://www.gatan.com/installation-instructions))
 Well-known, feature-rich GUI even when using the free license
 
@@ -488,7 +479,7 @@ A Graphics Processing Unit GPU is a computation *accelerator* which can be added
 * GPUs are dedicated accelerator cards, they don't run operating system
 
 ---
-
+<!-- footer: '[⇤](#visualising-images) [↞](#contents)' -->
 <a name='visualising-images'></a>
 
 # **Visualising images**
@@ -562,12 +553,7 @@ The visualisation is of a linear ramp with a sinusoidal comb superimposed. The c
 If any part of the comb is invisible, then the colourmap is nonuniform. If any other patterns are visible then it is *highly* nonuniform!
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Colour blindness
 
 Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap can hugely impact the perception of data for these populations.
@@ -613,7 +599,7 @@ We also need to be careful about how to display periodic phase with a colourmap:
 <iframe src="http://localhost:9091/complex-image" width="1150" height="650" frameBorder="0"></iframe>
 
 ---
-
+<!-- footer: '[⇤](#sampling) [↞](#contents) -->
 <a name='sampling'></a>
 
 # **Images as signals**
@@ -633,12 +619,6 @@ Conversely, more pixel density only adds value if the information is there to sa
 * For a periodic feature (*atomic columns?*) 2 samples per shortest period are sufficient according to Nyqist-Shannon, but 4+ is more convincing.
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 
 With reduced sampling, the faster-changing areas of the signal are not resolved.
 
@@ -673,12 +653,6 @@ On an image $f(x, y)$ we can do the same, but we must use two *spatial frequenci
 A Fourier transform can be computed quickly with a Fast Fourier Transform (**FFT**).
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 
 Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and $\cos$ terms.
 
@@ -687,12 +661,7 @@ Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and
 ---
 <style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Fourier components
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ![height:550 center](figures/fourier-components.svg)
 
 Zero-frequency (mean value) is a much larger component than the rest of the transform!
@@ -710,12 +679,7 @@ Zero-frequency (mean value) is a much larger component than the rest of the tran
 ## Fourier transforms in Microscopy
 
 High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ![height:450 center](figures/fourier-lattice.svg)
 
 ---
@@ -723,12 +687,7 @@ img[alt~="center"] {
 ## Fourier transforms in Microscopy
 
 High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ![height:450 center](figures/fourier-lattice.svg)
 
 ---
@@ -736,12 +695,7 @@ img[alt~="center"] {
 ## Fourier transforms in Microscopy
 Electron holography uses FFTs to extract information from the interference pattern created by the biprism:
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ![height:450 center](figures/fourier-holography.svg)
 <!-- ---
 
@@ -809,7 +763,7 @@ The alias still represents the lattice, but each period in the alias covers mult
 <iframe src="http://localhost:9091/stem-moire" width="1350" height="750" frameBorder="0"></iframe>
 
 ---
-
+<!-- footer: '[⇤](#transforms) [↞](#contents)' -->
 <a name='transforms'></a>
 
 # **Images and Geometry**
@@ -817,12 +771,7 @@ The alias still represents the lattice, but each period in the alias covers mult
 ![bg right:50% 90%](./figures/skimage-transform.png)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 # Geometric transforms of images
 
 The information in an image exists on a coordinate grid. We can map the same data to a new grid using a *transform*
@@ -830,12 +779,7 @@ The information in an image exists on a coordinate grid. We can map the same dat
 ![height:350 center](figures/transform.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Resizing
 
 The simplest transform is resizing → `(0, 0)` remains static, all other values are moved onto a larger or smaller grid
@@ -884,20 +828,15 @@ Some image signals, e.g. diffraction patterns, can be better-interpreted in pola
 <iframe src="http://localhost:9091/warp-polar" width="1150" height="550" frameBorder="0"></iframe>
 
 ---
-
-<a name='filtering'></a>
+<!-- footer: '[⇤](#image-filtering) [↞](#contents)' -->
+<a name='image-filtering'></a>
 
 # **Image Filtering**
 
 ![bg right:40% 105%](./figures/filtering.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 # Filtering
 
 Filters enhance certain information in an image, compensate for issues in the imaging system or highlight properties of the image which are beyond a simple intensity distribution.
@@ -907,12 +846,7 @@ In most cases filters change the value of any given pixel based on its neighbour
 ![height:300 center](./figures/filtering-examples.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 <style scoped>h2 { position: absolute; top: 5%; }</style>
 
 ## Patch-based filters
@@ -924,12 +858,7 @@ A simple type of filter is *patch-based*. These run a procedure in the vicinity 
 Edges always need special treatment as their neighbourhood is limited, else the filtered image becomes smaller. Padding with zeros, periodic boundaries or reflecting the boundary are common ways to handle this.
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 <!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
 
 ## Gaussian blur
@@ -939,12 +868,7 @@ Gaussian blur is a patch-based filter which computes a local Gaussian-weighted a
 ![height:450 center](./figures/blur.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 <!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
 
 ## Median filter
@@ -973,23 +897,13 @@ GPUs are very efficient at computing image convolutions.
 <style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Example kernels
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ![height:450 center](./figures/convolution-filters.svg)
 
 Kernels can be designed to respond to arbitrary features, e.g. corners or textures. Convolutional filters are the basis of many image neural networks, which combine countless *learned filters* to help classify image content.
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Edge filters (Sobel filter)
 
 Edge filters respond to sharp transitions in image intensity, or large image gradient, and are useful in applications like peak finding or contour detection for metrology.
@@ -1025,6 +939,7 @@ The most well-known of these filters are:
   <!-- - Clean power spectrum -->
   <!-- - Selective Bragg filter -->
 ---
+<!-- footer: '[⇤](#segmentation) [↞](#contents)' -->
 <a name='segmentation'></a>
 
 # **Image Segmentation**
@@ -1068,12 +983,7 @@ The *connected components* algorithm can be used to number isolated regions in a
 <iframe src="http://localhost:9091/connected-components" width="1100" height="500" frameBorder="0"></iframe>
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 <!-- _class: columns2 -->
 ## Binary image operations
 
@@ -1123,12 +1033,7 @@ Two common algorithms here are `k-Means` and `Mean-Shift` clustering.
 ![bg right:45% 90%](./figures/k-means.gif)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 <!-- _class: columns2 -->
 ## Deep learning for image segmentation
 
@@ -1143,6 +1048,7 @@ The most well-know, albeit now quite old architecture are the **U-Nets**, which 
 </figure>
 
 ---
+<!-- footer: '[⇤](#restoration) [↞](#contents)' -->
 <a name='restoration'></a>
 
 # **Image Restoration**
@@ -1193,12 +1099,7 @@ When acquisition condition allow, taking multiple rapid scans or images to form 
 ![bg right:40% 80%](./figures/denoising-pca.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Denoising: Non-Local means
 
 Rather than a simple average of local patches around each pixel, instead average all pixels in the image weighted by their similarity to the pixel being denoised.
@@ -1206,12 +1107,7 @@ Rather than a simple average of local patches around each pixel, instead average
 ![height:400 center](./figures/denoise-nonlocal.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Denoising: Block-Matching 3D ([BM3D](https://webpages.tuni.fi/foi/GCF-BM3D/))
 
 The BM3D algorithm improves non-local means by grouping similar image patches and filtering them as a unit. Going beyond a simple weighted average greatly improves edge and texture preservation.
@@ -1252,12 +1148,7 @@ Inpainting replaces corrupted or missing data with a best-estimate. Some example
 - a sensor bonding gap.
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Inpainting - Interpolation
 
 Simple *interpolation* is a good approach for small defects such as dead pixels.
@@ -1278,6 +1169,7 @@ An example is [Large Mask Inpainting - LaMa](https://github.com/advimman/lama) (
 [cleanup.pictures](https://cleanup.pictures/)
 
 ---
+<!-- footer: '[⇤](#alignment) [↞](#contents)' -->
 <a name='alignment'></a>
 
 # **Pattern matching and image alignment**
@@ -1293,12 +1185,7 @@ A common need in microscopy is to locate some image feature: an edge, a spot a c
 A related problem is **image alignment**, where two-or-more images are separated by acquisition drift or change of scale, but we would like to compare the data from both images on the same grid or plot, requiring us to transform one image into the coordinate system of the other(s). Image alignment is also often referred to as image **registration**.
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Peak-finding
 
 When the feature to detect is a local minimum or maximum in the intensity image, we can use *peak-finding* to locate it. A simple algorithm uses a *maximum filter*:
@@ -1328,12 +1215,7 @@ We can acheive greater precision by performing intensity-weighted local **centre
 ![bg right:50% 90%](./figures/peaks-com.png)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Template matching
 
 When the feature to find is not a local maximum, or we need to detect a particular pattern in the intensity rather than a point, one approach is *template matching*, based on the **correlation** between our target image and the *template* or pattern that we want to find.
@@ -1341,12 +1223,7 @@ When the feature to find is not a local maximum, or we need to detect a particul
 ![height:425 center](./figures/template.gif)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Template matching: locate matches
 
 Checking all template positions generates a 2D correlation map with peaks at all "good" matches. Then use a peak-finding algorithm (with refinement) to locate the best positions.
@@ -1354,12 +1231,7 @@ Checking all template positions generates a 2D correlation map with peaks at all
 ![height:450 center](./figures/template-matches.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Template matching: filtering
 
 Template matching is very sensitive to both template choice and image quality.
@@ -1369,12 +1241,7 @@ Often useful to *filter* the target image to acheive the sharper peaks in the co
 ![bg right:60% 95%](./figures/template-filtering.svg)
 
 ---
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
+
 ## Image alignment
 
 If we want to align whole images in translation we can use the **cross-correlation** between them.
@@ -1420,7 +1287,7 @@ When aligning or comparing pairs of images, it is useful to have metrics which d
 - Structural Similarity Index [(SSI)](https://ieeexplore.ieee.org/document/1284395) tries to account for similarity of structure, contrast and intensity level separately, and was designed to replicate how humans perceive similarity between images.
 
 ---
-
+<!-- footer: '[⇤](#summary) [↞](#contents)' -->
 <a name='summary'></a>
 
 # **Summary**
@@ -1461,7 +1328,6 @@ The source, figures and code for this presentation are on [Github: matbryan52/mi
 
 ![bg right:40% 60%](figures/qem.png)
 
----
 <!-- 
 Slide for the PFNC
 
