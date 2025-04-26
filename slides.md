@@ -8,6 +8,7 @@ author: Matthew Bryan
 keywords: images,electron-microscopy
 url: https://github.com/matbryan52/microscopy-images-qem
 ---
+<!--<!-- _footer: `This version is static, all interactive slides are converted to images` -->-->
 <a name='start'></a>
 ![bg left:40% 60%](figures/qem.png)
 
@@ -303,7 +304,6 @@ There are many conventions for storing numbers, here are some common ones in ima
 ## Maths with images
 
 <iframe src="http://localhost:9091/image-math" width="1150" height="700" frameBorder="0"></iframe>
-<!-- <img src="figures/panel/tests/image-math.png" width="auto" height="auto"></img> -->
 
 ---
 
@@ -768,7 +768,7 @@ The alias still represents the lattice, but each period in the alias covers mult
 
 # **Images and Geometry**
 
-![bg right:50% 90%](./figures/skimage-transform.png)
+![bg right:40% 80%](./figures/shear-transform.svg)
 
 ---
 
