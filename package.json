@@ -18,5 +18,8 @@
   "homepage": "https://github.com/matbryan52/microscopy-images-qem#readme",
   "devDependencies": {
     "@marp-team/marp-cli": "^4.1.2"
+  },
+  "dependencies": {
+    "markdown-it-image-figures": "^2.1.1"
   }
 }

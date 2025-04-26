@@ -25,13 +25,8 @@ try:
         [
             'npx',
             'marp',
-            "--no-config-file",
-            "--html",
-            "--theme-set",
-            "./static/Rose-Pine-For-Marp/css/rose-pine-dawn.css",
             "--output",
             "index.html",
-            "--allow-local-files",
             str(out_path),
         ],
         cwd=rootdir,

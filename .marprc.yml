@@ -1,5 +1,5 @@
 allowLocalFiles: true
 html: true
-watch: true
 themeSet: ./static/Rose-Pine-For-Marp/css/rose-pine-dawn.css
 output: slides.html
+engine: ./engine.mjs

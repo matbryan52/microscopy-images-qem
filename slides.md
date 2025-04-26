@@ -103,10 +103,7 @@ h1 {
 <br/><br/>
 # **Images and Photographs**
 
-<figure>
-<img src="https://krvarshney.github.io/kush_varshney.png" width=500px/>
-<figcaption style="text-align: right; font-size: 16px"><a href="https://krvarshney.github.io">krvarshney.github.io</a></figcaption>
-</figure>
+![w:500](https://krvarshney.github.io/kush_varshney.png "[krvarshney.github.io](https://krvarshney.github.io)")
 
 ---
 
