@@ -177,6 +177,7 @@ cython_debug/
 marp-cli/
 *.html
 *.pdf
+index.md
 
 node_modules/
 
