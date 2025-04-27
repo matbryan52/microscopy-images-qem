@@ -25,7 +25,7 @@ GitHub: [@matbryan52](https://github.com/matbryan52)
 
 # Preamble
 
-Microscopy lets us see, for a time
+A microscope lets us see, for a time
 
 <hr>
 
