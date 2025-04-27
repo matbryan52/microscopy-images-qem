@@ -107,20 +107,20 @@ h1 {
 
 ## Images
 
-Most generally, an Image is a visual representation of an object or scene
+In optics, an image is a plane on which there is no ambiguity over where the arriving rays came from
 
-- In most contexts two-dimensional, though not only
-- An image point in optics refers to the point where all light rays from a single point on an object intersect
-- Recording the light along the plane of these intersection points forms a complete image of the object
+- All rays leaving one point on an object arrive at the same point in the image
+
+This becomes much more complex when the optical system is imperfect...
+
+![bg right:40% 100% <a href="https://www.doitpoms.ac.uk/tlplib/diffraction/image.php">DoITPoMS</a>](https://www.doitpoms.ac.uk/tlplib/diffraction/images/diagram10.gif)
 
 ---
 <!-- _header: '[phydemo.app](https://phydemo.app/ray-optics)' -->
-####  Photography
+<!-- ####  Photography
 
-Projection of focused light onto a surface has been known for millenia, but we lacked a reliable method to record the light until the early 1800s.
-<!-- <figure>
-<figcaption style="text-align: right; font-size: 16px"></figcaption> -->
-<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnw4dhPOEuFF0Rx4r7BB7OZDCsU0PezMis4qwCmewxlKsoC9CM_odt0YKk_d-cAFhL0L3ZrUi53iJMnw9s0MJGjkLjam0Ix-joTjlCegfAvvhnzHwcEQeRzORinD_wddSLfyiobAMXi1jwiIhr6DL-aSP0XiuNABDRMNXIYLoTOOng3jGtlgmLU9w4rHaXx7HGw7YmcHCchyVxVuPzq5npRjjNU-YkEfZfqyOkHN_Y7r92UOtkiuEUg5vxBjPy227B_HecckbPwSRIsQjiSvGAjMlvYJBL9qpvZiUwTD2m_U5ZcoJno-4grK8JCsT7za9EO28ite3JT8BD_vYUxu7kbKRPIS_CGO9tr7M1dgU86eNbZrSuu-0wEEDRW18h0xzubHXkj6bIXYHrc90Z87N2NvwDfTavCRlQ5ch18BC0mtpSBBkkeIKRq9UbFUVnCaB81zLBcpzU0ukqR_W4Y7nfORg0_oqCS4ihrLphFoc2OlzEXiH1NMdcPFbN__3FksYg" width="1100px" height="450px" frameBorder="0"></iframe>
+Projection of focused light onto a surface has been known for millenia, but we lacked a reliable method to record the light until the early 1800s. -->
+<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnuf9fq-XrPTQOx4LCsQHwUyw76jL_rYu5iYZLs_do8qkg5UDLwGhUIS64cbuYWE62BPzLCTvWigSBKk-iQSbaqi2gLfMmJ8EeNqi7n02VIfgY9GDMdAOIdV2mPIpo7uuSaWoFWw36jsem6b8hqmj7fTcCrLb6edaAv1Z7x3GrslugFsTf1tLvah1MXOhtjlUumK2gTc2Wb8Wd6CQ_wLUIsx4VSbpgK1zxWEQAGzgwyoNpsqPZlKoYSqYqGCyncnRznqbT4I-9LpBMoryW5aQgo-RgJ_zCjaiem7fsEHHqx1ZghJkoMTPv7G_uRRZWihCQS5nHOsqlRuP39Ge0m4MnOpnyvq5CfahpsJZdfp5IkwScq2VCxJRtkn6ZEKwK7VJ1EhCDv5JJL73iBJb9kz22z9J0GcOTzzzpsPrDZBcMUYcFKrmh9EV3jBYduQxn37XfuDtNTgtXYuhil9Lp4PZxmSLbsGDvBtfxtRAtoqVSZKYCHb5JQw4jNp8jRXWRak61vf_-UPBQ4" width="1100px" height="600px" frameBorder="0"></iframe>
 
 ---
 
@@ -130,67 +130,71 @@ Projection of focused light onto a surface has been known for millenia, but we l
 
 Recording light in chemical reactions
 
-- Light- (or electron-) sensitive coatings that transform when *exposed*
+- Light- (or electron-) sensitive coatings that transform when **exposed**
 - Sensitivity determined by (chemical) reaction rate (temperature, wavelength etc.)
-- "Resolution" determined by average particle size - randomly distributed!
+- **Resolution** determined by average particle size - randomly distributed!
   - In practice film is extremely densely coated
 
-<span style="text-align: right">Micrograph of film grain</span>
+Micrograph of film grain
 <figure>
 <iframe src="http://localhost:9091/film-particles" width="560" height="450" frameBorder="0"></iframe>
-<figcaption style="text-align: right; font-size: 20px"><a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a></figcaption>
+<figcaption style="text-align: right; font-size: 16px"><a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a></figcaption>
 </figure>
 
 ---
+<!-- _header: '[YouTube @AppliedScience](https://www.youtube.com/watch?v=-qETedzsFIE)' -->
+##  Analogue images with plants
 
-##  Analogue images (Aside)
+Any light-reacting chemistry could be used to record a photograph, even photosynthesis!
 
-Any light-reacting chemistry could record a photograph, even photosynthesis
-
-<figure>
-<figcaption style="text-align: right; font-size: 20px"><a href="https://www.youtube.com/watch?v=-qETedzsFIE">YouTube @AppliedScience</a></figcaption>
-<p float="left">
-  <img src="figures/geranium-lens.png" height="400" />
-  <img src="figures/geranium-leaf.png" height="400" /> 
-</p>
-</figure>
+![height:450 center](figures/geranium.svg)
 
 ---
-
+<!-- _header: '[phydemo.app](https://phydemo.app/ray-optics)' -->
+<!-- _class: columns2 -->
 ## Digital images
 
 Recording images with numbers
 
-- Measure local intensity electrically (conversion to charge, voltage), then *digitize* the analog signal to a numerical value
-- Discrete sampling of the wavefront, usually onto a 2D grid
-- At the most basic, a digital image is a list of numbers representing recorded *values*, and a way to structure these numbers into a shape we can interpret
+- Convert local ray intensity to electricity, then **digitize** the signal
+- Sensors have physical limits, noise etc, so our digitization is always imperfect
+
+<br>
+
+At the most basic, a digital image is a list of numbers representing recorded *values*, and a way to structure these numbers into a shape we can interpret as the physical image
+
+<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAKoAQAAAAAAAABDKcrGU8hqLFnpmU9EnTFrVrE8e3iP9Y30xRLJ53U7Paz6ugKVEwiDoPkxYUkq34GuEo6E2A0lkN0NikvTataLtnGNq-BY93Sx571NfVdBMLmS--Ri7mZ3MjIXDjOVYtv135J31N7_bGxN7zPocEaQXCE-OxZsZLPneE4vLmYjQ2ff4n3G7OTz3o3INHFolvsUICepqvGpgvPO-b6RlqNRHgrkkmxLAFprnIq_YthCr-nYpwa4SlCmNlNhGhbtPwnZ6GPvaGHMI0Pje0DTsTxa1CY61RtSxFRC9DNHIwEDY_252nTLMjsEdwWO-QVxGXgtOctUijSsAzhw5N9HadZrpIG_x6Q8G-SK9pQh7YhDWh9fzaGy-KnuVRzbxMomPikPdypOQfDeM2ilNflulbNeGVv_TlIIAA" width="600px" height="600px" frameBorder="0"></iframe>
 
 ---
-
+<style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Rays to Image
 
-![w:auto h:550](figures/digital-sensor.svg)
+![w:auto h:600](figures/digital-sensor.svg)
 
 ---
 
-## Pixels
+## What are pixels? Resolution?
 
-A *pixel* is an **el**ement of a **pi**cture
+A *pixel* is an **el**ement of a **pi**cture. In acquisition it is the sampled value at a given position.
 
-- Represents a single intensity from the wavefront that was recorded
+- Represents a single, discrete intensity from the wavefront that was recorded
 
-By extension, a *voxel* is an **el**ement of a **vo**lume, in 3D
+You may also encounter the term *voxel*, which is an **el**ement of a **vo**lume in 3D
+
+<hr>
+
+Resolution, depending on the context, can be pixel spatial **density** (i.e. how well we can *resolve* two adjacent peaks), or total pixel **count**, usually as a 2D shape e.g. `(height, width)`.
 
 ---
 
-## Image calibrations
+## Calibrations
 
 Digital images are discrete, both in space and value
 
-- Position within a digital image is via index coordinate like `[3, 5]`, not dimension `[0.2 cm, 0.8 cm]`.
+- Position within a digital image is via integer coordinate like `[3, 5]`, not dimension `[0.2 cm, 0.8 cm]`.
 - Intensity is typically recorded as an integer value like `530`, not a physical quantity like $3.2\: W\cdot m^{-2}$
 
-Interpretation of digital images in physical units requires a *calibration*, accounting for (amongst others):
+Interpretation of digital images in physical units requires a **calibration**, accounting for (amongst others):
 
 - Pixel size, spacing, shape
 - Sensor response, readout characteristics
@@ -199,18 +203,15 @@ Interpretation of digital images in physical units requires a *calibration*, acc
 
 <!-- _class: columns2 -->
 
-<style scoped>h2 { position: absolute; top: 5%; }</style>
-
 ## Colour images
 
-A colour image is a set of images of the same wavefront, each sampling part of the full spectrum.
+A colour image is a set of images of the same wavefront, each sampling one part of the spectrum
 
 - We are most familiar with <span style="color:red">Red</span><span style="color:green">Green</span><span style="color:blue">Blue</span> (<span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span>) images
-- These are usually made with a pre-sensor Bayer filter, which samples colour differently in adjacent pixels
-- The values from pixels are split into <span style="color:red">R</span>, <span style="color:green">G</span>, and <span style="color:blue">B</span> intensity images.
-- The three signals are spatially offset
+- These are usually made with a pre-sensor **Bayer filter**, which samples colour differently in adjacent pixels
+- The recorded values are split into separate <span style="color:red">R</span>, <span style="color:green">G</span>, and <span style="color:blue">B</span> intensity images
 
-When recombined intelligently, most images are represented without any artifacts, despite the offset
+The three signals are spatially offset, but with intelligent recombination, most images are represented without artefacts
 
 ![w:500](https://upload.wikimedia.org/wikipedia/commons/3/37/Bayer_pattern_on_sensor.svg "[Bayer-filter, Wiki - Cburnett](https://en.wikipedia.org/wiki/Bayer_filter#/media/File:Bayer_pattern_on_sensor.svg)")
 
@@ -218,13 +219,11 @@ When recombined intelligently, most images are represented without any artifacts
 
 ## Spectral images
 
-These are a logical extension of colour images, where each sub-image or *channel* represents a well-defined band of wavelength or energy.
-- In contrast to colour images, spectral channels don't typically overlap in energy
-- We usually cannot sample both spatially and spectrally simultenously, so we either create images channel-by-channel (EFTEM), or position-by-position (STEM-EELS)
+Spectral images are a generalisation of colour images, where each sub-image or **channel** represents a well-defined band of  energy.
+* Ideally spectral channels don't overlap in energy, unlike many colour image filters
+* We normally can't sample both spatially and spectrally simultaneously, so create images channel-by-channel (e.g. EFTEM), or position-by-position (e.g STEM-EELS)
 
----
-
-<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAJ3BAAAAAAAAABFqcrGU8hqLFnpmU9ERVKNPZUF_UC06pYFGJ1gc_njnHAQ6BXGzId4JbUgUJrFgoJPTEfFuZOf0bY8BwMqBZV8NrKKRSvAA9m43y39zcRl8lCzeUCyA3x4JnD674GPMtaoWVPEsjpMieHf5R7ApLoHn4OT8kVTDY_qbD8TnXNH001ocSc0CuNO4GUNRfg3-TXXvciAO7U4VXCmTBlKekTTHeZ7v9qpXgVE3_3P5izYztOABQ9ckBVyf0aRCV3Fxaw8iNtxBKTec7AoIRcS6A0Gao83hicekSdKAwwKEPRMEfv7yz6z0npCdqa05f_ldJ2sD9zAmePmysK6CDqseNMJzsZVj9Yi81Q9s6g-U4anGUhpb5SOYLmlrTX5WLNHeozEso50HhMbmuzgOkrGt0iZPCl8qv8R0Xi5_j9zO4QxiramoGqakP2EGKBo_6mC0h-jlUWS3sDpH77QS3xAG9raZWWFIK3ZoTV_z5_hnB-bujE-nFa4DGaUwB5GvejlwA9HpvDZGrfDuxKL-vAa5YaJ3PeklKyimXGLK5tMqg3KgtcpyS2wF8Q0Gsi4HitjNOMMKCTt6U0bICx4vJ3SROXOgT254PoUDTqj4Q1nXBbJuCTnKA8j8bJsVEBhie1Q3c7G-WSytXp046csH6mnwcW6IvoWXD4f5wLwPcllUrHFjyqhzsO6JCZqZhPC9yf3GnkKrSciS-0NCPZyOCzA42B6wNb0I9sIAzRcrw2oZuuM6RSrfM0tyRKlkwvTGWCky63zIgu9g4396i4sowkpFR93FrP-w1Crem3TqntFxxgxOkKOs-HvoC2J01hhmuQnvLcrDsJkubZ9XCnFVmMsKA9PXaYpuFbA4pR02lToD8l0J6n38__o_I8o" style="position:fixed; top:5%; left:5%; width:90%; height:90%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
+![bg right:40% 75% <a href="https://arxiv.org/abs/2202.01065">Almeida et al (2022)</a>](figures/pillars.svg)
 
 ---
 <!-- footer: '[⇤](#images-as-information) [↞](#contents)' -->
@@ -232,7 +231,7 @@ These are a logical extension of colour images, where each sub-image or *channel
 
 # **Images as digital information**
 
-![bg right:40% 100%](figures/pixellated-atoms.png)
+![bg right:40% 100% <span style="color: white;">Image: Jean-Luc Rouvière</span>](figures/pixellated-atoms.png)
 
 ---
 
