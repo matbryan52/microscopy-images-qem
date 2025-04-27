@@ -214,10 +214,7 @@ A colour image is a set of images of the same wavefront, each sampling part of t
 
 When recombined intelligently, most images are represented without any artifacts, despite the offset
 
-<figure>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bayer_pattern_on_sensor.svg/1920px-Bayer_pattern_on_sensor.svg.png" width=500px/>
-<figcaption style="text-align: right; font-size: 16px"><a href="https://en.wikipedia.org/wiki/Bayer_filter#/media/File:Bayer_pattern_on_sensor.svg">Bayer-filter, Wiki - Cburnett</a></figcaption>
-</figure>
+![w:500](https://upload.wikimedia.org/wikipedia/commons/3/37/Bayer_pattern_on_sensor.svg "[Bayer-filter, Wiki - Cburnett](https://en.wikipedia.org/wiki/Bayer_filter#/media/File:Bayer_pattern_on_sensor.svg)")
 
 ---
 
