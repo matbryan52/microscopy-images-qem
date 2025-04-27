@@ -60,14 +60,12 @@ Not really a Microscopist!
 
 Developer on the <a href="https://libertem.github.io/LiberTEM/"><img src="./figures/LiberTEM logo-transparent.png" height="60px"></a> project
 
-<!-- [LiberTEM]() project -->
-
 ---
-
+<!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
 ![width:110% align:center](figures/pfnc-2.png)
 
 ---
-
+<!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
 ![width:110% align:center](figures/pfnc-3.png)
 
 ---
@@ -116,10 +114,10 @@ Most generally, an Image is a visual representation of an object or scene
 - Recording the light along the plane of these intersection points forms a complete image of the object
 
 ---
-
+<!-- _header: '[phydemo.app](https://phydemo.app/ray-optics)' -->
 ####  Photography
 
-Projection of focused light onto a surface has been known for millenia, but we lacked a reliable method to record the light until the early 1800s. (<a href="https://phydemo.app/ray-optics">phydemo.app</a>)
+Projection of focused light onto a surface has been known for millenia, but we lacked a reliable method to record the light until the early 1800s.
 <!-- <figure>
 <figcaption style="text-align: right; font-size: 16px"></figcaption> -->
 <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnw4dhPOEuFF0Rx4r7BB7OZDCsU0PezMis4qwCmewxlKsoC9CM_odt0YKk_d-cAFhL0L3ZrUi53iJMnw9s0MJGjkLjam0Ix-joTjlCegfAvvhnzHwcEQeRzORinD_wddSLfyiobAMXi1jwiIhr6DL-aSP0XiuNABDRMNXIYLoTOOng3jGtlgmLU9w4rHaXx7HGw7YmcHCchyVxVuPzq5npRjjNU-YkEfZfqyOkHN_Y7r92UOtkiuEUg5vxBjPy227B_HecckbPwSRIsQjiSvGAjMlvYJBL9qpvZiUwTD2m_U5ZcoJno-4grK8JCsT7za9EO28ite3JT8BD_vYUxu7kbKRPIS_CGO9tr7M1dgU86eNbZrSuu-0wEEDRW18h0xzubHXkj6bIXYHrc90Z87N2NvwDfTavCRlQ5ch18BC0mtpSBBkkeIKRq9UbFUVnCaB81zLBcpzU0ukqR_W4Y7nfORg0_oqCS4ihrLphFoc2OlzEXiH1NMdcPFbN__3FksYg" width="1100px" height="450px" frameBorder="0"></iframe>
