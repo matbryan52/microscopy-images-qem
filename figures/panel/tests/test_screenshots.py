@@ -10,7 +10,7 @@ from PIL.Image import open as imopen
     (    
         ("http://localhost:9091/aliasing", "bk-Row"),
         ("http://localhost:9091/colour-map", "bk-Row"),
-        ("http://localhost:9091/colour-uniformity", "bk-Row"),
+        ("http://localhost:9091/colour-uniformity", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/complex-image", "bk-Row"),
         ("http://localhost:9091/connected-components", "bk-Row"),
         ("http://localhost:9091/film-particles", "bk-Row"),

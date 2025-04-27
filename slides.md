@@ -341,7 +341,7 @@ Typically `row == 0/1` at the **top** when displayed, with positive-**down**
 
 ## Maths with images
 
-As an image is just a list of numbers to a computer, we can do arithmethic or more complex operations on images to yield new images or other results. For example:
+As an image is just a list of numbers, so we can do arithmethic or more complex operations on images to yield new images or other results. For example:
 
 ```python
 image = image - image.min()  # subtract the minimum value in the image from every pixel
@@ -507,101 +507,93 @@ A Graphics Processing Unit GPU is a computation *accelerator* which can be added
 
 ---
 
-## Image histogram
+## Data → Screen
 
-An image histogram represents the frequency of intensity values in an image. It is a useful way to visualise contrast between background and content, and see outlier pixels.
+Screens display `uint8` <span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span> colour (3 values of `0-255` per-pixel, also known as 24-bit colour). Unless our image was acquired using these three channels then we need to **transform** our data from recorded intensities to screen <span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span>.
 
-![height:450 center](./figures/histogram.svg)
+- Setting <span style="color:red">R</span> = <span style="color:green">G</span> = <span style="color:blue">B</span> on a screen rendrers as colourless **Gray**
+  - This limits us to only 256 levels of intensity to display all of the data range
+  - If the data are more than 8-bit, need to sacrifice detail or clip values
+- We can use artificial colour to achieve more on-screen contrast, known as a *lookup table* or **colormap**, of which there are many choices for different applications.
 
----
-
-## Data → Screen colour
-
-Scientific cameras produce images of intensity as unsigned integers, typically, and screens display `uint8` RGB colour (24-bit colour). This requires us to map from data to screen for display.
-
-- <span style="color:red">R</span> = <span style="color:green">G</span> = <span style="color:blue">B</span> in a colour image displays as colourless **Grey**
-  - Screens can only display 256 levels of pure grey intensity
-  - If the data are more than 8-bit, need to sacrifice detail or clip the data range
-- We can use artificial colour to achieve more on-screen contrast, known as a *lookup table* or *colormap*, of which there are many choices for different applications.
-
-The choice of colormap or data transformation for display can massively influence how the data are perceived.
+Choice of data transformation or colormap can massively influence how data are perceived.
 <!-- Something about other colourspaces? -->
+
 ---
-<!-- <style scoped>h3 { position: absolute; top: 3%; }</style> -->
-### Brightness + Contrast
-<iframe src="http://localhost:9091/colour-map" width="1150" height="600" frameBorder="0"></iframe>
+<style scoped>h3 { position: absolute; top: 3%; }</style>
+<!-- _header: 'Image: Jean-Luc Rouvière' -->
+### Transformation: Brightness + Contrast
 
-<!-- Interactive figure of brightness, contrast, clip, gamma transform
+The basic data-to-screen transformation is linear: `[img.min(), img.max()] → [0, 255]`.
+The **brightness/constrast** transform chooses two other values and **clips** pixels outside their range to `0` or `255`. This removes detail in some regions while increasing it in others.
 
-Maybe a coloured line / scatter plot of the mapping ?
-
-Interactive colourmap figure with some symmetric data, too -->
+<iframe src="http://localhost:9091/brightness-contrast" width="1150" height="475" frameBorder="0"></iframe>
 
 ---
 
 ## Dynamic range
 
-In microscopy we frequently see data which span many orders of magnitude in intesity, with detail at both the low and high-ends (e.g. diffraction patterns).
+In microscopy we frequently see data which span many orders of magnitude in intensity, with detail at both the low and high-ends (e.g. diffraction patterns).
+
+- A simple brightness / contrast transform loses too much information in display!
 
 A non-linear transform between data and colour can be used to bridge the gap, trading local for global contrast.
 
 - Logarithmic colour colours data by order of intensity magnitude:
     - $I_{disp} = \log (I_{img})$
-- Gamma-based colour scales the data with a power law before display:
+- Gamma-based colour scales the data with a power law:
     - $I_{disp} = I_{img}^\gamma$
 
 ---
+<!-- _header: 'Image: Gustav Persson' -->
+### Transformation: Gamma + Logarithmic
 
-### Gamma + Logarithmic colour
-
-<iframe src="http://localhost:9091/gamma-log" width="1150" height="650" frameBorder="0"></iframe>
-
----
-
-## Perceptual uniformity
-
-Colourmaps are critical to how we interpret visual data. It is important to recognize
-when a feature we see is from the data or from the map.
-
-- Perceptually uniformity means a $\Delta$ in the data displays as the same *visual* $\Delta$ to our eyes, no matter where in the range of mapped values it is
-  - No one range of values changes "faster" than another
-- Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide true boundaries.
-
-This is a well-studied problem, and uniform colourmaps are available for many applications. See the [colorcet.holoviz.org](https://colorcet.holoviz.org/) page or [Kovesi (2015)](https://arxiv.org/pdf/1509.03700) for good examples.
+<iframe src="http://localhost:9091/gamma-log" width="1150" height="550" frameBorder="0"></iframe>
 
 ---
+<!-- _header: '[Kovesi (2015)](https://arxiv.org/pdf/1509.03700), [colorcet.holoviz.org](https://colorcet.holoviz.org/)' -->
+<!-- _class: columns2 -->
+## Colourmaps
 
-## Perceptual uniformity
+Colourmaps are critical to how we interpret visual data. It is important that a features we see are from the data and not the map.
 
-The visualisation is of a linear ramp with a sinusoidal comb superimposed. The comb perturbs the intensity slightly up/down, so if the comb is visible then the colourmap is capable of representing small value changes in this part of its range.
+Some colourmaps are **perceptually uniform**, i.e a $\Delta$ in the data is perceived as the same *visual* $\Delta$ to our eyes, across the whole range of the colourmap.
 
-<iframe src="http://localhost:9091/colour-uniformity" width="1150" height="280" frameBorder="0"></iframe>
+- Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide real boundaries
 
-If any part of the comb is invisible, then the colourmap is nonuniform. If any other patterns are visible then it is *highly* nonuniform!
+<iframe src="http://localhost:9091/colour-uniformity" width="600" height="575" frameBorder="0"></iframe>
 
 ---
-
+<!-- _header: 'Image: Tescan / CEA' -->
+<!-- _header: '[davidmathlogic.com/colorblind](https://davidmathlogic.com/colorblind)' -->
 ## Colour blindness
 
-Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap can hugely impact the perception of data for these populations.
+Certain colour blindness forms are experienced in 1-5% of the population (biased towards males). Choice of colourmap can hugely impact the perception of data for these groups.
 
-- In particular try to *avoid* using <span style="color:red">Red</span>–<span style="color:green">Green</span> to draw distinctions
-
-[davidmathlogic.com/colorblind](https://davidmathlogic.com/colorblind) is a simple overview.
+- In particular try to *avoid* using <span style="color:red">Red</span>–<span style="color:green">Green</span> to draw distinctions, as this is the most common form of colour bindness
 
 ![height:240 center](figures/cblind.svg)
 
 ---
 <!-- _class: columns2 -->
+<!-- _header: 'Image: Tescan / CEA' -->
 ## Transparency (Alpha)
 
-Digital images can also be combined using transparency, often called *alpha*. This allows overlaying one information atop another.
+Digital images can also be combined or overlaid using transparency, called **alpha**.
 
-Transparency can be defined on a per-pixel basis to convey information such as density.
+Transparency can be defined on a per-pixel basis to convey information such as density. For example no counts in an EDS map can let the HAADF show through.
 
-- When working with colour images you may see `RGBA` where `A` is a 4th "colour" channel coding the transparency information.
+- When working with colour images you may see `RGBA` where `A` is a 4th "colour" channel coding the pixel opacity.
 
-<iframe src="http://localhost:9091/transparency" width="650" height="600" frameBorder="0"></iframe>
+<iframe src="http://localhost:9091/transparency" width="500" height="600" frameBorder="0" style="display:block; margin: auto;"></iframe>
+
+---
+
+## Image histograms
+
+An image histogram represents the frequency of intensity values in an image. It is a useful way to visualise contrast between background and content, and to see outlier pixels.
+
+![height:450 center](./figures/histogram.svg)
 
 ---
 
@@ -620,10 +612,11 @@ We also need to be careful about how to display periodic phase with a colourmap:
 <!-- phase unwrapping -->
 
 ---
-<style scoped>h2 { position: absolute; top: 3%; }</style>
-## Complex image display
-[Grillo et al. (2020)](https://zenodo.org/records/3878720)
-<iframe src="http://localhost:9091/complex-image" width="1150" height="650" frameBorder="0"></iframe>
+<style scoped>h3 { position: absolute; top: 5%; }</style>
+<!-- _header: 'Image: [Grillo et al. (2020)](https://zenodo.org/records/3878720)' -->
+### Complex image display
+
+<iframe src="http://localhost:9091/complex-image" width="1050" height="600" frameBorder="0" style="display:block; margin: auto;"></iframe>
 
 ---
 <!-- footer: '[⇤](#sampling) [↞](#contents) -->

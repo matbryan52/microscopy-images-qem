@@ -17,6 +17,7 @@ fig1 = (
         img1,
         title="Image",
         tools=False,
+        maxdim=375,
     )
 )
 fig1.fig.toolbar_location = "below"
@@ -27,7 +28,7 @@ fig1.fig.right[0].background_fill_alpha = 0.
 
 
 fig2 = figure(title='Value-to-Colour')
-fig2.frame_height = 325
+fig2.frame_height = 300
 fig2.background_fill_alpha = 0.
 fig2.border_fill_color = None
 fig2.x_range.range_padding = 0.
@@ -68,12 +69,6 @@ brightness = pn.widgets.FloatSlider(
 )
 brightness_btn = pn.widgets.Button(name="Reset", button_type="primary")
 
-def reset_brightness(*e):
-    brightness.value = 0.5
-    brightness.value_throttled = 0.5
-
-brightness_btn.on_click(reset_brightness)
-
 contrast = pn.widgets.FloatSlider(
     name="Contrast",
     start=0.01,
@@ -82,15 +77,7 @@ contrast = pn.widgets.FloatSlider(
     value=0.5,
     width=200,
 )
-contrast_btn = pn.widgets.Button(name="Reset", button_type="primary")
-
-def reset_contrast(*e):
-    contrast.value = 0.5
-    contrast.value_throttled = 0.5
-
-contrast_btn.on_click(reset_contrast)
-
-cmap_select = fig1.im.color.get_cmap_select(width=200)
+reset_btn = pn.widgets.Button(name="Reset", button_type="primary")
 
 def _set_vminmax(*e):
     cmin, cmax = fig1.im.current_minmax
@@ -109,6 +96,13 @@ def _set_vminmax(*e):
     mapped = np.clip(mapped  * 255, 0, 255)
     curve.update(xvals=data_vals, yvals=mapped)
 
+def reset(*e):
+    brightness.value = 0.5
+    contrast.value = 0.5
+    _set_vminmax()
+
+reset_btn.on_click(reset)
+
 brightness.param.watch(_set_vminmax, "value_throttled")
 contrast.param.watch(_set_vminmax, "value_throttled")
 
@@ -119,10 +113,10 @@ pn.Row(
         fig1.layout,
 
     ),
+    pn.HSpacer(width=20),
     pn.Column(
         pn.pane.Bokeh(fig2, align='end'),
-        pn.Row(brightness, brightness_btn, contrast, contrast_btn, align='end'),
-        cmap_select,
+        pn.Row(brightness, contrast, reset_btn, align='end'),
     ),
     align='end'
-).servable("colour-map")
+).servable("brightness-contrast")

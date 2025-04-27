@@ -146,6 +146,7 @@ fig1._outer_toolbar.height = 0
 
 pn.Row(
     fig1.layout,
+    pn.HSpacer(width=20),    
     pn.Column(
         # cmap_select,
         pn.pane.Bokeh(fig2),

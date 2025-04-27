@@ -21,8 +21,8 @@ fig1 = (
     ApertureFigure
     .new(
         img1,
-        title="Linear Ramp (0 → 1)",
-        maxdim=550,
+        title="Linear Ramp (0 → 1) + Sine comb",
+        maxdim=500,
     )
 )
 fig1.fig.toolbar_location = "below"
@@ -31,13 +31,30 @@ fig1.fig.border_fill_color = None
 fig1.fig.right[0].background_fill_alpha = 0.
 fig1.fig.right[0].width = 25
 fig1._outer_toolbar.height = 0
+fig1.im.color.change_cmap("Spectrum")
 
-tools = tuple(fig1._floatpanels.values())[0]['items']
-
-pn.Row(
-    fig1.layout,
-    pn.HSpacer(max_width=50),
-    pn.Column(
-        *tools,
+fig2 = (
+    ApertureFigure
+    .new(
+        img1,
+        title="Linear Ramp (0 → 1) + Sine comb",
+        maxdim=500,
     )
+)
+fig2.fig.toolbar_location = "below"
+fig2.fig.background_fill_alpha = 0.
+fig2.fig.border_fill_color = None
+fig2.fig.right[0].background_fill_alpha = 0.
+fig2.fig.right[0].width = 25
+fig2._outer_toolbar.height = 0
+fig2.im.color.change_cmap("Temperature")
+
+tools1 = tuple(fig1._floatpanels.values())[0]['items']
+tools2 = tuple(fig2._floatpanels.values())[0]['items']
+
+pn.Column(
+    pn.Row(tools1[0][0], tools1[-2]),
+    fig1.layout,
+    pn.Row(tools2[0][0], tools2[-2]),
+    fig2.layout,
 ).servable("colour-uniformity")

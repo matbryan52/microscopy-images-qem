@@ -48,7 +48,7 @@ fig = (
         base_img,
         tools=False,
         maxdim=450,
-        title="EDX Transparency"
+        title="EDS Transparency"
     )
 )
 
@@ -66,7 +66,7 @@ img_rgba_renderer = fig.fig.image_rgba(
 img_rgba = img_rgba_renderer.glyph
 
 alpha_slider = Slider(
-    title="EDX Alpha",
+    title="EDS Alpha",
     start=0.,
     end=1.,
     value=img_rgba.global_alpha,
