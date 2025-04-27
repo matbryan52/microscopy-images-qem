@@ -354,8 +354,8 @@ sum_image = image + other_image  # sum two images together
 Note that when operating on pairs of images they must have the same `shape` for the elementwise calculation to be defined.
 
 ---
-
-<style scoped>h2 { position: absolute; top: 5%; }</style>
+<!-- _header: 'Image: Hanako Okuno / Tescan + [Wikipedia](https://commons.wikimedia.org/wiki/File:Felis_catus-cat_on_snow.jpg)' -->
+<style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Maths with images
 
 <iframe src="http://localhost:9091/image-math" width="1150" height="600" frameBorder="0"></iframe>
