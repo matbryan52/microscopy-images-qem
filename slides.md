@@ -630,11 +630,11 @@ We also need to be careful about how to display periodic phase with a colourmap:
 
 # Images as signals
 
-An digital image samples a continuous world onto a discrete grid. The step- or *pixel size* limits what information can ever be captured by the image.
+An digital image samples a continuous world onto a discrete grid. The step- or *pixel size* limits what information can be captured by the image.
 
-Conversely, more pixel density only adds value if the information is there to sample:
+Conversely, more pixel density adds value only if the information is there to sample:
 
-* A smooth ramp in intensity is fully defined by two points - we can *interpolate* and get the same result as a densely sampled image
+- A smooth ramp in intensity is fully defined by two points - we can *interpolate* and get the same result as a densely sampled image
 * If the optics of the microscope cannot cleanly resolve the detail we want to see, more camera pixels will not help.
 * For a periodic feature (*atomic columns?*) 2 samples per shortest period are sufficient according to Nyqist-Shannon, but 4+ is more convincing.
 
@@ -670,32 +670,34 @@ each $A_u$ represents a contribution to $f(x)$ by a particular *frequency* $u$.
 
 On an image $f(x, y)$ we can do the same, but we must use two *spatial frequencies* e.g. $u, v$.
 
-A Fourier transform can be computed quickly with a Fast Fourier Transform (**FFT**).
+A Fourier transform can be computed efficiently with a Fast Fourier Transform (**FFT**).
 
 ---
+<!-- _header: '[safeguardroofingandbuildingltd.co.uk](https://www.safeguardroofingandbuildingltd.co.uk/)' -->
+
 
 Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and $\cos$ terms.
 
 ![height:550 center](figures/fourier.svg)
 
 ---
-<style scoped>h2 { position: absolute; top: 5%; }</style>
+<style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Fourier components
 
-![height:550 center](figures/fourier-components.svg)
+![height:525 center](figures/fourier-components.svg)
 
-Zero-frequency (mean value) is a much larger component than the rest of the transform!
+The zero-frequency (mean value) is normally a **much** larger component than the rest!
 
 ---
 
 ## Uses of image Fourier transforms
 
 - The transform is reversible, it contains exactly the same information as the image
-* We can performing *filtering* by modifying the FFT, e.g. remove high-frequency noise while leaving the main content intact
-* Many mathematical operations are much more efficient in frequency space than direct space, for example correlation and convolution
+* We can performing **filtering** by modifying the FFT, e.g. remove high-frequency noise while leaving the main content intact
+* Many mathematical operations are much more efficient in frequency space than direct space, for example **correlation** and **convolution**
 
 ---
-
+<!-- _header: 'Image: Jean-Luc Rouvière' -->
 ## Fourier transforms in Microscopy
 
 High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
@@ -703,15 +705,7 @@ High-resolution images of atomic columns are naturally periodic, and lattice spa
 ![height:450 center](figures/fourier-lattice.svg)
 
 ---
-
-## Fourier transforms in Microscopy
-
-High-resolution images of atomic columns are naturally periodic, and lattice spacings appear clearly in the amplitude of an FFT.
-
-![height:450 center](figures/fourier-lattice.svg)
-
----
-
+<!-- _header: 'Image: [Grillo et al. (2020)](https://zenodo.org/records/3878720)' -->
 ## Fourier transforms in Microscopy
 Electron holography uses FFTs to extract information from the interference pattern created by the biprism:
 
@@ -728,21 +722,21 @@ Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phas
 A discrete image can be *interpolated* into a continuous coordinate system so that it can be *re-sampled* at new coordinates.
 
 * Interpolation does not add additional information, but can reconstruct a higher-fidelity version of the image if we have a good model of the true signal.
-* Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image.
+* Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image
 
 ![bg right:30% 80%](figures/interpolation.svg)
 
 ---
-
+<!-- _header: '' -->
 ## Interpolation schemes
 
-Interpolating schemes can be very basic (e.g. bi-linear between adjacent pixels) or very flexible (polynomial splines).
+Interpolating schemes can be very basic (e.g.piecewise constant) or very flexible (polynomial splines).
 
 - Interpolation can *smooth* an image if desired → the interpolant doesn't perfectly reproduce values at input positions.
 * Also possible to interpolate an image from unstructured samples (i.e. not originally on a grid).
 
-![bg right:30% 60%](figures/2D-interpolation.svg)
-Adapted from [Cmglee](https://commons.wikimedia.org/wiki/File:Comparison_of_1D_and_2D_interpolation.svg)
+![bg right:30% 60% Adapted from <a href="https://commons.wikimedia.org/wiki/File:Comparison_of_1D_and_2D_interpolation.svg">Cmglee</a>](figures/2D-interpolation.svg)
+
 
 ---
 <style scoped>h2 { position: absolute; top: 3%; }</style>
