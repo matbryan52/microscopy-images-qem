@@ -227,120 +227,138 @@ Spectral images are a generalisation of colour images, where each sub-image or *
 
 ---
 <!-- footer: '[⇤](#images-as-information) [↞](#contents)' -->
+<!-- _header: 'Image: Jean-Luc Rouvière' -->
 <a name='images-as-information'></a>
 
-# **Images as digital information**
+# **Images and Computers**
 
-![bg right:40% 100% <span style="color: white;">Image: Jean-Luc Rouvière</span>](figures/pixellated-atoms.png)
+![bg right:40% 100%](figures/pixellated-atoms.png)
 
 ---
-
+<!-- _header: '[sklearn: MNIST digits](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html#sklearn.datasets.load_digits)' -->
+<!-- _class: columns2 -->
 ## Arrays of numbers
 
-Computers store numbers as sequences of binary digits, which we interpret according to convention.
+Computers store numbers long sequences of binary digits (`0`, `1`), which we can interpret to reproduce an image with a given shape
 
-- An image is no more than a 1D list of numbers to a computer, there is no intrinsic 2D data structure in a computer's memory.
-- The 1D data can be ordered row-by-row, or column-by-column, according to hardware and convention
-  - This has implications for processing, as memory is **slow** - reading a whole row could be much faster than reading a whole column, or vice-versa.
+- Images are just a 1-dimensional sequence of numbers to a computer, there is no hardware-level concept of *height*, *width*, *channel* etc.
 
----
+Numbers can also be stored using different rules, giving further ways to mis-interpret an image on a computer.
 
-<style scoped>h2 { position: absolute; top: 5%; }</style>
+```
+0000000000000000000000110000110100001100000000100000000000000000
+0000000000000000000011100000110100001111000010110000000000000000
+0000000000000000000001110000000000001000000011110000000000000000
+0000000000000000000000000000000000001101000001100000000000000000
+0000000000000000000000000000001100010000000001000000000000000000
+0000000000000000000000000000110100001011000000000000000000000000
+0000000000000000000000110001000000001100000010000000000100000000
+0000000000000000000000110001000000001011000010000000000000000000
+```
 
-## Memory layout
+These numbers can be interpreted as:
 
-![w:100% h:450](figures/memory-layout.svg)
-
-This becomes very important for >2D data - it pays to store data in a way which
-matches the processing being done (whole images, or one pixel from many images?).
+![width:600 center](./figures/mnist-layout.svg)
 
 ---
 
 <style scoped>
 table {
   font-size: 20px;
+  display: block;
+  margin: 0 auto;
 }
 </style>
 ## Number types
 
-There are many conventions for storing numbers, here are some common ones in images:
+There are many conventions for storing numbers as binary, here are some common ones used in images. Usage depends on your camera electronics and what processing you do.
 
-|                  | Name      | Size (bits) | Min          | Max        | Example usage |
-| ---------------- | --------- | ----------- | ------------ | ---------- | ---------- |
-| Binary           | `bool`      | 8           | 0            | 1          | Masking pixels |
-| Unsigned Integer | `uint8`     | 8           | 0            | 255        | Raw data |
-|                  | `uint16`    | 16          | 0            | 65,535      | Raw data |
-| Integer          | `int16`     | 16          | \-32,768      | 32,767      | Background-subtraction |
-|                  | `int32`     | 32          | \-2,147,483,648 | 2,147,483,647 | Computation |
-| Floating         | `float32`   | 32          | \-3.40E+38   | \-3.40E+38 | Computation |
-|                  | `float64`   | 64          | \-1.70E+308  | 1.70E+308  | Computation |
-| Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 | Waves, FFT |
+|                  | Name      | Size (bits or digits) | Min          | Max        |
+| ---------------- | --------- | ----------: | -----------: | ---------: |
+| Binary           | `bool`      | 8           | 0            | 1          |
+| Unsigned Integer | `uint8`     | 8           | 0            | 255        |
+|                  | `uint16`    | 16          | 0            | 65,535      |
+| Integer          | `int16`     | 16          | \-32,768      | 32,767      |
+|                  | `int32`     | 32          | \-2,147,483,648 | 2,147,483,647 |
+| Floating         | `float32`   | 32          | \-3.40E+38   | \-3.40E+38 |
+|                  | `float64`   | 64          | \-1.70E+308  | 1.70E+308  |
+| Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 |
 
 ---
 
 ## Number types - Notes
 
 - Digital numbers are stored in a fixed amount of space - exceeding the min or max for a type can cause "wrapping", e.g. `200_uint8 + 100_uint8 = 44_uint8`.
-  - The range for `uint8` is 256, so `200 + 100 = 300` becomes `300 mod 256 = 44`.
-* The size of the number is the space it requires in memory, and on disk
-  - Often the larger the number type, the slower operations with that type are
+  - `uint8` has a range of `256`, so $200 + 100 = 300$ ⇒ `300 mod 256 = 44`.
+* The size of the number is the space it requires in memory and on disk
+  - No reason to store 8-byte `float64` if your values are only `0` or `1`
+  - Often the larger the type, the slower operations with that type are
 * Floating point numbers have variable precision, i.e. they can represent very large or very small values, but are poor when trying to represent both at once
-  - For example `324,000 + 0.0055 = 324,000` not `324,000.0055`
-  - Be careful with electron wavelength and camera lengths!
-* Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there is no native complex number format
+  - For example `324,000 + 0.0055 = 324,000.0` not `324,000.0055`
+* Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there are no native complex number formats
+
+---
+
+## Memory layout
+
+An image can be ordered row-by-row, or column-by-column, according to hardware and convention. Each value occupies `n`-bits in the sequence according to its number type.
+
+![h:450 center](figures/memory-layout.svg)
+
+---
+
+If an image is large and >2D, e.g. a spectrum image, then memory layout can heavily affect processing time. **Jumping** between memory locations is very slow compared to sequentially reading memory, so it pays to store data in the way it will be processed.
+
+![h:450 center](figures/memory-layout2.svg)
+
+---
+
+## Multi-image data, stacks, 4D-STEM
+
+![w:100% center](figures/image-sizes.svg)
+
+Tomography can an add an extra `[tilt]` dimension to all of the above!
+
+---
+<!-- _class: columns2 -->
+## Coordinate systems
+
+Depending on the tool or programming language, image coordinate systems vary
+
+- Matrix notation in 2D: `[row, column]`
+- Python is **0-indexed**
+  - `image[0, 0]` is the first pixel
+- MATLAB is **1-indexed**:
+  - `image[1, 1]` is the first pixel
+
+Extra dimensions `channel`, `scan` ordered according to convention (and sometimes also memory-layout).
+
+![h:450 center](figures/coordinate-layout.svg)
+
+Typically `row == 0/1` at the **top** when displayed, with positive-**down**
+
+---
+
+## Maths with images
+
+As an image is just a list of numbers to a computer, we can do arithmethic or more complex operations on images to yield new images or other results. For example:
+
+```python
+image = image - image.min()  # subtract the minimum value in the image from every pixel
+px_sum = image[5, 7] + image[2, 4]  # sum the values in two pixels
+image = log(image)  # take the natural logarithm of every pixel
+wavefront = exp(-1j * image)  # interpret the image as phase and create a complex wavefront
+sum_image = image + other_image  # sum two images together
+```
+
+Note that when operating on pairs of images they must have the same `shape` for the elementwise calculation to be defined.
 
 ---
 
 <style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Maths with images
 
-<iframe src="http://localhost:9091/image-math" width="1150" height="700" frameBorder="0"></iframe>
-
----
-
-## Coordinate system conventions
-
-Depending on the tool or language you use, image coordinate systems can vary
-
-- Most use matrix notation for indexing `[row, column]`
-* Python and C-inspired languages are **0-indexed**
-  - i.e. `image[5, 3]` means "6th row, 4rd column"
-* MATLAB is **1-indexed**:
-  - `image[5, 3]` means "5th row, 3rd column"
-* Most place `y == 0` at the "top" when displayed, with positive "down"
-  - This matches matrix notation, but is opposite to convention for axes / graphs
-  - Implies a change of direction for rotations (clockwise not anticlockwise!)
-
----
-
-## Image histogram
-
-An image histogram represents the frequency of intensity values in an image. Useful way to visualise contrast between background and content, and see outlier pixels.
-
-![height:450 center](./figures/histogram.svg)
-
----
-
-## Multi-image data, stacks, 4D-STEM
-
-![w:100% h:100%](figures/image-sizes.svg)
-
-Tomography acquisitions can an add an extra `[tilt]` dimension to the above!
-
----
-
-<!-- _class: columns2 -->
-
-## Sparse images
-
-In very low dose conditions (or with EDX), most image pixels contain a zero value. This is good use case for *sparse* images.
-
-- Store only non-zero values
-- Can achieve enormous space saving
-- Many operations `f(a, 0) == {0, a}` so remove wasted computation
-- Simplest strategy is store coordinates + values, but more intelligent schemes exist (e.g. CSR)
-
-![w:100% h:550](figures/sparse-matrix.svg)
+<iframe src="http://localhost:9091/image-math" width="1150" height="600" frameBorder="0"></iframe>
 
 ---
 
@@ -354,6 +372,21 @@ Images can be stored in many ways, depending on how they are used
   - Can hold additional metadata (e.g. calibrations), can be compressed
 * Proprietary formats like `.dm3/4`, `.mib`, `.emd`, `.blo`: specific to a certain camera or software, not always readable elsewhere
 * General *array* formats: `.mat`, `.npy`, `.hdf5`, `.zarr`: flexible, can be compressed, can hold stacks / nD data and metadata, need compatible code/software
+
+---
+
+<!-- _class: columns2 -->
+
+## Sparse images
+
+In very low dose conditions (e.g. EDX), most image pixels contain a **zero value**. This is good use case for *sparse* images.
+
+- Store only the **non-zero values**
+- Can achieve enormous space savings
+- Simplest strategy is store coordinates + values, but more intelligent schemes exist (e.g. CSR)
+- Many operations $f(a, 0) ∈ \{0, a\}$ so also avoid wasted computation
+
+![h:550 center](figures/sparse-matrix.svg)
 
 ---
 
@@ -397,9 +430,9 @@ Python scripting enables any analysis with GMS display
 
 ---
 
-## Python tools for images
+## Python libraries for images
 
-The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in myriad ways
+The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in many ways
 
 ---
 
@@ -447,7 +480,8 @@ iio.imwrite("test.gif", frames, fps=10)
 
 `matplotlib` ([matplotlib.org](https://matplotlib.org/stable/))
 
-- General plotting library, but will `load` images, or display them on axes
+- General plotting library
+- Can directly `imread` + `imshow` images
 - Good for combining images with results + annotations
 
 ![bg right:50% 95% Image: Gustav Persson](figures/diff.png)
@@ -461,7 +495,7 @@ A Graphics Processing Unit GPU is a computation *accelerator* which can be added
 * GPUs are specialised to perform simple math operations in parallel on multi-dimensional arrays of data (such as images)
   * In contrast to CPUs, which may only be able to compute with ~512 elements of an array in one operation, a GPU can process many thousands.
 * Operations necessary for 3D graphics (coordinate transformations, filtering, raytracing) use identical maths as needed in scientific computing (Fast Fourier Transforms, convolutions, matrix algebra and inversion).
-* GPUs are dedicated accelerator cards, they don't run operating system
+* GPUs are dedicated accelerator cards, they don't run the operating system
 
 ---
 <!-- footer: '[⇤](#visualising-images) [↞](#contents)' -->
@@ -470,6 +504,14 @@ A Graphics Processing Unit GPU is a computation *accelerator* which can be added
 # **Visualising images**
 
 ![bg right:50% 90%](figures/cross-grating.png)
+
+---
+
+## Image histogram
+
+An image histogram represents the frequency of intensity values in an image. It is a useful way to visualise contrast between background and content, and see outlier pixels.
+
+![height:450 center](./figures/histogram.svg)
 
 ---
 
