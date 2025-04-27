@@ -369,24 +369,18 @@ Useful software packages to work with images in microscopy
 
 ---
 
-<style scoped>h3 { position: absolute; top: 3%; }</style>
-
-<!-- _class: columns2 -->
 ### Fiji ([imagej.net](https://imagej.net/software/fiji/))
 
 Widely used in scientific imaging, many plugins
 
-![w:475px](figures/imagej.png)
+![w:450px](figures/imagej.png)
 
 Calibrations, stacks, measurements, math, segmentation...
 
-![h:600px](figures/imagej-fig.svg)
+![bg right:45% 100% Image: Lou Denaix](figures/imagej-fig.svg)
 
 ---
 
-<style scoped>h3 { position: absolute; top: 7%; }</style>
-
-<!-- _class: columns2 -->
 ### Napari ([napari.org](https://napari.org/))
 Multi-D data viewer, annotations
 
@@ -394,9 +388,9 @@ Python-based, easy to add analysis
 
 ![w:600px](https://napari.org/stable/_images/sphx_glr_vortex_001.png)
 
-![w:600px](https://napari.org/stable/_images/sphx_glr_labels3d_001.png)
-
 Good support for 3D volumes
+
+![bg right:45% 90%](https://napari.org/stable/_images/sphx_glr_labels3d_001.png)
 
 ---
 
@@ -462,7 +456,7 @@ iio.imwrite("test.gif", frames, fps=10)
 - General plotting library, but will `load` images, or display them on axes
 - Good for combining images with results + annotations
 
-![bg right:50% 95%](figures/diff.png)
+![bg right:50% 95% Image: Gustav Persson](figures/diff.png)
 
 ---
 
@@ -1259,6 +1253,10 @@ In practice whole-image correlation-based alignment is not very robust, and will
 * Downscaling the images can improve results, as noise is minimised and the alignment uses only "large" features of the image
   * Multi-scale or "pyramid" alignment first aligns at a large scale, then progressively increases resolution while constraining the maximum shift.
 * Image filtering and pre-processing (e.g. normalisation) can also hugely affect the reliability
+
+---
+
+Add a slide about Fourier image shifting ??
 
 ---
 ## Image alignment, point-based

@@ -1,0 +1,13 @@
+diff --git a/node_modules/@marp-team/marpit/lib/markdown/background_image/advanced.js b/node_modules/@marp-team/marpit/lib/markdown/background_image/advanced.js
+index 16d3abe..3f1bc22 100644
+--- a/node_modules/@marp-team/marpit/lib/markdown/background_image/advanced.js
++++ b/node_modules/@marp-team/marpit/lib/markdown/background_image/advanced.js
+@@ -133,7 +133,7 @@ function _advancedBackground(md) {
+     const token = tokens[idx];
+     const open = self.renderToken(tokens, idx, options);
+     if (token.meta?.marpitBackgroundAlt) {
+-      return `${open}<figcaption>${md.utils.escapeHtml(token.meta.marpitBackgroundAlt)}</figcaption>`;
++      return `${open}<figcaption>${token.meta.marpitBackgroundAlt}</figcaption>`;
+     }
+     return open;
+   };
