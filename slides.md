@@ -572,7 +572,7 @@ Certain colour blindness forms are experienced in 1-5% of the population (biased
 
 - In particular try to *avoid* using <span style="color:red">Red</span>–<span style="color:green">Green</span> to draw distinctions, as this is the most common form of colour bindness
 
-![height:240 center](figures/cblind.svg)
+![height:280 center](figures/cblind.svg)
 
 ---
 <!-- _class: columns2 -->
@@ -1394,5 +1394,6 @@ Fourier image shifting
 Add doc references
 Fix colourmap dropdown display
 Add image of SSI
+U-Net example image
 
 -->
