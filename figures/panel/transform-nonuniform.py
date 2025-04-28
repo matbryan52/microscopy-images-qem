@@ -9,6 +9,10 @@ from bokeh.models.tools import LassoSelectTool
 
 pn.extension('floatpanel')
 
+custom_style = {
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
 
 img1 = np.load(rootdir / "overview_100K_binned.npy").astype(np.float32)
 
@@ -22,7 +26,7 @@ fig1 = (
 )
 fig1.fig.background_fill_alpha = 0.
 fig1.fig.border_fill_color = None
-fig1.fig.right[0].background_fill_alpha = 0.
+fig1.fig.right.pop(0)
 
 yy, xx = img1.shape
 step = 64
@@ -36,13 +40,13 @@ fig2 = (
     ApertureFigure
     .new(
         img1,
-        title='Transformed',
-        maxdim=400,
+        title='Piecewise-affine',
+        maxdim=470,
     )
 )
 fig2.fig.background_fill_alpha = 0.
 fig2.fig.border_fill_color = None
-fig2.fig.right[0].background_fill_alpha = 0.
+fig2.fig.right.pop(0)
 
 select_tool = LassoSelectTool(renderers="auto")
 fig2.fig.tools.append(select_tool)
@@ -50,6 +54,8 @@ fig2.fig.tools.append(select_tool)
 hide_points = pn.widgets.Toggle(
     name="Hide grid",
     button_type='success',
+    styles=custom_style,
+    width=125,
 )
 
 pointset = (
@@ -62,6 +68,7 @@ pointset = (
         selected=True,
     )
 )
+pointset.points.fill_color = "orange"
 
 def _update_warped(attr, old, new):
     new_cx = np.asarray(pointset.cds.data["cx"]).ravel()
@@ -77,7 +84,7 @@ def _update_warped(attr, old, new):
 
 pointset.cds.on_change("data", _update_warped)
 
-clear_btn = pn.widgets.Button(name="Reset", button_type="warning")
+clear_btn = pn.widgets.Button(name="Reset", button_type="warning", styles=custom_style, width=125)
 
 def clear_cb(*e):
     pointset.update(x=cx, y=cy)
@@ -91,10 +98,6 @@ clear_btn.on_click(clear_cb)
 fig2._toolbar.append(clear_btn)
 fig2._toolbar.append(hide_points)
 
-pn.Row(
-    fig1.layout,
-    pn.layout.HSpacer(max_width=50),
+pn.Column(
     fig2.layout,
-    align="center",
-    sizing_mode="stretch_both",
 ).servable("transform-nonuniform")

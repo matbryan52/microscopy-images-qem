@@ -8,6 +8,11 @@ from libertem_ui.applications.image_transformer import ImageTransformer
 pn.extension('floatpanel')
 
 
+custom_style = {
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
+
 img1 = np.load(rootdir / "overview_100K_binned.npy").astype(np.float32)
 
 fig1 = (
@@ -20,7 +25,7 @@ fig1 = (
 )
 fig1.fig.background_fill_alpha = 0.
 fig1.fig.border_fill_color = None
-fig1.fig.right[0].background_fill_alpha = 0.
+fig1.fig.right.pop(0)
 fig1._outer_toolbar.height = 0
 
 yy, xx = img1.shape
@@ -43,7 +48,7 @@ fig2 = (
 )
 fig2.fig.background_fill_alpha = 0.
 fig2.fig.border_fill_color = None
-fig2.fig.right[0].background_fill_alpha = 0.
+fig2.fig.right.pop(0)
 fig2._outer_toolbar.height = 0
 
 def format_transform():
@@ -64,8 +69,8 @@ def format_summary():
 | {np.rad2deg(transform.rotation):.1f}  | ({scale_x:.3f}, {scale_y:.3f}) | {transform.shear:.2f}  | ({trans_x:.1f}, {trans_y:.1f}) |
 """  # noqa
 
-transform_md = pn.pane.Markdown(object=format_transform())
-summary_md = pn.pane.Markdown(object=format_summary())
+transform_md = pn.pane.Markdown(object=format_transform(), styles=custom_style)
+summary_md = pn.pane.Markdown(object=format_summary(), styles=custom_style)
 
 def update_figures():
     fig2.update(it.get_transformed_image())
@@ -76,6 +81,7 @@ common_kwargs = dict(
     button_type="primary",
     width=100,
     margin=(2, 2),
+    styles=custom_style,
 )
 
 scale_up_btn = pn.widgets.Button(name="Scale up", **common_kwargs)
@@ -198,7 +204,7 @@ pn.Column(
     ),
     pn.Row(
         fig1.layout,
-        pn.layout.HSpacer(max_width=50),
+        pn.HSpacer(max_width=30),
         fig2.layout,
         # align="center",
         # sizing_mode="stretch_both",

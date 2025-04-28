@@ -11,6 +11,12 @@ from skimage.filters import median
 
 pn.extension('floatpanel')
 
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
+
 shape = (32, 32)
 hy, hx = np.asarray(shape) // 2
 # img1 = imread(rootdir / "AlN_2D_sousGaNx6M.tif", as_gray=True)
@@ -25,7 +31,7 @@ fig1 = (
     .new(
         np.log(img1_fft),
         title=f"FFT - {initial_mode}",
-        maxdim=400,
+        maxdim=435,
     )
 )
 fig1.fig.background_fill_alpha = 0.
@@ -46,7 +52,7 @@ fig2 = (
     .new(
         img1,
         title='Filtered image',
-        maxdim=400,
+        maxdim=435,
     )
 )
 fig2.fig.background_fill_alpha = 0.
@@ -61,7 +67,7 @@ fig2._outer_toolbar.height = 0
 
 (cy, cx), (ri, ro), max_dim = get_initial_pos(img1_fft.shape)
 ri = 50
-ro = 150
+ro = 400
 ring_db = (
     RingSet
     .new()
@@ -97,25 +103,28 @@ mode_selector = pn.widgets.RadioButtonGroup(
     value=initial_mode,
     options=["Low-pass", "High-pass", "Band-pass"],
     button_type='primary',
+    styles=custom_style,
 )
 
 radius_slider = pn.widgets.FloatSlider(
-    name='Disk radius',
+    name='Filter radius',
     value=ro,
     start=1.,
     end=max_dim,
     step=1.,
     width=250,
+    styles=custom_style,
 )
 
 radii_slider = pn.widgets.RangeSlider(
-    name='Annulus radii',
+    name='Filter radii',
     value=(ri, ro),
     start=1.,
     end=max_dim,
     visible=False,
     step=1.,
     width=250,
+    styles=custom_style,
 )
 
 

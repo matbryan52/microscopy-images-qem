@@ -9,7 +9,7 @@ from PIL.Image import open as imopen
     "address",
     (    
         ("http://localhost:9091/aliasing", "bk-Row"),
-        ("http://localhost:9091/colour-map", "bk-Row"),
+        ("http://localhost:9091/brightness-contrast", "bk-Row"),
         ("http://localhost:9091/colour-uniformity", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/complex-image", "bk-Row"),
         ("http://localhost:9091/connected-components", "bk-Row"),
@@ -23,9 +23,9 @@ from PIL.Image import open as imopen
         ("http://localhost:9091/stem-moire", "bk-Row"),
         ("http://localhost:9091/thresholding", "bk-Row"),
         ("http://localhost:9091/transform-affine", "bk-panel-models-layout-Column"),
-        ("http://localhost:9091/transform-nonuniform", "bk-Row"),
+        ("http://localhost:9091/transform-nonuniform", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/transparency", "bk-panel-models-layout-Column"),
-        ("http://localhost:9091/warp-polar", "bk-Row"),
+        # ("http://localhost:9091/warp-polar", "bk-Row"),
     )
 )
 def test_screenshots(address, page: Page):

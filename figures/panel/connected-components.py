@@ -14,6 +14,11 @@ rootdir = pathlib.Path(__file__).parent
 
 pn.extension('floatpanel')
 
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
 
 img1 = imread(rootdir.parent / "nanoparticles.jpg", as_gray=True).astype(np.float32)
 img1 = img1[:img1.shape[1], :]
@@ -41,6 +46,7 @@ display_select = pn.widgets.RadioButtonGroup(
     value="Image",
     options=["Image", "Threshold", "Components"],
     button_type="primary",
+    styles=custom_style,
 )
 
 threshold_slider = pn.widgets.FloatSlider(
@@ -49,6 +55,7 @@ threshold_slider = pn.widgets.FloatSlider(
     start=0.,
     end=1.,
     step=0.01,
+    styles=custom_style,
 )
 
 fig1.im.cds.data["image_rgba"] = [np.zeros(img1.shape, dtype=np.uint32)]
@@ -111,7 +118,7 @@ def _update_segmentation(*e):
 threshold_slider.param.watch(_update_segmentation, "value_throttled")
 display_select.param.watch(_update_segmentation, "value")
 
-fig2 = figure(title='Histogram', tools="xwheel_zoom,reset")
+fig2 = figure(title='Particle size histogram', tools="xwheel_zoom,reset")
 fig2.frame_height = frame_height
 fig2.frame_width = int(fig2.frame_height * (350 / 250))
 fig2.background_fill_alpha = 0.

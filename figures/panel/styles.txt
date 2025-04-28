@@ -1,0 +1,6 @@
+import pathlib
+rootdir = pathlib.Path(__file__).parent.parent.parent
+css_file = rootdir / "static" / "Rose-Pine-For-Marp" / "css" / "rose-pine-dawn.css"
+
+with css_file.open('r') as fp:
+    CSS_STYLES = fp.readlines()

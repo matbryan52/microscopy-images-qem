@@ -13,7 +13,11 @@ import pathlib
 rootdir = pathlib.Path(__file__).parent
 
 pn.extension('floatpanel')
-
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
 
 img1 = imread(rootdir.parent / "binary-particles.png", as_gray=True).astype(np.float32)
 vmin, vmax = img1.min(), img1.max()
@@ -21,7 +25,7 @@ vmin, vmax = img1.min(), img1.max()
 img1 = img1 > 0.5
 img1_base = img1.copy()
 
-frame_height = 350
+frame_height = 450
 fig1 = (
     ApertureFigure
     .new(
@@ -36,7 +40,7 @@ fig1.fig.toolbar_location = "below"
 fig1.fig.background_fill_alpha = 0.
 fig1.fig.border_fill_color = None
 
-common_kwargs = dict(width=100, button_type="primary", margin = (1, 1))
+common_kwargs = dict(width=100, button_type="primary", margin=(3, 3), styles=custom_style)
 reset_btn = pn.widgets.Button(name="Reset", **common_kwargs)
 reset_btn.button_type = "warning"
 erode_btn = pn.widgets.Button(name="Erode", **common_kwargs)

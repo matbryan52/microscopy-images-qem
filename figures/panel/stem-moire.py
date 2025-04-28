@@ -8,12 +8,15 @@ from libertem_ui.applications.image_transformer import ImageTransformer
 from libertem_ui.display.display_base import PointSet
 from scipy.interpolate import RegularGridInterpolator
 
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
+
 pn.extension('floatpanel')
 
-img1 = imread(rootdir / "si-karlik.png", as_gray=True)
-# it = ImageTransformer(img1)
-# it.rotate_about_center(rotation_degrees=-13)
-# img1 = it.get_transformed_image()
+img1 = np.load(rootdir / "moire-atoms.npz")["image"]
 sy, sx = img1.shape
 xvals = np.arange(sx)
 yvals = np.arange(sy)
@@ -71,6 +74,7 @@ sampling_slider = pn.widgets.FloatSlider(
     end=20,
     step=0.1,
     value=sample_period,
+    styles=custom_style,
 )
 
 def resample_image(*e):
@@ -94,6 +98,7 @@ sampling_slider.param.watch(resample_image, "value_throttled")
 hide_grid_toggle = pn.widgets.Toggle(
     name="Hide grid",
     button_type="primary",
+    styles=custom_style,
 )
 
 def hide_grid(e):
@@ -105,12 +110,8 @@ hide_grid_toggle.param.watch(hide_grid, "value")
 
 fig1._toolbar.append(hide_grid_toggle)
 fig2._toolbar.append(sampling_slider)
-fig1.layout.append(
-    pn.widgets.StaticText(value="Karlík M., Materials Structure, vol. 8, number 1 (2001)")
-)
 
 pn.Column(
-    # pn.Row(hide_grid_toggle, sampling_slider),
     pn.Row(
         fig1.layout,
         pn.layout.HSpacer(max_width=50),

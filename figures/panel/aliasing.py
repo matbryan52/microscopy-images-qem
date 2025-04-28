@@ -7,6 +7,13 @@ from numpy.typing import NDArray
 from bokeh.models import Legend
 
 
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
+
+
 def sinc_interpolation(x: NDArray, s: NDArray, u: NDArray) -> NDArray:
     """Whittaker–Shannon or sinc or bandlimited interpolation.
     Args:
@@ -34,7 +41,7 @@ low_yvals = np.sin(2 * np.pi * freq * low_xvals)
 interpolated = sinc_interpolation(low_yvals, low_xvals, high_xvals)
 
 fig1 = figure()
-fig1.frame_height = 400
+fig1.frame_height = 375
 fig1.frame_width = 700
 fig1.background_fill_alpha = 0.
 fig1.border_fill_color = None
@@ -100,10 +107,11 @@ signal_choice = pn.widgets.CheckBoxGroup(
     value=[f"Sin(f)"],
     options=["Sin(f)", "Cos(f)", "Sin(1/2f)"],
     inline=True,
+    styles=custom_style,
 )
-intepolation_choice = pn.widgets.RadioBoxGroup(name="Interpolation", value="Sinc()", options=["Linear", "Sinc()"], inline=True)
-samples_slider = pn.widgets.IntSlider(name="Sampling rate", value=low_num, start=4, end=128)
-info_md = pn.pane.Markdown(object=f"Percent of signal frequency = {100 * samples_slider.value / freq:.1f} %")
+intepolation_choice = pn.widgets.RadioBoxGroup(name="Interpolation", value="Sinc()", options=["Linear", "Sinc()"], inline=True, styles=custom_style)
+samples_slider = pn.widgets.IntSlider(name="Sampling rate", value=low_num, start=4, end=128, styles=custom_style)
+info_md = pn.pane.Markdown(object=f"Percent of signal frequency = {100 * samples_slider.value / freq:.1f} %", styles=custom_style)
 
 
 def sample(xvals):
@@ -145,7 +153,7 @@ signal_choice.param.watch(signal_change, "value")
 pn.Row(
     pn.Column(
         signal_choice,
-        pn.Row(pn.widgets.StaticText(value="Interpolation:"), intepolation_choice),
+        pn.Row(pn.widgets.StaticText(value="Interpolation:", styles=custom_style), intepolation_choice),
         samples_slider,
         info_md,
         align=("center", "center"),
