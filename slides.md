@@ -123,10 +123,10 @@ Projection of focused light onto a surface has been known for millenia, but we l
 <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnuf9fq-XrPTQOx4LCsQHwUyw76jL_rYu5iYZLs_do8qkg5UDLwGhUIS64cbuYWE62BPzLCTvWigSBKk-iQSbaqi2gLfMmJ8EeNqi7n02VIfgY9GDMdAOIdV2mPIpo7uuSaWoFWw36jsem6b8hqmj7fTcCrLb6edaAv1Z7x3GrslugFsTf1tLvah1MXOhtjlUumK2gTc2Wb8Wd6CQ_wLUIsx4VSbpgK1zxWEQAGzgwyoNpsqPZlKoYSqYqGCyncnRznqbT4I-9LpBMoryW5aQgo-RgJ_zCjaiem7fsEHHqx1ZghJkoMTPv7G_uRRZWihCQS5nHOsqlRuP39Ge0m4MnOpnyvq5CfahpsJZdfp5IkwScq2VCxJRtkn6ZEKwK7VJ1EhCDv5JJL73iBJb9kz22z9J0GcOTzzzpsPrDZBcMUYcFKrmh9EV3jBYduQxn37XfuDtNTgtXYuhil9Lp4PZxmSLbsGDvBtfxtRAtoqVSZKYCHb5JQw4jNp8jRXWRak61vf_-UPBQ4" width="1100px" height="600px" frameBorder="0"></iframe>
 
 ---
-
+<!-- _header: '[Film grain](https://en.wikipedia.org/wiki/Film_grain)' -->
+<!-- _class: columns2 -->
 ##  Analogue images - Film
 
-<!-- _class: columns2 -->
 
 Recording light in chemical reactions
 
@@ -186,6 +186,8 @@ You may also encounter the term *voxel*, which is an **el**ement of a **vo**lume
 Resolution, depending on the context, can be pixel spatial **density** (i.e. how well we can *resolve* two adjacent peaks), or total pixel **count**, usually as a 2D shape e.g. `(height, width)`.
 
 ---
+<!-- _header: 'Python: [xarray](https://docs.xarray.dev/en/stable/), [HyperSpy](https://hyperspy.org/hyperspy-doc/current/user_guide/axes.html)' -->
+
 
 ## Calibrations
 
@@ -200,7 +202,7 @@ Interpretation of digital images in physical units requires a **calibration**, a
 - Sensor response, readout characteristics
 
 ---
-
+<!-- _header: '[Wiki](https://en.wikipedia.org/wiki/Bayer_filter)' -->
 <!-- _class: columns2 -->
 
 ## Colour images
@@ -261,7 +263,7 @@ These numbers can be interpreted as:
 ![width:600 center](./figures/mnist-layout.svg)
 
 ---
-
+<!-- _header: '[numpy: dtypes](https://numpy.org/doc/stable/user/basics.types.html)' -->
 <style scoped>
 table {
   font-size: 20px;
@@ -298,7 +300,7 @@ There are many conventions for storing numbers as binary, here are some common o
 * Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there are no native complex number formats
 
 ---
-
+<!-- _header: '[numpy: memory layout](https://numpy.org/doc/stable/dev/internals.html)' -->
 ## Memory layout
 
 An image can be ordered row-by-row, or column-by-column, according to hardware and convention. Each value occupies `n`-bits in the sequence according to its number type.
@@ -374,7 +376,7 @@ Images can be stored in many ways, depending on how they are used
 * General *array* formats: `.mat`, `.npy`, `.hdf5`, `.zarr`: flexible, can be compressed, can hold stacks / nD data and metadata, need compatible code/software
 
 ---
-
+<!-- _header: 'Python: [`sparse`](https://sparse.pydata.org/en/stable/), [`scipy.sparse`](https://docs.scipy.org/doc/scipy/reference/sparse.html)' -->
 <!-- _class: columns2 -->
 
 ## Sparse images
@@ -487,7 +489,7 @@ iio.imwrite("test.gif", frames, fps=10)
 ![bg right:50% 95% Image: Gustav Persson](figures/diff.png)
 
 ---
-
+<!-- _header: 'Python: [`cupy`](https://cupy.dev/)' -->
 ## Graphics Processing Units (GPUs)
 
 A Graphics Processing Unit GPU is a computation *accelerator* which can be added to most computers. Originally designed to render 3D scenes to 2D images on a display, they are now used to speed up many forms of scientific computation, especially with images.
@@ -551,7 +553,7 @@ A non-linear transform between data and colour can be used to bridge the gap, tr
 <iframe src="http://localhost:9091/gamma-log" width="1150" height="550" frameBorder="0"></iframe>
 
 ---
-<!-- _header: '[Kovesi (2015)](https://arxiv.org/pdf/1509.03700), [colorcet.holoviz.org](https://colorcet.holoviz.org/)' -->
+<!-- _header: '[Kovesi (2015)](https://arxiv.org/pdf/1509.03700), Python: [`colorcet`](https://colorcet.holoviz.org/)' -->
 <!-- _class: columns2 -->
 ## Colourmaps
 
@@ -576,7 +578,7 @@ Certain colour blindness forms are experienced in 1-5% of the population (biased
 
 ---
 <!-- _class: columns2 -->
-<!-- _header: 'Image: Tescan / CEA' -->
+<!-- _header: 'Python: [Matplotlib](https://matplotlib.org/stable/gallery/images_contours_and_fields/image_transparency_blend.html), Image: Tescan / CEA' -->
 ## Transparency (Alpha)
 
 Digital images can also be combined or overlaid using transparency, called **alpha**.
@@ -613,7 +615,7 @@ We also need to be careful about how to display periodic phase with a colourmap:
 
 ---
 <style scoped>h3 { position: absolute; top: 5%; }</style>
-<!-- _header: 'Image: [Grillo et al. (2020)](https://zenodo.org/records/3878720)' -->
+<!-- _header: 'Python: [`skimage.restoration.unwrap_phase`](https://scikit-image.org/docs/0.25.x/auto_examples/filters/plot_phase_unwrap.html), Image: [Grillo et al. (2020)](https://zenodo.org/records/3878720)' -->
 ### Complex image display
 
 <iframe src="http://localhost:9091/complex-image" width="1050" height="600" frameBorder="0" style="display:block; margin: auto;"></iframe>
@@ -647,11 +649,12 @@ With reduced sampling, the faster-changing areas of the signal are not resolved.
 With extra sampling, no additional detail is added
 
 ---
+<!-- _header: '[L. Barbosa](https://en.wikipedia.org/wiki/File:Fourier_transform_time_and_frequency_domains_(small).gif)' -->
 <style scoped>
 img[alt~="top-right"] {
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: 150px;
   height: 225px;
 }
 </style>
@@ -673,22 +676,22 @@ On an image $f(x, y)$ we can do the same, but we must use two *spatial frequenci
 A Fourier transform can be computed efficiently with a Fast Fourier Transform (**FFT**).
 
 ---
-<!-- _header: '[Image: safeguardroofingandbuildingltd.co.uk](https://www.safeguardroofingandbuildingltd.co.uk/)' -->
+<!-- _header: 'Image: [safeguardroofingandbuildingltd.co.uk](https://www.safeguardroofingandbuildingltd.co.uk/)' -->
 
 Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and $\cos$ terms.
 
 ![height:550 center](figures/fourier.svg)
 
 ---
-<style scoped>h2 { position: absolute; top: 3%; }</style>
-## Fourier components
+<style scoped>h3 { position: absolute; top: 3%; }</style>
+### Fourier components
 
 ![height:525 center](figures/fourier-components.svg)
 
 The zero-frequency (mean value) is normally a **much** larger component than the rest!
 
 ---
-
+<!-- _header: 'Python: [`np.fft`](https://numpy.org/doc/stable/reference/routines.fft.html)' -->
 ## Uses of image Fourier transforms
 
 - The transform is reversible, it contains exactly the same information as the image
@@ -723,7 +726,7 @@ A discrete image can be *interpolated* into a continuous coordinate system so th
 * Interpolation does not add additional information, but can reconstruct a higher-fidelity version of the image if we have a good model of the true signal.
 * Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image
 
-![bg right:30% 80%](figures/interpolation.svg)
+![bg right:30% 80% <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator">scipy.interpolate</a>](figures/interpolation.svg)
 
 ---
 
@@ -738,7 +741,7 @@ Interpolating schemes can be very basic (e.g.piecewise constant) or very flexibl
 
 
 ---
-<!-- _header: 'Image: Gustav Persson' -->
+<!-- _header: 'Python: [`libertem_ui`](https://github.com/LiberTEM/LiberTEM-panel-ui/blob/main/src/libertem_ui/applications/line_profile.py), Image: Gustav Persson' -->
 <style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Interpolated line profile from image
 
@@ -788,7 +791,7 @@ The Moiré is **very sensitive** to small changes in lattice spacing, and so wit
 ![bg right:40% 80%](./figures/shear-transform.svg)
 
 ---
-
+<!-- _header: 'Python: [`skimage.transform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html)' -->
 # Geometric transforms of images
 
 The information in an image exists on a coordinate grid. We can map it onto a new grid using a **transform**, and so translate, stretch, rotate, shear, or generally **warp** the data.
@@ -796,7 +799,7 @@ The information in an image exists on a coordinate grid. We can map it onto a ne
 ![height:350 center](figures/transform.svg)
 
 ---
-
+<!-- _header: 'Python: [`skimage.transform.resize`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.resize)' -->
 ## Resizing
 
 Image rescaling maps, for example, pixel `[5, 3]` to `[5 * scale, 3 * scale]`, for all pixels.
@@ -820,7 +823,7 @@ $$\begin{bmatrix}s_x & 0 & 0 \\0 & s_y & 0 \\0 & 0 & 1 \\\end{bmatrix}\begin{bma
 After which we can *interpolate* on the grid $x', y'$ to create the transformed image.
 
 ---
-
+<!-- _header: 'Python: [`skimage.transform.AffineTransform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.AffineTransform)' -->
 ## Matrix transforms
 
 Other uniform transformations include:
@@ -844,7 +847,7 @@ The row / column `0, 0, 1` is called a *homogeneous coordinate* and allows **tra
 
 ---
 <!-- _class: columns2 -->
-<!-- _header: 'Image: Jean-Luc Rouvière' -->
+<!-- _header: 'Python [`skimage.transform.PiecewiseAffineTransform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.PiecewiseAffineTransform), Image: Jean-Luc Rouvière' -->
 ## Non-uniform transforms
 
 Matrix transforms are **homogeneous** - all pixels are mapped via a linear equation.
@@ -858,7 +861,7 @@ An example is a **piecewise-affine** transform, where there are many transformat
 <iframe src="http://localhost:9091/transform-nonuniform" width="600" height="600" frameBorder="0"></iframe>
 
 ---
-
+<!-- _header: 'Python [`skimage.transform.warp_polar`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.warp_polar)' -->
 ## Polar image transform
 
 Some images, e.g. diffraction patterns, can be interpreted in **polar coordinates** $(r, \theta)$.
@@ -885,7 +888,7 @@ We generate this mapping for all $(x, y)$ in the image, then interpolate at the 
 ![bg right:40% 105% <span style="color:rgb(165, 165, 165)">Image: Gustav Persson</span>](./figures/filtering.svg)
 
 ---
-
+<!-- _header: 'Python [`skimage.filters`](https://scikit-image.org/docs/0.25.x/api/skimage.filters.html)' -->
 # Filtering
 
 Filters enhance certain information in an image, compensate for issues in the imaging system or highlight properties of the image which are beyond a simple intensity distribution.
@@ -908,7 +911,7 @@ Edges always need special treatment as their neighbourhood is limited, else the 
 
 ---
 
-<!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
+<!-- _header: 'Python [`skimage.filters.gaussian`](https://scikit-image.org/docs/0.25.x/api/skimage.filters.html#skimage.filters.gaussian)' -->
 
 ## Gaussian blur
 
@@ -918,7 +921,7 @@ Gaussian blur is a patch-based filter which computes a local Gaussian-weighted a
 
 ---
 
-<!-- _header: 'Image: Jean-Luc Rouvière' -->
+<!-- _header: 'Python [`skimage.filters.median`](https://scikit-image.org/docs/0.25.x/api/skimage.filters.html#skimage.filters.median), Image: Jean-Luc Rouvière' -->
 ## Median filter
 
 The Median filter is a patch-based filter which is quite useful for removing **extreme values**, for example hot or dead pixels. A Gaussian blur would incorporate these unwanted extremes into the blurred image.
@@ -926,6 +929,7 @@ The Median filter is a patch-based filter which is quite useful for removing **e
 ![height:425 center](./figures/median.svg)
 
 ---
+<!-- _header: 'Python [`scipy.signal.convolve2d`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve2d.html)' -->
 <!-- _class: columns2 -->
 
 ## Convolution filters
@@ -941,9 +945,9 @@ GPUs are *very* efficient at computing image convolutions.
 ![w:450](./figures/same-padding-no-strides.gif "[Dumoulin and Visin (2016)](https://arxiv.org/abs/1603.07285)")
 
 ---
+<!-- _header: 'Python [`skimage.filters`](https://scikit-image.org/docs/0.25.x/api/skimage.filters.html)' -->
 <style scoped>h2 { position: absolute; top: 5%; }</style>
 ## Example kernels
-
 
 ![height:425 center](./figures/convolution-filters.svg)
 
@@ -952,6 +956,7 @@ Kernels can be designed to respond to arbitrary features, e.g. corners or textur
 
 ---
 
+<!-- _header: 'Python [`skimage.filters.sobel`](https://scikit-image.org/docs/0.25.x/api/skimage.filters.html#skimage.filters.sobel)' -->
 ## Edge filters (Sobel filter)
 
 Edge filters respond to sharp transitions in image intensity, or large image gradient, and are useful in applications like peak finding or contour detection for metrology.
@@ -992,7 +997,7 @@ The most well-known are:
 ![bg right:35% 70%](./figures/segmentation.svg)
 
 ---
-
+<!-- _header: 'Python [`skimage.segmentation`](https://scikit-image.org/docs/0.25.x/api/skimage.segmentation.html)' -->
 # Image segmentation
 
 Image segmentation algorithms **label pixels** of an image based on what they each represent
@@ -1024,7 +1029,7 @@ The right cutoff depends on the data, its range, and the intended analysis.
 Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method). -->
 
 ---
-<!-- _header: 'Image: [NISE](https://www.nisenet.org/catalog/scientific-image-gold-nanoparticles)' -->
+<!-- _header: '[`skimage.measure.label`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.label), [`.regionprops`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops), Image: [NISE](https://www.nisenet.org/catalog/scientific-image-gold-nanoparticles)' -->
 <style scoped>h2 { position: absolute; top: 3%; }</style>
 ## Image Labelling - Connected Components
 
@@ -1033,7 +1038,7 @@ The **connected components** algorithm can be used to number isolated regions in
 <iframe src="http://localhost:9091/connected-components" width="1100" height="500" frameBorder="0"></iframe>
 
 ---
-<!-- _header: 'Diagram: [Mardiris (2016)](https://pdfs.semanticscholar.org/a41a/40b12cd4851e63cfc2ddcfce11f9af6fa106.pdf)' -->
+<!-- _header: 'Python: [`skimage.morphology`](https://scikit-image.org/docs/stable/api/skimage.morphology.html), Diagram: [Mardiris (2016)](https://pdfs.semanticscholar.org/a41a/40b12cd4851e63cfc2ddcfce11f9af6fa106.pdf)' -->
 <!-- _class: columns2 -->
 ## Binary image operations
 
@@ -1055,6 +1060,7 @@ If the image contains multiple regions at different intensity levels then we can
 
 ---
 
+<!-- _header: 'Python: [`skimage.feature`](https://scikit-image.org/docs/stable/api/skimage.feature.html)' -->
 ## Image features
 
 When an image contains *intensity gradients or noise* then threshold-based segmentation can be impossible.
@@ -1072,7 +1078,7 @@ In practice probably use deep learning!
 ![bg right:30% 100% Image: CEA + Tescan](./figures/feature-segmentation.svg)
 
 ---
-
+<!-- _header: 'Python: [`sklearn.clustering`](https://scikit-learn.org/stable/modules/clustering.html)' -->
 ## Clustering
 
 Clustering is a machine learning approach to find **consistent groups** within data.
@@ -1104,14 +1110,14 @@ The most well-know, albeit now quite old architecture are the **U-Nets**, which 
 ![bg right:40% 100%](./figures/restoration.svg)
 
 ---
-<!-- _header: 'Image: Gustav Persson' -->
+
 # Image restoration
 
 Image restoration refers to techniques to **remove artefacts or noise** from an image while preserving the content.
 
 In microscopy we frequently encounter low signal-to-noise data, especially in low-dose conditions, and so *denoising* in particular is of great interest.
 
-![bg right:50% 90%](./figures/noisy.png)
+![bg right:50% 90% Image: Gustav Persson](./figures/noisy.png)
 
 <!-- 
 ---
@@ -1135,7 +1141,7 @@ Overview-100k with noise, and with noise but binned 2x, 4x
 When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers. Experimentally, stacking can avoid problems such as sample drift during long acquisitions, leading to reduced distortion. -->
 
 ---
-
+<!-- _header: 'Python: [`sklearn.decomposition.PCA`](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA)' -->
 ## Denoising: PCA
 
 **P**rincipal **C**omponent **A**nalysis is a well-known tool to decompose data into a set of *components* that each capture the maximum variance for the data they represent.
@@ -1147,7 +1153,7 @@ When acquisition condition allow, taking multiple rapid scans or images to form 
 ![bg right:40% 80%](./figures/denoising-pca.svg)
 
 ---
-
+<!-- _header: 'Python: [`skimage.restoration.denoise_nl_means`](https://scikit-image.org/docs/stable/auto_examples/filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py)' -->
 ## Denoising: Non-Local means
 
 Rather than a simple average of local patches around each pixel, instead average all pixels in the image **weighted by their similarity** to the pixel being denoised.
@@ -1168,7 +1174,7 @@ The BM3D algorithm improves non-local means by **grouping similar image patches*
 </figure>
 
 ---
-<!-- _header: '[Careamics](https://careamics.github.io/0.1/)' -->
+<!-- _header: 'Python: [`careamics`](https://careamics.github.io/0.1/)' -->
 ## Deep-learning for denoising
 
 Denoising is a problem which is well-suited to *unsupervised* deep learning, because noise has simple statistics compared to image content.
@@ -1232,7 +1238,7 @@ A common need in microscopy is to locate some image feature: an edge, a spot a c
 A related problem is **image alignment**, where two-or-more images are separated by acquisition drift or change of scale, but we would like to compare the data from both images on the same grid or plot, requiring us to transform one image into the coordinate system of the other(s). Image alignment is also often referred to as image **registration**.
 
 ---
-
+<!-- _header: 'Python: [`skimage.feature.peak_local_max`](https://scikit-image.org/docs/0.25.x/auto_examples/segmentation/plot_peak_local_max.html)' -->
 ## Peak-finding
 
 When the feature to detect is a local minimum or maximum in the intensity image, we can use *peak-finding* to locate it. A simple algorithm uses a *maximum filter*:
@@ -1258,9 +1264,11 @@ The simple peak finding algorithm only returns maxima at integer pixel coordinat
 
 We can acheive greater precision by performing intensity-weighted local **centre-of-mass** around each peak.
 
-![bg right:50% 90%](./figures/peaks-com.png)
+![bg right:50% 90% <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.center_of_mass.html#scipy.ndimage.center_of_mass">Python: scipy.ndimage.center_of_mass</a>](./figures/peaks-com.png)
 
 ---
+
+<!-- _header: 'Python: [`skimage.feature.match_template`](https://scikit-image.org/docs/0.25.x/auto_examples/features_detection/plot_template.html)' -->
 
 ## Template matching
 
@@ -1269,7 +1277,7 @@ When the feature to find is not a local maximum, or we need to detect a particul
 ![height:425 center](./figures/template.gif)
 
 ---
-
+<!-- _header: 'Python: [`skimage.feature.peak_local_max`](https://scikit-image.org/docs/0.25.x/auto_examples/segmentation/plot_peak_local_max.html)' -->
 ## Template matching: locate matches
 
 Checking all template positions generates a 2D correlation map with peaks at all "good" matches. Then use a peak-finding algorithm (with refinement) to locate the best positions.
@@ -1287,6 +1295,7 @@ Often useful to *filter* the target image to acheive the sharper peaks in the co
 ![bg right:60% 95%](./figures/template-filtering.svg)
 
 ---
+<!-- _header: 'Python: [`skimage.registration.phase_cross_correlation`](https://scikit-image.org/docs/0.25.x/api/skimage.registration.html#skimage.registration.phase_cross_correlation)' -->
 <!-- _class: columns2 -->
 ## Image alignment
 
@@ -1310,6 +1319,7 @@ In practice whole-image correlation-based alignment is not very robust, and will
 * Image filtering and pre-processing (e.g. normalisation) can also hugely affect the reliability
 
 ---
+<!-- _header: 'Python: [`skimage.feature.SIFT`](https://scikit-image.org/docs/0.25.x/auto_examples/features_detection/plot_sift.html#sphx-glr-auto-examples-features-detection-plot-sift-py)' -->
 ## Image alignment, point-based
 
 An alternative approach is to fit a geometric transform between the two images based on **corresponding points** visible in both.
@@ -1325,7 +1335,7 @@ These points can be estimated automatically using a feature extractor like `SIFT
 <iframe src="http://localhost:9091/points-align" width="1150" height="600" frameBorder="0"></iframe>
 
 ---
-
+<!-- _header: 'Python: [`skimage.metrics`](https://scikit-image.org/docs/0.25.x/api/skimage.metrics.html)' -->
 ## Image similarity measures
 
 When aligning or comparing pairs of images, it is useful to have metrics which describe if two images are "close" to each other in some way. A direct subtraction of images is rarely useful as intensity levels vary and noise influences the mean.
