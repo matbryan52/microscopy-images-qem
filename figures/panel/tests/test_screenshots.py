@@ -5,6 +5,13 @@ from playwright.sync_api import Page
 from PIL.Image import open as imopen
 
 
+@pytest.fixture(autouse=True, scope="session")
+def clear_folder():
+    for f in rootdir.iterdir():
+        if f.suffix == ".png":
+            f.unlink()
+
+
 @pytest.mark.parametrize(
     "address",
     (    
