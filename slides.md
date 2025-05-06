@@ -761,23 +761,22 @@ A signal sampled at lower than its highest frequency can be subject to **aliasin
 
 A moiré pattern is a form of interference between two periodic signals, or between a signal and a sampling rate.
 
-It is a form of **aliasing** in that the pattern is a product of the two characteristic frequencies.
+- It is a form of **aliasing** in that the pattern is a product of the two characteristic frequencies.
+
+*Moiré imaging* is the **intentional undersampling** of a periodic structure, e.g. a lattice, to record a lower-frequency alias.
 
 ![bg right:50% 90%](figures/moire-lines.gif)
 
----
-<!-- _header: 'e.g. [Pofelski (2020)](https://www.sciencedirect.com/science/article/pii/S0304399119301573?via%3Dihub#sec0008)' -->
-## Moiré imaging in microscopy
-
-Moiré imaging is the **intentional undersampling** of a periodic structure, e.g. a lattice, to record a lower-frequency alias.
+<!-- ---
+## 
 
 The alias represents the lattice, but each period covers multiple periods in the true signal.
 
-The Moiré is **very sensitive** to small changes in lattice spacing, and so with appropriate interpretation we can very precisely measure strain or locate defects over a large field of view.
-
+The Moiré is **very sensitive** to small changes in lattice spacing, and so with appropriate interpretation we can very precisely measure strain or locate defects over a large field of view. -->
 ---
+<!-- _header: 'e.g. [Pofelski (2020)](https://www.sciencedirect.com/science/article/pii/S0304399119301573?via%3Dihub#sec0008)' -->
 
-## STEM Moiré
+## Moiré imaging example
 
 <iframe src="http://localhost:9091/stem-moire" width="1350" height="750" frameBorder="0"></iframe>
 
@@ -1398,10 +1397,10 @@ A bit more physics ??
 
 TODO:
 
+Make figures show something instantly
 Explanation of connected components
 Create a warped image for nonuniform transform
 Fourier image shifting
-Add doc references
 Fix colourmap dropdown display
 Add image of SSI
 U-Net example image

@@ -18,16 +18,16 @@ pn.extension('floatpanel')
 
 img1 = np.load(rootdir / "moire-atoms.npz")["image"]
 sy, sx = img1.shape
-xvals = np.arange(sx)
-yvals = np.arange(sy)
+sampling = 0.2498
+unit_cell = 2.716
+xvals = np.arange(sx) * sampling
+yvals = np.arange(sy) * sampling
 interpolator = RegularGridInterpolator((yvals, xvals), img1, method='linear', bounds_error=False, fill_value=0.)
-sample_period = 15.3
-x_samples = sx / sample_period
-y_samples = np.ceil(x_samples * (sy / sx)).astype(int)
-x_samples = np.ceil(x_samples).astype(int)
-s_xvals_lin = np.linspace(0, sx - 1, num=x_samples, endpoint=True)
-s_yvals_lin = np.linspace(0, sy - 1, num=y_samples, endpoint=True)
-(xx, yy) = np.meshgrid(s_xvals_lin, s_yvals_lin)
+cell_mult = 1.1
+sample_period = unit_cell * cell_mult
+x_samples = np.arange(np.floor(xvals.max() / sample_period)) * sample_period
+y_samples = np.arange(np.floor(yvals.max() / sample_period)) * sample_period
+(xx, yy) = np.meshgrid(x_samples, y_samples)
 s_yvals, s_xvals = yy.ravel(), xx.ravel()
 sampled_image = interpolator((yy, xx))
 
@@ -47,7 +47,7 @@ pointset = (
     PointSet
     .new()
     .from_vectors(
-        s_xvals, s_yvals
+        s_xvals / sampling, s_yvals / sampling
     )
     .on(fig1.fig)
 )
@@ -55,6 +55,7 @@ pointset.points.marker = "x"
 pointset.points.line_color = "red"
 pointset.points.size = 6
 pointset.points.fill_color = "red"
+pointset.set_visible(False)
 
 fig2 = (
     ApertureFigure
@@ -69,28 +70,28 @@ fig2.fig.border_fill_color = None
 fig2.fig.right[0].background_fill_alpha = 0.
 
 sampling_slider = pn.widgets.FloatSlider(
-    name="Sample period",
-    start=4,
-    end=20,
-    step=0.1,
-    value=sample_period,
+    name="Sampling (/ unit-cell)",
+    start=1.,
+    end=3.,
+    step=0.01,
+    value=cell_mult,
     styles=custom_style,
 )
 
 def resample_image(*e):
-    sample_period = sampling_slider.value
-    x_samples = sx / sample_period
-    y_samples = np.ceil(x_samples * (sy / sx)).astype(int)
-    x_samples = np.ceil(x_samples).astype(int)
-    s_xvals_lin = np.linspace(0, sx - 1, num=x_samples, endpoint=True)
-    s_yvals_lin = np.linspace(0, sy - 1, num=y_samples, endpoint=True)
-    (xx, yy) = np.meshgrid(s_xvals_lin, s_yvals_lin)
+    cell_mult = sampling_slider.value
+    xvals = np.arange(sx) * sampling
+    yvals = np.arange(sy) * sampling
+    sample_period = unit_cell * cell_mult
+    x_samples = np.arange(np.floor(xvals.max() / sample_period)) * sample_period
+    y_samples = np.arange(np.floor(yvals.max() / sample_period)) * sample_period
+    (xx, yy) = np.meshgrid(x_samples, y_samples)
     s_yvals, s_xvals = yy.ravel(), xx.ravel()
     sampled_image = interpolator((yy, xx))
     fig2.update(sampled_image)
     fig2.fig.title.text = f"Sampled image {sampled_image.shape}"
     pointset.update(
-        s_xvals, s_yvals
+        s_xvals / sampling, s_yvals / sampling
     )
 
 sampling_slider.param.watch(resample_image, "value_throttled")
@@ -99,6 +100,7 @@ hide_grid_toggle = pn.widgets.Toggle(
     name="Hide grid",
     button_type="primary",
     styles=custom_style,
+    value=True,
 )
 
 def hide_grid(e):
