@@ -434,7 +434,20 @@ Python scripting enables any analysis with GMS display
 
 ## Python libraries for images
 
-The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in many ways
+The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in many ways.
+
+<hr>
+
+`numpy` is the general **array** manipulation library for Python. It provides:
+
+- The data structure for multi-dimensional arrays, including images
+- Fast implementations of basic operations on these arrays
+
+```python
+random_image = = np.random.uniform(size=(64, 64))  # random image 0..1 of shape [64, 64]
+theta = np.arctan(random_image)  # array of radian values computed from image
+phase_image = np.exp(1j * theta)  # phase image from theta values
+```
 
 ---
 
@@ -486,18 +499,24 @@ iio.imwrite("test.gif", frames, fps=10)
 - Can directly `imread` + `imshow` images
 - Good for combining images with results + annotations
 
-![bg right:50% 95% Image: Gustav Persson](figures/diff.png)
+```python
+plt.imshow(image, cmap="gray")  # plot an image with gray colourmap
+plt.scatter([32, 43], [16, 25])  # annotate with some points
+plt.show()
+```
+
+![bg right:40% 95% Image: Gustav Persson](figures/diff.png)
 
 ---
 <!-- _header: 'Python: [`cupy`](https://cupy.dev/)' -->
 ## Graphics Processing Units (GPUs)
 
-A Graphics Processing Unit GPU is a computation *accelerator* which can be added to most computers. Originally designed to render 3D scenes to 2D images on a display, they are now used to speed up many forms of scientific computation, especially with images.
+A Graphics Processing Unit GPU is a computation **accelerator** which can be added to most computers. Originally designed to render 3D scenes to 2D images on a display, they are now used to speed up many forms of scientific computation, especially with images.
 
-* GPUs are specialised to perform simple math operations in parallel on multi-dimensional arrays of data (such as images)
+* GPUs are specialised to perform simple math **operations in parallel** on multi-dimensional arrays of data (such as images)
   * In contrast to CPUs, which may only be able to compute with ~512 elements of an array in one operation, a GPU can process many thousands.
 * Operations necessary for 3D graphics (coordinate transformations, filtering, raytracing) use identical maths as needed in scientific computing (Fast Fourier Transforms, convolutions, matrix algebra and inversion).
-* GPUs are dedicated accelerator cards, they don't run the operating system
+> GPUs are dedicated accelerator cards, they don't run the operating system
 
 ---
 <!-- footer: '[⇤](#visualising-images) [↞](#contents)' -->
@@ -537,14 +556,12 @@ The **brightness/constrast** transform chooses two other values and **clips** pi
 
 In microscopy we frequently see data which span many orders of magnitude in intensity, with detail at both the low and high-ends (e.g. diffraction patterns).
 
-- A simple brightness / contrast transform loses too much information in display!
+> A simple brightness / contrast transform loses too much information in display!
 
-A non-linear transform between data and colour can be used to bridge the gap, trading local for global contrast.
+A **non-linear mapping** between data and colour can be used to bridge the gap, trading local for global contrast:
 
-- Logarithmic colour colours data by order of intensity magnitude:
-    - $I_{disp} = \log (I_{img})$
-- Gamma-based colour scales the data with a power law:
-    - $I_{disp} = I_{img}^\gamma$
+- Log-colour rescales data by its magnitude → $I_{disp} = \log (I_{img})$
+- Gamma-colour scales the data with a power law → $I_{disp} = I_{img}^\gamma$
 
 ---
 <!-- _header: 'Image: Gustav Persson' -->
@@ -559,9 +576,9 @@ A non-linear transform between data and colour can be used to bridge the gap, tr
 
 Colourmaps are critical to how we interpret visual data. It is important that a features we see are from the data and not the map.
 
-Some colourmaps are **perceptually uniform**, i.e a $\Delta$ in the data is perceived as the same *visual* $\Delta$ to our eyes, across the whole range of the colourmap.
+> Some colourmaps are **perceptually uniform** - a $\Delta$ in the data is perceived as the same *visual* $\Delta$ to our eyes, across the whole range of the colourmap.
 
-- Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide real boundaries
+Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide real boundaries
 
 <iframe src="http://localhost:9091/colour-uniformity" width="600" height="575" frameBorder="0"></iframe>
 
@@ -1416,6 +1433,7 @@ A bit more physics ??
 
 TODO:
 
+Add diagram of GPU computation, or code examples
 Make the colourmap example have some periodic / symmetric data
 Explain phase unwrapping
 Explanation of connected components
