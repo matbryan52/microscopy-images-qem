@@ -835,7 +835,7 @@ These can be chained to create more complex transforms e.g.
 
 $$Scale \times Shear \times Shift \times \begin{bmatrix}x \\ y \\ 1 \\\end{bmatrix} = \begin{bmatrix}x' \\ y' \\ 1 \\\end{bmatrix}$$
 
-The row / column `0, 0, 1` is called a *homogeneous coordinate* and allows **translation**.
+> The row / column `0, 0, 1` is called a *homogeneous coordinate* and allows **translation**.
 
 ---
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
@@ -851,11 +851,11 @@ The row / column `0, 0, 1` is called a *homogeneous coordinate* and allows **tra
 
 Matrix transforms are **homogeneous** - all pixels are mapped via a linear equation.
 
-We can define non-linear *global*, or *local* transformations to correct distortions which can't be described homogeneous mapping.
+>We can define non-linear *global*, or *local* transformations to correct distortions which can't be described homogeneous mapping.
 
-An example is a **piecewise-affine** transform, where there are many transformation matrices local to points in the source image.
+An example is a **piecewise-affine** transform, where there are many local transformation matrices around points in the image.
 
-- Useful to correct acquisition effects like sample drift!
+> Useful to correct acquisition effects like sample drift!
 
 <iframe src="http://localhost:9091/transform-nonuniform" width="600" height="600" frameBorder="0"></iframe>
 
@@ -1219,7 +1219,6 @@ An example is [Large Mask Inpainting - LaMa](https://github.com/advimman/lama) (
 
 ![bg right:50% 90% <a href="https://cleanup.pictures/">cleanup.pictures</a>](./figures/inpainting.gif)
 
-
 ---
 <!-- footer: '[⇤](#alignment) [↞](#contents)' -->
 <a name='alignment'></a>
@@ -1298,13 +1297,13 @@ Often useful to *filter* the target image to acheive the sharper peaks in the co
 <!-- _class: columns2 -->
 ## Image alignment
 
-If we want to align whole images in translation we can use the **cross-correlation** between them.
+If we want to align whole images in translation we can compute the **cross-correlation** between them.
 
-![height:325 center](./figures/to-align.gif)
+![height:335 center](./figures/to-align.gif)
 
-Again, the maximum in the correlation map can be found using peak-finding.
+The maximum in the correlation map can be found using peak-finding.
 
-![height:425 center](./figures/xcorr-align.png)
+![height:445 center](./figures/xcorr-align.png)
 
 ---
 
@@ -1318,7 +1317,27 @@ In practice whole-image correlation-based alignment is not very robust, and will
 * Image filtering and pre-processing (e.g. normalisation) can also hugely affect the reliability
 
 ---
-<!-- _header: 'Python: [`skimage.feature.SIFT`](https://scikit-image.org/docs/0.25.x/auto_examples/features_detection/plot_sift.html#sphx-glr-auto-examples-features-detection-plot-sift-py)' -->
+<!-- _header: 'Python: [`scipy.ndimage.fourier_shift`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.fourier_shift.html)' -->
+<!-- _class: columns2 -->
+## Fourier image shifting
+
+A useful property of a Fourier transform:
+
+> shifting a signal in real space is equivalent to multiplication by a complex exponential in the transformed space, i.e. a phase shift
+
+This can be used to shift an image even by **sub-pixel** distances.
+
+```python
+yshift, xshift = -7.4, 4.3
+image_fft = np.fft.fft2(image)
+shifted_fft = fourier_shift(image_fft, (yshift, xshift))
+shifted_image = np.abs(np.fft.ifft2(shifted_fft))
+```
+
+<iframe src="http://localhost:9091/fourier-shift" width="550" height="625" frameBorder="0"></iframe>
+
+---
+<!-- _header: 'Python: [`skimage.feature.SIFT`](https://scikit-image.org/docs/0.25.x/auto_examples/features_detection/plot_sift.html#sphx-glr-auto-examples-features-detection-plot-sift-py), [`pystackreg`](https://pypi.org/project/pystackreg/)' -->
 ## Image alignment, point-based
 
 An alternative approach is to fit a geometric transform between the two images based on **corresponding points** visible in both.
@@ -1397,9 +1416,10 @@ A bit more physics ??
 
 TODO:
 
+Make the colourmap example have some periodic / symmetric data
+Explain phase unwrapping
 Explanation of connected components
 Create a warped image for nonuniform transform
-Fourier image shifting
 Fix colourmap dropdown display
 Add image of SSI
 U-Net example image

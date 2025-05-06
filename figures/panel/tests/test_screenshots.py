@@ -22,6 +22,7 @@ def clear_folder():
         ("http://localhost:9091/connected-components", "bk-Row"),
         ("http://localhost:9091/film-particles", "bk-Row"),
         ("http://localhost:9091/fourier-filtering", "bk-panel-models-layout-Column"),
+        ("http://localhost:9091/fourier-shift", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/gamma-log", "bk-Row"),
         ("http://localhost:9091/image-math", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/interpolation-sampling", "bk-Row"),
