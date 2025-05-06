@@ -71,7 +71,7 @@ curve = (
 
 map_type = pn.widgets.RadioButtonGroup(
     name='Mapping',
-    value="Linear",
+    value="Log",
     options=["Linear", "Gamma", "Log"],
     button_type="success",
 )
@@ -137,6 +137,7 @@ def switch_type(*e):
     gamma_btn.disabled = not is_gamma
     _set_vminmax()
 
+switch_type()
 map_type.param.watch(
     switch_type,
     "value",

@@ -57,11 +57,13 @@ fig.fig.border_fill_color = None
 # fig1.fig.right[0].background_fill_alpha = 0.
 fig._outer_toolbar.height = 0
 
+init_alpha = 0.5
+fig.im.im.global_alpha = 1 - (init_alpha / 2)
 
 h, w, _ = element_img.shape
 element_img = element_img.view(np.uint32).reshape(h, w).copy()
 img_rgba_renderer = fig.fig.image_rgba(
-    image=[element_img], x=tx, y=ty, dw=tew, dh=teh, global_alpha=0.
+    image=[element_img], x=tx, y=ty, dw=tew, dh=teh, global_alpha=init_alpha
 )
 img_rgba = img_rgba_renderer.glyph
 

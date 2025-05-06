@@ -74,7 +74,7 @@ contrast = pn.widgets.FloatSlider(
     start=0.01,
     end=0.99,
     step=0.01,
-    value=0.5,
+    value=0.75,
     width=200,
 )
 reset_btn = pn.widgets.Button(name="Reset", button_type="primary")
@@ -100,6 +100,8 @@ def reset(*e):
     brightness.value = 0.5
     contrast.value = 0.5
     _set_vminmax()
+
+_set_vminmax()
 
 reset_btn.on_click(reset)
 

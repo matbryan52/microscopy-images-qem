@@ -43,7 +43,7 @@ fig1.fig.right[0].background_fill_alpha = 0.
 
 display_select = pn.widgets.RadioButtonGroup(
     name="Display",
-    value="Image",
+    value="Components",
     options=["Image", "Threshold", "Components"],
     button_type="primary",
     styles=custom_style,
@@ -114,6 +114,7 @@ def _update_segmentation(*e):
         top=hist, left=edges[:-1], right=edges[1:], bottom=[0] * len(hist)
     )
 
+_update_segmentation()
 
 threshold_slider.param.watch(_update_segmentation, "value_throttled")
 display_select.param.watch(_update_segmentation, "value")

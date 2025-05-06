@@ -1397,7 +1397,6 @@ A bit more physics ??
 
 TODO:
 
-Make figures show something instantly
 Explanation of connected components
 Create a warped image for nonuniform transform
 Fourier image shifting
