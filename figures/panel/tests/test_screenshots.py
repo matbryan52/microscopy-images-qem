@@ -32,6 +32,7 @@ def clear_folder():
         ("http://localhost:9091/thresholding", "bk-Row"),
         ("http://localhost:9091/transform-affine", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/transform-nonuniform", "bk-panel-models-layout-Column"),
+        ("http://localhost:9091/transform-polynomial", "bk-panel-models-layout-Column"),
         ("http://localhost:9091/transparency", "bk-panel-models-layout-Column"),
         # ("http://localhost:9091/warp-polar", "bk-Row"),
     )

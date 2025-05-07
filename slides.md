@@ -840,7 +840,7 @@ After which we can *interpolate* on the grid $x', y'$ to create the transformed 
 
 ---
 <!-- _header: 'Python: [`skimage.transform.AffineTransform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.AffineTransform)' -->
-## Matrix transforms
+## (Affine) Matrix transforms
 
 Other uniform transformations include:
 
@@ -857,22 +857,39 @@ $$Scale \times Shear \times Shift \times \begin{bmatrix}x \\ y \\ 1 \\\end{bmatr
 ---
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
 <style scoped>h2 { position: absolute; top: 3%; }</style>
-## Matrix transforms
+## (Affine) Matrix transforms
 
 <iframe src="http://localhost:9091/transform-affine" width="1150" height="620" frameBorder="0"></iframe>
 
 ---
 <!-- _class: columns2 -->
+<!-- _header: 'Python [`skimage.transform.PolynomialTransform`](https://scikit-image.org/docs/stable/api/skimage.transform.html#skimage.transform.PolynomialTransform), Image: Jean-Luc Rouvière' -->
+
+## Polynomial transform
+
+Affine transforms preserve straight lines and parallelism - but in some cases we may need to **correct curves**, e.g in STEM with sample drift.
+
+A very flexible transform is a polynomial transform, which has the general form:
+
+$$
+x' = \sum_{j}^{N}\sum_{i}^{j} a_{ij}x^{j-i}y^j
+$$
+
+mapping $x, y$ to $x'$ (equivalently to $y'$ with additional $b_{ij}$).
+
+<iframe src="http://localhost:9091/transform-polynomial" width="600" height="600" frameBorder="0"></iframe>
+
+---
+<!-- _class: columns2 -->
 <!-- _header: 'Python [`skimage.transform.PiecewiseAffineTransform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.PiecewiseAffineTransform), Image: Jean-Luc Rouvière' -->
-## Non-uniform transforms
 
-Matrix transforms are **homogeneous** - all pixels are mapped via a linear equation.
+## Piecewise transforms
 
->We can define non-linear *global*, or *local* transformations to correct distortions which can't be described homogeneous mapping.
+Transformations can also be local to particular image regions, i.e. they are non-uniform over the image.
 
-An example is a **piecewise-affine** transform, where there are many local transformation matrices around points in the image.
+An example is a **piecewise-affine** transform, where there are many affine transformation matrices defined around points in the image.
 
-> Useful to correct acquisition effects like sample drift!
+> Piecewise transforms will usually be defined using a **triangulation** of a set of points.
 
 <iframe src="http://localhost:9091/transform-nonuniform" width="600" height="600" frameBorder="0"></iframe>
 
@@ -1045,15 +1062,6 @@ The right cutoff depends on the data, its range, and the intended analysis.
 Algorithms exist to automatically threshold an image, e.g. [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method). -->
 
 ---
-<!-- _header: '[`skimage.measure.label`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.label), [`.regionprops`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops), Image: [NISE](https://www.nisenet.org/catalog/scientific-image-gold-nanoparticles)' -->
-<style scoped>h2 { position: absolute; top: 3%; }</style>
-## Image Labelling - Connected Components
-
-The **connected components** algorithm can be used to number isolated regions in a binary image, allowing us to count and measure properties like area and dimension.
-
-<iframe src="http://localhost:9091/connected-components" width="1100" height="500" frameBorder="0"></iframe>
-
----
 <!-- _header: 'Python: [`skimage.morphology`](https://scikit-image.org/docs/stable/api/skimage.morphology.html), Diagram: [Mardiris (2016)](https://pdfs.semanticscholar.org/a41a/40b12cd4851e63cfc2ddcfce11f9af6fa106.pdf)' -->
 <!-- _class: columns2 -->
 ## Binary image operations
@@ -1065,6 +1073,22 @@ A "footprint" array is convolved with the binary image, where this overlaps `Tru
 ![height:200 center](./figures/dilation-bg.png)
 
 <iframe src="http://localhost:9091/morphological" width="550" height="625" frameBorder="0"></iframe>
+
+---
+<!-- _header: '[`skimage.measure.label`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.label)' -->
+## Image Labelling - Connected Components
+
+The **connected components** algorithm can be used to number isolated regions in a binary image, allowing us to count and measure properties like *area* and *diameter*.
+
+The algorithm propagates the label of adjacent `True` pixels, or creates a new label, until no unlabelled pixels remain.
+
+![bg right:40% 70%](./figures/connected.gif)
+
+---
+<!-- _header: '[`skimage.measure.label`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.label), [`regionprops`](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops), Image: [NISE](https://www.nisenet.org/catalog/scientific-image-gold-nanoparticles)' -->
+## Connected Components example
+
+<iframe src="http://localhost:9091/connected-components" width="1100" height="500" frameBorder="0"></iframe>
 
 ---
 
@@ -1433,11 +1457,10 @@ A bit more physics ??
 
 TODO:
 
+Generally add code examples
 Add diagram of GPU computation, or code examples
 Make the colourmap example have some periodic / symmetric data
 Explain phase unwrapping
-Explanation of connected components
-Create a warped image for nonuniform transform
 Fix colourmap dropdown display
 Add image of SSI
 U-Net example image

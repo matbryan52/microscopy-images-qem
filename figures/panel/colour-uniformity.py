@@ -49,6 +49,11 @@ fig2.fig.right[0].width = 25
 fig2._outer_toolbar.height = 0
 fig2.im.color.change_cmap("Temperature")
 
+fig1._outer_toolbar.pop(0)
+fig2._outer_toolbar.pop(0)
+fig1._outer_toolbar.pop(0)
+fig2._outer_toolbar.pop(0)
+
 tools1 = tuple(fig1._floatpanels.values())[0]['items']
 tools2 = tuple(fig2._floatpanels.values())[0]['items']
 
