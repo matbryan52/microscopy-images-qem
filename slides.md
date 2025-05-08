@@ -574,13 +574,13 @@ A **non-linear mapping** between data and colour can be used to bridge the gap, 
 <!-- _class: columns2 -->
 ## Colourmaps
 
-Colourmaps are critical to how we interpret visual data. It is important that a features we see are from the data and not the map.
+Colourmaps are critical to how we interpret visual data. It is important that features we see are from the data and not the map.
 
-> Some colourmaps are **perceptually uniform** - a $\Delta$ in the data is perceived as the same *visual* $\Delta$ to our eyes, across the whole range of the colourmap.
+> Some colourmaps are made to be **perceptually uniform** - a $\Delta$ in the data is perceived as the same *visual* $\Delta$ to our eyes, across the whole range of the colourmap.
 
-Non-uniform colourmaps can create visual boundaries which do not exist in the data, or hide real boundaries
+Non-uniform colourmaps can create visual features which do not exist, or hide real information.
 
-<iframe src="http://localhost:9091/colour-uniformity" width="600" height="575" frameBorder="0"></iframe>
+<iframe src="http://localhost:9091/colour-uniformity" width="600" height="650" frameBorder="0"></iframe>
 
 ---
 <!-- _header: 'Image: Tescan / CEA' -->
@@ -1439,10 +1439,6 @@ The source, figures and code for this presentation are on Github: [matbryan52/mi
 
 ![bg right:40% 60%](figures/qem.png)
 
-<!-- 
-Slide for the PFNC
-
---- -->
 <!-- ---
 
 # Extra topics
@@ -1459,7 +1455,6 @@ TODO:
 
 Generally add code examples
 Add diagram of GPU computation, or code examples
-Make the colourmap example have some periodic / symmetric data
 Explain phase unwrapping
 Fix colourmap dropdown display
 Add image of SSI

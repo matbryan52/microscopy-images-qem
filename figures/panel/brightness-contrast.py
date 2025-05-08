@@ -8,6 +8,12 @@ rootdir = pathlib.Path(__file__).parent
 
 pn.extension('floatpanel')
 
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
+
 
 img1 = imread(rootdir.parent / "overview_100K-binned.jpg", as_gray=True).astype(np.float32)
 
@@ -66,8 +72,14 @@ brightness = pn.widgets.FloatSlider(
     step=0.01,
     value=0.5,
     width=200,
+    styles=custom_style,
 )
-brightness_btn = pn.widgets.Button(name="Reset", button_type="primary")
+
+brightness_btn = pn.widgets.Button(
+    name="Reset",
+    button_type="primary",
+    styles=custom_style
+)
 
 contrast = pn.widgets.FloatSlider(
     name="Contrast",
@@ -77,7 +89,11 @@ contrast = pn.widgets.FloatSlider(
     value=0.75,
     width=200,
 )
-reset_btn = pn.widgets.Button(name="Reset", button_type="primary")
+reset_btn = pn.widgets.Button(
+    name="Reset",
+    button_type="primary",
+    styles=custom_style
+)
 
 def _set_vminmax(*e):
     cmin, cmax = fig1.im.current_minmax

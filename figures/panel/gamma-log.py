@@ -7,6 +7,12 @@ rootdir = pathlib.Path(__file__).parent
 
 pn.extension('floatpanel')
 
+custom_style = {
+    'font-size': "18px",
+    'color': "#575279",
+    'font-family': 'Pier Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+}
+
 
 img1 = (
     np.load(rootdir.parent / "Image 10012.npy")
@@ -74,6 +80,7 @@ map_type = pn.widgets.RadioButtonGroup(
     value="Log",
     options=["Linear", "Gamma", "Log"],
     button_type="success",
+    styles=custom_style,
 )
 
 gamma = pn.widgets.FloatSlider(
@@ -83,11 +90,13 @@ gamma = pn.widgets.FloatSlider(
     step=0.05,
     value=0.8,
     disabled=True,
+    styles=custom_style,
 )
 gamma_btn = pn.widgets.Button(
     name="Reset",
     button_type="primary",
     disabled=True,
+    styles=custom_style,
 )
 
 def reset_gamma(*e):
