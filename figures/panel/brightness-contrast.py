@@ -88,6 +88,7 @@ contrast = pn.widgets.FloatSlider(
     step=0.01,
     value=0.75,
     width=200,
+    styles=custom_style,    
 )
 reset_btn = pn.widgets.Button(
     name="Reset",

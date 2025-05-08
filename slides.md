@@ -104,23 +104,23 @@ h1 {
 ![w:500](https://krvarshney.github.io/kush_varshney.png "[krvarshney.github.io](https://krvarshney.github.io)")
 
 ---
-
+<!-- _class: columns2 -->
+<!-- _header: '[phydemo.app](https://phydemo.app/ray-optics)' -->
 ## Images
 
-In optics, an image is a plane on which there is no ambiguity over where the arriving rays came from
+In optics, an Image is a plane with a **one-to-one** mapping between ray origin points and ray destinations
 
-- All rays leaving one point on an object arrive at the same point in the image
+> All rays leaving one point on an object arrive at the same point in the image
 
-This becomes much more complex when the optical system is imperfect...
+Recording the rays on this plane will give a **spatially correct representation** of the object
 
-![bg right:40% 100% <a href="https://www.doitpoms.ac.uk/tlplib/diffraction/image.php">DoITPoMS</a>](https://www.doitpoms.ac.uk/tlplib/diffraction/images/diagram10.gif)
+> Of course, this becomes *much* more complex when the optical system is imperfect, or an object has depth!
 
----
-<!-- _header: '[phydemo.app](https://phydemo.app/ray-optics)' -->
-<!-- ####  Photography
+<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAIvAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNOwYP0VFzpPh8n-czL7tpfJxDes0nUi4X5y7_y0uPMb9ieg2zDQ4Fai9FprUBHtHsbp0lrmGX-O_GtPhvuIo2Zz27oV-uDhlbCT866FKFfzI_qgi4GOTF3wWN2MfN72Thb0ngtTQ5r2NrNzpZxVCA-PBmqyR3GMJ_NB24-QUhnRciYj7WX7SwjjRNIJMORwr8nmQatee0tkE2nbAJxLhSTGCtAnLVt0EQoNjKgZR8BhO-9FpbZCwBMY3kqViyujkNJ72AmQXd05tLXPu_oTB8yXmmDRjP7ZXruLe5tgYZTZXLqTaKk2s8b5Xdo6HMMy6IGAf0j3bWfmrrP-wO6DgHvEexQrrp45GqTo9G-HHqjnMho_WNfz13tOHIWJerE3V9oBAUM_vff99QPeaDa-ZFWMZWTLLyDfv3hd5_xKPhrxvB5mfJT9FmYsmLxEUqQFQ1TRXEk0O2M_JOt_RTB966H3C4Ic5Lz2Z6XX4_a-uTq5j5jQlvC1tP_3KlUXUIBYvcNmoHARCB3EkW37aE2ZpZqaVYDa25Su-4JmyAY8lOilLhsp1mu9KcW8nbS743kutZdwQQhwiJnhJYgjkda-oyQMkW87lzwZwSBEnv_-qPdQ4" width="600px" height="600px" frameBorder="0"></iframe>
 
-Projection of focused light onto a surface has been known for millenia, but we lacked a reliable method to record the light until the early 1800s. -->
-<iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnuf9fq-XrPTQOx4LCsQHwUyw76jL_rYu5iYZLs_do8qkg5UDLwGhUIS64cbuYWE62BPzLCTvWigSBKk-iQSbaqi2gLfMmJ8EeNqi7n02VIfgY9GDMdAOIdV2mPIpo7uuSaWoFWw36jsem6b8hqmj7fTcCrLb6edaAv1Z7x3GrslugFsTf1tLvah1MXOhtjlUumK2gTc2Wb8Wd6CQ_wLUIsx4VSbpgK1zxWEQAGzgwyoNpsqPZlKoYSqYqGCyncnRznqbT4I-9LpBMoryW5aQgo-RgJ_zCjaiem7fsEHHqx1ZghJkoMTPv7G_uRRZWihCQS5nHOsqlRuP39Ge0m4MnOpnyvq5CfahpsJZdfp5IkwScq2VCxJRtkn6ZEKwK7VJ1EhCDv5JJL73iBJb9kz22z9J0GcOTzzzpsPrDZBcMUYcFKrmh9EV3jBYduQxn37XfuDtNTgtXYuhil9Lp4PZxmSLbsGDvBtfxtRAtoqVSZKYCHb5JQw4jNp8jRXWRak61vf_-UPBQ4" width="1100px" height="600px" frameBorder="0"></iframe>
+<!-- ![bg right:40% 100% <a href="https://www.doitpoms.ac.uk/tlplib/diffraction/image.php">DoITPoMS</a>](https://www.doitpoms.ac.uk/tlplib/diffraction/images/diagram10.gif) -->
+
+<!-- <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnuf9fq-XrPTQOx4LCsQHwUyw76jL_rYu5iYZLs_do8qkg5UDLwGhUIS64cbuYWE62BPzLCTvWigSBKk-iQSbaqi2gLfMmJ8EeNqi7n02VIfgY9GDMdAOIdV2mPIpo7uuSaWoFWw36jsem6b8hqmj7fTcCrLb6edaAv1Z7x3GrslugFsTf1tLvah1MXOhtjlUumK2gTc2Wb8Wd6CQ_wLUIsx4VSbpgK1zxWEQAGzgwyoNpsqPZlKoYSqYqGCyncnRznqbT4I-9LpBMoryW5aQgo-RgJ_zCjaiem7fsEHHqx1ZghJkoMTPv7G_uRRZWihCQS5nHOsqlRuP39Ge0m4MnOpnyvq5CfahpsJZdfp5IkwScq2VCxJRtkn6ZEKwK7VJ1EhCDv5JJL73iBJb9kz22z9J0GcOTzzzpsPrDZBcMUYcFKrmh9EV3jBYduQxn37XfuDtNTgtXYuhil9Lp4PZxmSLbsGDvBtfxtRAtoqVSZKYCHb5JQw4jNp8jRXWRak61vf_-UPBQ4" width="1100px" height="600px" frameBorder="0"></iframe> -->
 
 ---
 <!-- _header: '[Film grain](https://en.wikipedia.org/wiki/Film_grain)' -->
@@ -131,11 +131,11 @@ Projection of focused light onto a surface has been known for millenia, but we l
 Recording light in chemical reactions
 
 - Light- (or electron-) sensitive coatings that transform when **exposed**
-- Sensitivity determined by (chemical) reaction rate (temperature, wavelength etc.)
-- **Resolution** determined by average particle size - randomly distributed!
-  - In practice film is extremely densely coated
+* Sensitivity determined by (chemical) reaction rate (temperature, wavelength etc.)
+* **Resolution** determined by average particle size - randomly distributed!
+  * In practice film is extremely densely coated
 
-Micrograph of film grain
+<span style="font-size: smaller">Micrograph of film grain</span>
 <figure>
 <iframe src="http://localhost:9091/film-particles" width="560" height="450" frameBorder="0"></iframe>
 <figcaption style="text-align: right; font-size: 16px"><a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a></figcaption>
@@ -193,13 +193,17 @@ Resolution, depending on the context, can be pixel spatial **density** (i.e. how
 
 Digital images are discrete, both in space and value
 
-- Position within a digital image is via integer coordinate like `[3, 5]`, not dimension `[0.2 cm, 0.8 cm]`.
-- Intensity is typically recorded as an integer value like `530`, not a physical quantity like $3.2\: W\cdot m^{-2}$
+- Position within a digital image is given by an integer coordinate:
+  - `[3, 5]` not dimension `[0.2 cm, 0.8 cm]`
+- Intensity is usually recorded as an integer value
+  - `530` not a physical quantity like $3.2\: W\cdot m^{-2}$
 
 Interpretation of digital images in physical units requires a **calibration**, accounting for (amongst others):
 
 - Pixel size, spacing, shape
 - Sensor response, readout characteristics
+
+These values *may* be found in the image **metadata**
 
 ---
 <!-- _header: '[Wiki](https://en.wikipedia.org/wiki/Bayer_filter)' -->
@@ -223,7 +227,7 @@ The three signals are spatially offset, but with intelligent recombination, most
 
 Spectral images are a generalisation of colour images, where each sub-image or **channel** represents a well-defined band of  energy.
 * Ideally spectral channels don't overlap in energy, unlike many colour image filters
-* We normally can't sample both spatially and spectrally simultaneously, so create images channel-by-channel (e.g. EFTEM), or position-by-position (e.g STEM-EELS)
+* We normally can't sample both spatially and spectrally simultaneously, so create images *channel-by-channel* (e.g. EFTEM), or *position-by-position* (e.g STEM-EDS)
 
 ![bg right:40% 75% <a href="https://arxiv.org/abs/2202.01065">Almeida et al (2022)</a>](figures/pillars.svg)
 
@@ -243,9 +247,11 @@ Spectral images are a generalisation of colour images, where each sub-image or *
 
 Computers store numbers long sequences of binary digits (`0`, `1`), which we can interpret to reproduce an image with a given shape
 
-- Images are just a 1-dimensional sequence of numbers to a computer, there is no hardware-level concept of *height*, *width*, *channel* etc.
+> Images are 1-dimensional **sequences** of numbers to a computer, there is no hardware-level concept of *height*, *width*, *channel* etc.
 
-Numbers can also be stored using different rules, giving further ways to mis-interpret an image on a computer.
+Numbers can also be stored using different rules, leading to even more ways to (mis-)interpret an image.
+
+The numbers:
 
 ```
 0000000000000000000000110000110100001100000000100000000000000000
@@ -258,7 +264,7 @@ Numbers can also be stored using different rules, giving further ways to mis-int
 0000000000000000000000110001000000001011000010000000000000000000
 ```
 
-These numbers can be interpreted as:
+Can be equally interpreted as:
 
 ![width:600 center](./figures/mnist-layout.svg)
 
@@ -275,35 +281,36 @@ table {
 
 There are many conventions for storing numbers as binary, here are some common ones used in images. Usage depends on your camera electronics and what processing you do.
 
-|                  | Name      | Size (bits or digits) | Min          | Max        |
+|                  | Names      | Size (bits or digits) | Min          | Max        |
 | ---------------- | --------- | ----------: | -----------: | ---------: |
 | Binary           | `bool`      | 8           | 0            | 1          |
-| Unsigned Integer | `uint8`     | 8           | 0            | 255        |
-|                  | `uint16`    | 16          | 0            | 65,535      |
-| Integer          | `int16`     | 16          | \-32,768      | 32,767      |
-|                  | `int32`     | 32          | \-2,147,483,648 | 2,147,483,647 |
-| Floating         | `float32`   | 32          | \-3.40E+38   | \-3.40E+38 |
-|                  | `float64`   | 64          | \-1.70E+308  | 1.70E+308  |
+| Unsigned Integer | `uint8`, `ubyte`     | 8           | 0            | 255        |
+|                  | `uint16`, `unsigned short`    | 16          | 0            | 65,535      |
+| Integer          | `int16`, `short`     | 16          | \-32,768      | 32,767      |
+|                  | `int32`, `long`     | 32          | \-2,147,483,648 | 2,147,483,647 |
+| Floating (Decimal) | `float32`, `float`   | 32          | \-3.40E+38   | \-3.40E+38 |
+|                  | `float64`, `double`   | 64          | \-1.70E+308  | 1.70E+308  |
 | Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 |
 
 ---
 
 ## Number types - Notes
 
-- Digital numbers are stored in a fixed amount of space - exceeding the min or max for a type can cause "wrapping", e.g. `200_uint8 + 100_uint8 = 44_uint8`.
-  - `uint8` has a range of `256`, so $200 + 100 = 300$ ⇒ `300 mod 256 = 44`.
-* The size of the number is the space it requires in memory and on disk
-  - No reason to store 8-byte `float64` if your values are only `0` or `1`
-  - Often the larger the type, the slower operations with that type are
-* Floating point numbers have variable precision, i.e. they can represent very large or very small values, but are poor when trying to represent both at once
-  - For example `324,000 + 0.0055 = 324,000.0` not `324,000.0055`
-* Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there are no native complex number formats
+- Digital numbers are stored in a fixed amount of space - exceeding the min or max for a type can cause **wrapping**, e.g. `200 + 100 = 44`!
+  - `uint8` has a maximum of `256`, so $200 + 100 = 300$ ⇒ `300 mod 256 = 44`.
+* The size of the number `=` the space it requires in memory and on disk
+  - No reason to store 8-byte `float64` if values are only `0` or `1`
+  - Often larger types ⇒ slower computation
+* Floating point numbers have **variable precision**, i.e. they can represent *very large* or *very small* values, but cannot represent a large number with a small fraction:
+  - `float32(324,000) + float32(0.0055) = float(324,000.0)` and not `float32(324,000.0055)`
+<!-- * Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there are no native complex number formats -->
 
 ---
+<style scoped>h2 { position: absolute; top: 3%; }</style>
 <!-- _header: '[numpy: memory layout](https://numpy.org/doc/stable/dev/internals.html)' -->
 ## Memory layout
 
-An image can be ordered row-by-row, or column-by-column, according to hardware and convention. Each value occupies `n`-bits in the sequence according to its number type.
+A 2D image can be ordered **row-by-row**, or **column-by-column**, according to hardware and convention. Each number occupies a fixed number of bits in the sequence according to its type, and we find the value of any pixel by **indexing** according to the layout in memory.
 
 ![h:450 center](figures/memory-layout.svg)
 
@@ -383,10 +390,9 @@ Images can be stored in many ways, depending on how they are used
 
 In very low dose conditions (e.g. EDX), most image pixels contain a **zero value**. This is good use case for *sparse* images.
 
-- Store only the **non-zero values**
-- Can achieve enormous space savings
-- Simplest strategy is store coordinates + values, but more intelligent schemes exist (e.g. CSR)
-- Many operations $f(a, 0) ∈ \{0, a\}$ so also avoid wasted computation
+> Storing only the **non-zero values** can achieve enormous space savings
+* Simplest strategy is store non-zero values and their coordinates, but more intelligent schemes exist
+* Many operations are $f(a, 0) ∈ \{0, a\}$ so also avoid wasted computation
 
 ![h:550 center](figures/sparse-matrix.svg)
 
@@ -618,9 +624,9 @@ An image histogram represents the frequency of intensity values in an image. It 
 
 ## Complex and 2D-vector images
 
-For complex images we must choose how convert *real* + *imaginary* into an intensity image.
+For complex images we must choose how convert *real* + *imaginary* into an standard image.
 
-- A typical example is holography, where the reconstruction is complex
+- A typical example is in holography, where the reconstruction is complex
   - The `abs()` of the wave represents the amplitude
   - The `angle()` of the wave displays the phase
 
@@ -1454,6 +1460,7 @@ A bit more physics ??
 TODO:
 
 Generally add code examples
+Raw data for peak finding figure is not instructive
 Add diagram of GPU computation, or code examples
 Explain phase unwrapping
 Fix colourmap dropdown display
