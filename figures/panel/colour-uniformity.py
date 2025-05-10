@@ -23,22 +23,11 @@ def to_hex(array):
     return hexvals
 
 
-import libertem_ui.utils.colormaps
-from libertem_ui.utils.colormaps import _default_colormaps as c_defaults
-avail_colormaps = c_defaults()
+from libertem_ui.utils.colormaps import image_colormaps
 hot = colormaps["hot"].resampled(256)(np.linspace(0, 1, num=256, endpoint=True), bytes=True)[...,:3]
-# jet = colormaps["jet"].resampled(256)(np.linspace(0, 1, num=256, endpoint=True), bytes=True)[...,:3]
-# avail_colormaps["Jet"] = to_hex(jet)
-avail_colormaps["Hot"] = to_hex(hot)
-avail_colormaps["Fire"] = cc.fire
-avail_colormaps["Cyclic MYBM"] = to_hex((np.asarray(cc.cyclic_mybm_20_100_c48) * 255).astype(np.uint8))
-
-
-def _patch_colourmaps():
-    return avail_colormaps
-
-
-libertem_ui.utils.colormaps._default_colormaps = _patch_colourmaps
+image_colormaps["Hot"] = to_hex(hot)
+image_colormaps["Fire"] = cc.fire
+image_colormaps["Cyclic MYBM"] = to_hex((np.asarray(cc.cyclic_mybm_20_100_c48) * 255).astype(np.uint8))
 
 
 def linear_ramp(shape):
