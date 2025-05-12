@@ -61,19 +61,14 @@ I mostly work with Python so I am afraid these slides are biased, if you work mo
 
 ---
 <!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
-![width:110% align:center](figures/pfnc-2.png)
+![width:110% align:center](figures/pfnc-3.png)
 <!-- 
 I'll just take a moment to mention where I work
 
 The French atomic energy agency, CEA has a site in Grenoble with a strong focus on nano-materials development and characterisation
 
 There is a medium-sized clean room, and an advanced nano-characterisation platform, the PFNC, including a number of fairly recent corrected TEMs, with sample preparation facilities. It is part of a number of research networks including METSA in France, so there are possibilities to come use the platform if your project fits within the right criteria.
--->
 
----
-<!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
-![width:110% align:center](figures/pfnc-3.png)
-<!-- 
 More than just TEMs, as I said, there are over a 100 people working on all types of nano-characterisaion under one roof, including surface science, x-rays, optics, NMR, ions, etc.
  -->
 
@@ -191,7 +186,7 @@ Just as an aside, I wanted to share the existence of this video by Ben of the Ap
 
 Recording images with numbers
 
-- Convert local ray intensity to electricity, then **digitize** the signal
+- Convert local light intensity to an electrical signal, then **digitize** it
 - Sensors have physical limits, noise etc, so our digitization is always imperfect
 
 <br>
@@ -242,14 +237,14 @@ Digital images are discrete, both in space and value
 - Position within a digital image is given by an integer coordinate:
   - `[3, 5]` not dimension `[0.2 cm, 0.8 cm]`
 - Intensity is usually recorded as an integer value
-  - `530` not a physical quantity like $3.2\: W\cdot m^{-2}$
+  - `530` not a physical quantity like $3.2\: J$
 
 Interpretation of digital images in physical units requires a **calibration**, accounting for (amongst others):
 
 - Pixel size, spacing, shape
 - Sensor response, readout characteristics
 
-These values *may* be found in the image **metadata**
+These values *may* be found in the image **metadata**, if you're lucky!
 <!--
 It should go without saying that there is a lot of conversion involved between the light and the digital image on a computer, and so pixel values don't really have meaningful units out-of-the box. You might be lucky and have metadata for an image that tells you things like the pixel spacing, readout gain or offset, but rarely will this let you generate a true "number of photons per mm2" value.
 -->
@@ -260,13 +255,13 @@ It should go without saying that there is a lot of conversion involved between t
 
 ## Colour images
 
-A colour image is a set of images of the same wavefront, each sampling one part of the spectrum
+A colour image is a stack of images of the same wavefront, each sampling one part of the spectrum
 
 - We are most familiar with <span style="color:red">Red</span><span style="color:green">Green</span><span style="color:blue">Blue</span> (<span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span>) images
 - These are usually made with a pre-sensor **Bayer filter**, which samples colour differently in adjacent pixels
 - The recorded values are split into separate <span style="color:red">R</span>, <span style="color:green">G</span>, and <span style="color:blue">B</span> intensity images
 
-The three signals are spatially offset, but with intelligent recombination, most images are represented without artefacts
+The three **channels** in the `[heigh, width, colour]` stack are spatially offset, but with intelligent recombination we can display them without artefacts
 
 ![w:500](https://upload.wikimedia.org/wikipedia/commons/3/37/Bayer_pattern_on_sensor.svg "[Bayer-filter, Wiki - Cburnett](https://en.wikipedia.org/wiki/Bayer_filter#/media/File:Bayer_pattern_on_sensor.svg)")
 <!--
@@ -277,9 +272,9 @@ I wanted to mention how true colour images work, even if in electron microscopy 
 
 ## Spectral images
 
-Spectral images are a generalisation of colour images, where each sub-image or **channel** represents a well-defined band of energy.
+Spectral images are a generalisation of colour images, where each **channel** represents a well-defined band of energy.
 * Ideally spectral channels don't overlap in energy, unlike many colour image filters
-* We normally can't sample both spatially and spectrally simultaneously, so create images *channel-by-channel* (e.g. EFTEM), or *position-by-position* (e.g STEM-EDS)
+* We normally can't sample both spatially and spectrally simultaneously, so we create images *channel-by-channel* (e.g. EFTEM), or *position-by-position* (e.g STEM-EELS)
 
 ![bg right:40% 75% <a href="https://arxiv.org/abs/2202.01065">Almeida et al (2022)</a>](figures/pillars.svg)
 <!--
@@ -304,7 +299,7 @@ At the end of the day, whether colour of spectral imaging, we still have a list 
 
 Computers store numbers long sequences of binary digits (`0`, `1`), which we can interpret to reproduce an image with a given shape
 
-> Images are 1-dimensional **sequences** of numbers to a computer, there is no hardware-level concept of *height*, *width*, *channel* etc.
+> Images are 1-dimensional **sequences** of numbers to a computer, there is no hardware-level concept of `height`, `width`, `channel` etc.
 
 Numbers can also be stored using different rules, leading to even more ways to (mis-)interpret an image.
 
@@ -424,7 +419,7 @@ Depending on the tool or programming language, image coordinate systems vary
 - MATLAB is **1-indexed**:
   - `image[1, 1]` is the first pixel
 
-Extra dimensions `channel`, `scan` ordered according to convention (and sometimes also memory-layout).
+Extra dimensions e.g. `channel`, `scan` are according to convention (and sometimes also memory-layout).
 
 ![h:450 center](figures/coordinate-layout.svg)
 
@@ -462,8 +457,8 @@ And just to prove my point, here we can try some maths with images live, right n
 
 Images can be stored in many ways, depending on how they are used
 
-- `.jpg`, `.png`, `.gif`: colour RGB `uint8` images, compressed for small file size, open anywhere without special software, not for raw data
-* `.tif`: a general-purpose image format, can hold most number types and shapes
+- `.jpg`, `.png`, `.gif`: colour RGB `uint8` images, compressed for small file size, open anywhere without special software, not for scientific *data*, just **visualisation**
+* `.tif`: a **general-purpose** image format, can hold most number types and shapes
   - TIFF files with strange data (floating point) may need special software
   - Can hold additional metadata (e.g. calibrations), can be compressed
 * Proprietary formats like `.dm3/4`, `.mib`, `.emd`, `.blo`: specific to a certain camera or software, not always readable elsewhere
@@ -484,7 +479,7 @@ In very low dose conditions (e.g. EDX), most image pixels contain a **zero value
 * Simplest strategy is store non-zero values and their coordinates, but more intelligent schemes exist
 * Many operations are $f(a, 0) ∈ \{0, a\}$ so also avoid wasted computation
 
-![h:550 center](figures/sparse-matrix.svg)
+![h:600 center](figures/sparse-matrix.svg)
 
 <!--
 I wanted to mention sparse images since not everyone is aware of them. A sparse image is a way of storing an array of data where most of the pixels are some constant value, usually zero, and so rather than unravel this array into a long sequence of zeros in memory, we just don't bother and store only values which are non-zero as well as where they should be.
@@ -533,7 +528,7 @@ Python scripting enables any analysis with GMS display
 ![bg right:60% 95%](figures/gms.png)
 
 ---
-
+<!-- _header: 'Python: [`numpy`](https://numpy.org/)'-->
 ## Python libraries for images
 
 The Python scientific ecosystem is vast - once an image is loaded as array data, typically under `numpy`, it can be interpreted in many ways.
@@ -562,36 +557,6 @@ phase_image = np.exp(1j * theta)  # phase image from theta values
 - High-level tools for images (e.g. resizing, alignment, segmentation, filtering)
 
 ![bg right:50% 80%](figures/scipy-skimage.svg)
-
----
-<!-- _class: columns2 -->
-
-`Pillow` \[Python Imaging Library\] ([pillow.readthedocs.io](https://pillow.readthedocs.io/en/stable/))
-
-- Graphics-focused, colour images, drawing, compositing
-
-```python
-# Pillow imports as PIL
-from PIL import Image, ImageDraw
-
-image = Image.open("image.png")
-draw = ImageDraw.Draw(image)
-draw.text((50, 50), "Text")
-```
-<br>
-
-`imageio` ([imageio.readthedocs.io](https://imageio.readthedocs.io/en/stable/))
-
-- Reading and writing many image formats and videos
-
-```python
-import imageio.v3 as iio
-
-frames = np.stack(
-  [iio.imread(f"{x}.jpg") for x in range(n)],
-)
-iio.imwrite("test.gif", frames, fps=10)
-```
 
 ---
 
@@ -652,7 +617,7 @@ import cupy as cp
 img_fft = cp.fft.fft2(large_image)
 ```
 
-but runs in `~1 ms` on a large GPU.
+and runs in `~1 ms` on a large GPU.
 
 
 ---
@@ -662,6 +627,18 @@ but runs in `~1 ms` on a large GPU.
 # **Visualising images**
 
 ![bg right:50% 90%](figures/cross-grating.png)
+
+---
+
+## Image histograms
+
+An image histogram represents the **frequency of intensity** values in an image. It is a useful way to visualise the separation between background and content, and to see outlier pixels.
+
+![height:450 center](./figures/histogram.svg)
+
+<!--
+Perhaps a bit basic, but worth mentioning - image histograms show us the distribution of intensity values in an image, they are ubiqutious in image software, and as long as the axis limits are clear they can be useful in spotting when an image is saturated or clipping, or if we are using the full dynamic range of the image type correctly.
+-->
 
 ---
 
@@ -680,6 +657,7 @@ Choice of data transformation or colormap can massively influence how data are p
 ---
 <style scoped>h3 { position: absolute; top: 3%; }</style>
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
+
 ### Transformation: Brightness + Contrast
 
 The basic data-to-screen transformation is linear: `[img.min(), img.max()] → [0, 255]`.
@@ -710,18 +688,6 @@ When brightness/contrast cannot cover the dynamic range of an image, a **non-lin
 <iframe src="http://localhost:9091/gamma-log" width="1150" height="550" frameBorder="0"></iframe>
 <!--
 Here we have a logarithm transform on the data before display - note how low values are given more of the vertical range between 0 and 255 while higher values are on the flatter part of the curve so are represented by fewer values. The effect is we can see more detail at the low end at the cost of effective saturation at the high end. The Gamma transform does more or less the same thing for certain values of gamma, but now we can choose how the values are mapped.
--->
-
----
-
-## Image histograms
-
-An image histogram represents the frequency of intensity values in an image. It is a useful way to visualise contrast between background and content, and to see outlier pixels.
-
-![height:450 center](./figures/histogram.svg)
-
-<!--
-Perhaps a bit basic, but worth mentioning - image histograms show us the distribution of intensity values in an image, they are ubiqutious in image software, and as long as the axis limits are clear they can be useful in spotting when an image is saturated or clipping, or if we are using the full dynamic range of the image type correctly.
 -->
 
 ---
@@ -784,7 +750,7 @@ For complex images we must choose how convert **real** + **imaginary** into an s
 We also need to be careful about how to display periodic phase with a colourmap:
 
 - We can use a **cyclic** map → lose visualisation of phase ramps.
-- A common technique to work around this is *phase unwrapping*
+- A common technique to work around this is **phase unwrapping**
 <!--
 Vector values are harder to display with a colourmap, and in some cases it is easier to use a different style of plot like a oriented arrows where length encodes magnitude. A cyclic colourmap wraps around to the same colour at 2pi, which can represent direction, and in some cases we can also represent magnitude using saturation of the colour. This becomes quite complex to visualise unless the viewer is used to it, though!
 -->
@@ -821,7 +787,7 @@ Conversely, increasing pixel density adds value only if the information is there
 
 ---
 
-With reduced sampling, the faster-changing areas of the signal are not resolved.
+With reduced sampling, the denser areas of the signal are not resolved.
 
 ![height:450 center](figures/sampling.svg)
 
@@ -955,31 +921,6 @@ Speaking of aliasing, here is a little direct visualisation of that, at least in
 -->
 
 ---
-
-## Moiré patterns
-
-A moiré pattern is a form of interference between two periodic signals, or between a signal and a sampling rate.
-
-- It is a form of **aliasing** in that the pattern is a product of the two characteristic frequencies.
-
-*Moiré imaging* is the **intentional undersampling** of a periodic structure, e.g. a lattice, to record a lower-frequency alias.
-
-![bg right:50% 90%](figures/moire-lines.gif)
-
-<!-- ---
-## 
-
-The alias represents the lattice, but each period covers multiple periods in the true signal.
-
-The Moiré is **very sensitive** to small changes in lattice spacing, and so with appropriate interpretation we can very precisely measure strain or locate defects over a large field of view. -->
----
-<!-- _header: 'e.g. [Pofelski (2020)](https://www.sciencedirect.com/science/article/pii/S0304399119301573?via%3Dihub#sec0008)' -->
-
-## Moiré imaging example
-
-<iframe src="http://localhost:9091/stem-moire" width="1350" height="750" frameBorder="0"></iframe>
-
----
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
 <!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#transforms) [↞](#contents)' -->
 <a name='transforms'></a>
@@ -1062,20 +1003,6 @@ mapping $x, y$ to $x'$ (equivalently to $y'$ with additional $b_{ij}$).
 <iframe src="http://localhost:9091/transform-polynomial" width="600" height="600" frameBorder="0"></iframe>
 
 ---
-<!-- _class: columns2 -->
-<!-- _header: 'Python [`skimage.transform.PiecewiseAffineTransform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.PiecewiseAffineTransform), Image: Jean-Luc Rouvière' -->
-
-## Piecewise transforms
-
-Transformations can also be local to particular image regions, i.e. they are non-uniform over the image.
-
-An example is a **piecewise-affine** transform, where there are many affine transformation matrices defined around points in the image.
-
-> Piecewise transforms will usually be defined using a **triangulation** of a set of points.
-
-<iframe src="http://localhost:9091/transform-nonuniform" width="600" height="600" frameBorder="0"></iframe>
-
----
 <!-- _header: 'Python [`skimage.transform.warp_polar`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.warp_polar)' -->
 ## Polar image transform
 
@@ -1108,9 +1035,9 @@ We generate this mapping for all $(x, y)$ in the image, then interpolate at the 
 
 Filters enhance certain information in an image, compensate for issues in the imaging system or highlight properties of the image which are beyond a simple intensity distribution.
 
-In most cases filters change the value of any given pixel based on its neighbours, or on the population of all pixels in the image.
-
 ![height:300 center](./figures/filtering-examples.svg)
+
+Filtering is usually a **pre-processing step** before applying other methods.
 
 ---
 
@@ -1122,7 +1049,7 @@ A simple type of filter is *patch-based*. These run a procedure in the vicinity 
 
 ![height:350 center](./figures/filtering-maximum.svg)
 
-Edges always need special treatment as their neighbourhood is limited, else the filtered image becomes smaller. Padding with zeros, periodic boundaries or reflecting the boundary are common ways to handle this.
+> Edges need special treatment as their neighbourhood is limited, else the filtered image becomes smaller. Padding with zeros, periodic boundaries or reflecting the boundary are common ways to handle this.
 
 ---
 
@@ -1130,7 +1057,7 @@ Edges always need special treatment as their neighbourhood is limited, else the 
 
 ## Gaussian blur
 
-Gaussian blur is a patch-based filter which computes a local Gaussian-weighted average of each pixel's local neighbourhood.
+Gaussian blur is a patch-based filter which computes a local **Gaussian-weighted average** of values in each pixel's local neighbourhood.
 
 ![height:450 center](./figures/blur.svg)
 
@@ -1174,11 +1101,11 @@ Kernels can be designed to respond to arbitrary features, e.g. corners or textur
 <!-- _header: 'Python [`skimage.filters.sobel`](https://scikit-image.org/docs/0.25.x/api/skimage.filters.html#skimage.filters.sobel)' -->
 ## Edge filters (Sobel filter)
 
-Edge filters respond to sharp transitions in image intensity, or large image gradient, and are useful in applications like peak finding or contour detection for metrology.
+Edge filters respond to **sharp transitions** in image intensity, or large image gradient, and are useful in applications like peak finding or contour detection for metrology.
 
 ![height:250 center](./figures/edge-filter-input.svg)
 
-The size of the filter influences whether it catches sharp edges or soft edges.
+>The size of the filter influences whether it catches sharp edges or soft edges.
 
 ![bg right:40% 90%](./figures/edge-filters.svg)
 
@@ -1300,20 +1227,6 @@ In practice probably use deep learning!
 ![bg right:30% 100% Image: CEA + Tescan](./figures/feature-segmentation.svg)
 
 ---
-<!-- _header: 'Python: [`sklearn.clustering`](https://scikit-learn.org/stable/modules/clustering.html)' -->
-## Clustering
-
-Clustering is a machine learning approach to find **consistent groups** within data.
-
-Good image features will make it easy for a clustering algorithm to split the data in feature space, and in doing so segment the image.
-
-Two common algorithms here are `k-Means` and `Mean-Shift` clustering.
-
-![bg right:45% 90% <a href="https://commons.wikimedia.org/wiki/File:K-means_convergence.gif">Chire, Wikimedia</a>](./figures/k-means.gif)
-
-<span style='float: right'>*Demonstration of k-Means iteration* →</span>
-
----
 
 ## Deep learning for image segmentation
 
@@ -1337,9 +1250,11 @@ The most well-know, albeit now quite old architecture are the **U-Nets**, which 
 
 Image restoration refers to techniques to **remove artefacts or noise** from an image while preserving the content.
 
-In microscopy we frequently encounter low signal-to-noise data, especially in low-dose conditions, and so *denoising* in particular is of great interest.
+> Filtering is a type of image restoration, but is simpler. Restoration frequently estimates how an image would have been without its artefacts.
 
-![bg right:50% 90% Image: Gustav Persson](./figures/noisy.png)
+In low-dose, low signal-to-noise data, **denoising** is of particular interest.
+
+![bg right:50% 90% <a href="https://commons.wikimedia.org/wiki/File:Austenite_ZADP.jpg">Image: Wikipedia, PD</a>](https://upload.wikimedia.org/wikipedia/commons/3/3d/Austenite_ZADP.jpg)
 
 <!-- 
 ---
@@ -1363,18 +1278,6 @@ Overview-100k with noise, and with noise but binned 2x, 4x
 When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers. Experimentally, stacking can avoid problems such as sample drift during long acquisitions, leading to reduced distortion. -->
 
 ---
-<!-- _header: 'Python: [`sklearn.decomposition.PCA`](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA)' -->
-## Denoising: PCA
-
-**P**rincipal **C**omponent **A**nalysis is a well-known tool to decompose data into a set of *components* that each capture the maximum variance for the data they represent.
-
-- Excluding smaller components excludes outliers and noise, since each only explains a small portion of the whole dataset
-- PCA is a matrix factorisation and so is **very** computationally intensive on large images
-- **Must take care as PCA will delete rare features!**
-
-![bg right:40% 80%](./figures/denoising-pca.svg)
-
----
 <!-- _header: 'Python: [`skimage.restoration.denoise_nl_means`](https://scikit-image.org/docs/stable/auto_examples/filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py)' -->
 ## Denoising: Non-Local means
 
@@ -1386,7 +1289,7 @@ Rather than a simple average of local patches around each pixel, instead average
 
 ## Denoising: Block-Matching 3D ([BM3D](https://webpages.tuni.fi/foi/GCF-BM3D/))
 
-The BM3D algorithm improves non-local means by **grouping similar image patches** and filtering them as a unit. Going beyond a simple weighted average greatly improves edge and texture preservation.
+The BM3D algorithm improves non-local means by **grouping similar image patches** and filtering them together. Going beyond a simple weighted average greatly improves edge and texture preservation. Extensions exist for denoising **time-series** and **hyperspectral** data.
 
 <figure>
 <img src="https://webpages.tuni.fi/foi/GCF-BM3D/images/cameraman_thr.gif" height="300px" width="auto"/>
@@ -1468,7 +1371,7 @@ When the feature to detect is a local minimum or maximum in the intensity image,
 
 ---
 
-### Peak-finding in 1D, demonstration
+### Peak-finding in 1D, example
 
 In practice with noisy data it is also necessary to:
 - optimise the maximum filter window
@@ -1509,9 +1412,9 @@ Checking all template positions generates a 2D correlation map with peaks at all
 
 ## Template matching: filtering
 
-Template matching is very sensitive to both template choice and image quality.
+Template matching is **very sensitive** to both template choice and image quality.
 
-Often useful to *filter* the target image to acheive the sharper peaks in the correlation image, leading to more precise results.
+Often useful to **filter** the target image to acheive sharper peaks in the correlation image, leading to more precise results.
 
 ![bg right:60% 95%](./figures/template-filtering.svg)
 
@@ -1561,7 +1464,7 @@ shifted_image = np.abs(np.fft.ifft2(shifted_fft))
 
 ---
 <!-- _header: 'Python: [`skimage.feature.SIFT`](https://scikit-image.org/docs/0.25.x/auto_examples/features_detection/plot_sift.html#sphx-glr-auto-examples-features-detection-plot-sift-py), [`pystackreg`](https://pypi.org/project/pystackreg/)' -->
-## Image alignment, point-based
+## Image alignment, automatic point-based
 
 An alternative approach is to fit a geometric transform between the two images based on **corresponding points** visible in both.
 
@@ -1571,17 +1474,9 @@ These points can be estimated automatically using a feature extractor like `SIFT
 
 ---
 <style scoped>h2 { position: absolute; top: 3%; }</style>
-## Image alignment, point-based
+## Image alignment, manual point-based
 
 <iframe src="http://localhost:9091/points-align" width="1150" height="600" frameBorder="0"></iframe>
-
----
-<!-- _header: 'Python: [`skimage.metrics`](https://scikit-image.org/docs/0.25.x/api/skimage.metrics.html)' -->
-## Image similarity measures
-
-When aligning or comparing pairs of images, it is useful to have metrics which describe if two images are "close" to each other in some way. A direct subtraction of images is rarely useful as intensity levels vary and noise influences the mean.
-
-- Structural Similarity Index [(SSI)](https://ieeexplore.ieee.org/document/1284395) tries to account for similarity of structure, contrast and intensity level separately, and was designed to replicate how humans perceive similarity between images.
 
 ---
 <!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#summary) [↞](#contents)' -->
@@ -1597,7 +1492,7 @@ When aligning or comparing pairs of images, it is useful to have metrics which d
 
 Digital images underpin almost all of modern microscopy, and influence how data are acquired, interpreted and perceived.
 
-This presentation was a very rapid overview of a lot of topics, and should be seen as a inspiration for what you could do with your data.
+This presentation was a very rapid overview of a lot of topics, and should be seen as **a starting point** for what could be done with your data.
 
 Please reach out if you have questions or ideas at GitHub: [@matbryan52](https://github.com/matbryan52) or at matthew.bryan@cea.fr
 
@@ -1611,7 +1506,7 @@ The interactive components are based on [Panel](https://panel.holoviz.org/) and 
 
 Diagrams were drawn with [Excalidraw](https://excalidraw.com/).
 
-The source, figures and code for this presentation are on Github: [matbryan52/microscopy-images-qem](https://github.com/matbryan52/microscopy-images-qem). (*No guarantees!*)
+The source, figures and code for everything is on Github: [matbryan52/microscopy-images-qem](https://github.com/matbryan52/microscopy-images-qem).
 
 ---
 

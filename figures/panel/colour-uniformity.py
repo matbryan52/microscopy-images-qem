@@ -178,6 +178,9 @@ def _change_image(*e):
     if selected == "Phase":
         fig1.im.color.change_cmap("Greys")
         fig3.im.color.change_cmap("Cyclic MYBM")
+    elif selected == "Cosine":
+        fig1.im.color.change_cmap("Viridis")
+        fig3.im.color.change_cmap("Temperature")
     elif selected == "Asymmetric":
         fig1.im.color.change_cmap("Diverging Blue/Red")
         fig3.im.color.change_cmap("Fire")

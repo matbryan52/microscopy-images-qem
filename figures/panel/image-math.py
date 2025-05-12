@@ -45,7 +45,7 @@ py_code = """def image_function(img):
     return -1 * img
 
 
-#  img ** 2  |  np.log(0.01 + img)  |  img * np.linspace(0, 1, w)[np.newaxis]
+#  img ** 2  |  np.log(0.01 + img)  |  img * range(w)
 """
 editor = pn.widgets.CodeEditor(
     value=py_code,
