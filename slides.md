@@ -18,10 +18,11 @@ url: https://github.com/matbryan52/microscopy-images-qem
 Matthew Bryan
 *CEA-Leti, Grenoble, France*
 [matthew.bryan@cea.fr](mailto:matthew.bryan@cea.fr)
-GitHub: [@matbryan52](https://github.com/matbryan52)
+GitHub: [@matbryan52](https://github.com/matbryan52) / [microscopy-images-qem](https://github.com/matbryan52/microscopy-images-qem)
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="45" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="45" style="opacity: 0.5;vertical-align:middle;"></img> 
 
 ---
-<!-- footer: '[↞](#start)    Slides: [matbryan52.github.io/microscopy-images-qem](https://matbryan52.github.io/microscopy-images-qem/)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;vertical-align:middle;"></img> [↞](#start)     Slides: [matbryan52.github.io/microscopy-images-qem](https://matbryan52.github.io/microscopy-images-qem/)' -->
 <!-- paginate: true -->
 <!--
 A microscope lets us see, for a time
@@ -109,7 +110,7 @@ Again I'll mention that the slides, figures and all the source code are online a
 
 ---
 
-<!-- footer: '[⇤](#photographs-images) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#photographs-images) [↞](#contents)' -->
 <!-- _class: columns2 -->
 
 <a name='photographs-images'></a>
@@ -288,7 +289,7 @@ At the end of the day, whether colour of spectral imaging, we still have a list 
 -->
 
 ---
-<!-- footer: '[⇤](#images-as-information) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#images-as-information) [↞](#contents)' -->
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
 <a name='images-as-information'></a>
 
@@ -629,7 +630,7 @@ Luckily, at least in Python, there is very little we have to do to make code run
 -->
 
 ---
-<!-- footer: '[⇤](#visualising-images) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#visualising-images) [↞](#contents)' -->
 <a name='visualising-images'></a>
 
 # **Visualising images**
@@ -771,7 +772,7 @@ Here you see a visualisation of a complex image from a hologram - on the left we
 -->
 
 ---
-<!-- footer: '[⇤](#sampling) [↞](#contents) -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#sampling) [↞](#contents) -->
 <a name='sampling'></a>
 
 # **Images as signals**
@@ -802,7 +803,7 @@ Hopefully this comes across on the projector, but this is a case where you can s
 -->
 
 ---
-<!-- _header: '[L. Barbosa](https://en.wikipedia.org/wiki/File:Fourier_transform_time_and_frequency_domains_(small).gif)' -->
+<!-- _header: '[L. Barbosa - PD](https://en.wikipedia.org/wiki/File:Fourier_transform_time_and_frequency_domains_(small).gif)' -->
 <style scoped>
 img[alt~="top-right"] {
   position: absolute;
@@ -899,7 +900,7 @@ Interpolating schemes can be very basic (e.g.piecewise constant) or very flexibl
 * Interpolation can **smooth** an image if desired → the interpolant doesn't perfectly reproduce values at input positions.
 * Also possible to interpolate an image from unstructured samples (i.e. not originally on a grid).
 
-![bg right:30% 60% Adapted from <a href="https://commons.wikimedia.org/wiki/File:Comparison_of_1D_and_2D_interpolation.svg">Cmglee</a>](figures/2D-interpolation.svg)
+![bg right:30% 60% Adapted from <a href="https://commons.wikimedia.org/wiki/File:Comparison_of_1D_and_2D_interpolation.svg">Cmglee</a> <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>](figures/2D-interpolation.svg)
 <!--
 Interpolation schemes can be very simple, the simplest being nearest-neighbour, which is to say the values at coordinates between 4 pixels is just the value of the nearest pixel to that coordinate. Bilinear essentially fits a 2D plane to each group of four pixels, then reads the interpolated value of the corresponding plane. And bicubic uses sequential polynomial fits to the region around each point until it can create a polynomial going directly through the point to interpolate, which can then be evaluated.
 -->
@@ -952,7 +953,7 @@ The Moiré is **very sensitive** to small changes in lattice spacing, and so wit
 
 ---
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
-<!-- footer: '[⇤](#transforms) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#transforms) [↞](#contents)' -->
 <a name='transforms'></a>
 
 # **Images and Geometry**
@@ -1066,7 +1067,7 @@ We generate this mapping for all $(x, y)$ in the image, then interpolate at the 
 ![bg right:40% 70% <span style="color:rgb(165, 165, 165)">Image: Gustav Persson</span>](figures/polar.svg)
 
 ---
-<!-- footer: '[⇤](#image-filtering) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#image-filtering) [↞](#contents)' -->
 <a name='image-filtering'></a>
 
 # **Image Filtering**
@@ -1175,7 +1176,7 @@ The most well-known are:
 <iframe src="http://localhost:9091/fourier-filtering" width="1150" height="550" frameBorder="0"></iframe>
 
 ---
-<!-- footer: '[⇤](#segmentation) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#segmentation) [↞](#contents)' -->
 <a name='segmentation'></a>
 
 # **Image Segmentation**
@@ -1196,7 +1197,7 @@ Segmentation algorithms can use *local-* and *non-local* information to label a 
 - Location of a pixel with respect to edges / shapes
 - Texture in the region of the pixel
 
-![bg right:30% 100% <a href="https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_trainable_segmentation.html#sphx-glr-auto-examples-segmentation-plot-trainable-segmentation-py">scikit-image</a>](./figures/segmentation2.svg)
+![bg right:30% 100% <a href="https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_trainable_segmentation.html#sphx-glr-auto-examples-segmentation-plot-trainable-segmentation-py">scikit-image</a> <a href="https://creativecommons.org/publicdomain/zero/1.0">CC PD-1.0</a>](./figures/segmentation2.svg)
 
 ---
 
@@ -1295,7 +1296,7 @@ The most well-know, albeit now quite old architecture are the **U-Nets**, which 
 ![bg right:50% 100% <a href="https://fritz.ai/deep-learning-for-image-segmentation-u-net-architecture/">fritz.ai</a>](./figures/u-net.png)
 
 ---
-<!-- footer: '[⇤](#restoration) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#restoration) [↞](#contents)' -->
 <a name='restoration'></a>
 
 # **Image Restoration**
@@ -1414,7 +1415,7 @@ An example is [Large Mask Inpainting - LaMa](https://github.com/advimman/lama) (
 ![bg right:50% 90% <a href="https://cleanup.pictures/">cleanup.pictures</a>](./figures/inpainting.gif)
 
 ---
-<!-- footer: '[⇤](#alignment) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#alignment) [↞](#contents)' -->
 <a name='alignment'></a>
 
 # **Pattern matching and image alignment**
@@ -1555,7 +1556,7 @@ When aligning or comparing pairs of images, it is useful to have metrics which d
 - Structural Similarity Index [(SSI)](https://ieeexplore.ieee.org/document/1284395) tries to account for similarity of structure, contrast and intensity level separately, and was designed to replicate how humans perceive similarity between images.
 
 ---
-<!-- footer: '[⇤](#summary) [↞](#contents)' -->
+<!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#summary) [↞](#contents)' -->
 <a name='summary'></a>
 
 # **Summary**
