@@ -9,6 +9,6 @@ Written with [Marp](https://marp.app/).
 
 ## License
 
-The presentation and figures licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) except where excluded by other licenses, noted in the presentation.
+The presentation and figures are licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) except where excluded by other licenses, noted in the presentation.
 
 Code is licensed under MIT.
