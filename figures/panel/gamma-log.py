@@ -38,7 +38,7 @@ fig1.fig.toolbar_location = "below"
 fig1.fig.background_fill_alpha = 0.
 fig1.fig.border_fill_color = None
 
-fig2 = figure(title='Value-to-Colour')
+fig2 = figure(title='Log colour')
 fig2.frame_height = 325
 fig2.background_fill_alpha = 0.
 fig2.border_fill_color = None
@@ -77,7 +77,7 @@ curve = (
 
 map_type = pn.widgets.RadioButtonGroup(
     name='Mapping',
-    value="Log",
+    value="Linear",
     options=["Linear", "Gamma", "Log"],
     button_type="success",
     styles=custom_style,
@@ -85,10 +85,10 @@ map_type = pn.widgets.RadioButtonGroup(
 
 gamma = pn.widgets.FloatSlider(
     name="Gamma",
-    start=-0.99,
+    start=0.25,
     end=2.,
     step=0.05,
-    value=0.8,
+    value=1.0,
     disabled=True,
     styles=custom_style,
 )
@@ -96,12 +96,12 @@ gamma_btn = pn.widgets.Button(
     name="Reset",
     button_type="primary",
     disabled=True,
-    styles=custom_style,
+    # styles=custom_style,
 )
 
 def reset_gamma(*e):
-    gamma.value = 0.
-    gamma.value_throttled = 0.
+    gamma.value = 1.
+    gamma.value_throttled = 1.
 
 gamma_btn.on_click(reset_gamma)
 
@@ -124,8 +124,8 @@ def _set_vminmax(*e):
         curve.update(xvals=data_vals, yvals=data_vals_log)
         return
     # Gamma
-    gval = gamma.value + 1
-    gval = 1 / gval
+    gval = gamma.value
+    # gval = 1 / max(gval)
     new_img = img1 ** gval
     fig1.im.update(new_img)
     low, high = fig1.im.current_minmax
@@ -141,6 +141,7 @@ gamma.param.watch(_set_vminmax, "value_throttled")
 
 def switch_type(*e):
     selected = map_type.value
+    fig2.title.text = f"{selected} colour"
     is_gamma = selected == "Gamma"
     gamma.disabled = not is_gamma
     gamma_btn.disabled = not is_gamma
@@ -158,8 +159,7 @@ pn.Row(
     fig1.layout,
     pn.HSpacer(width=20),    
     pn.Column(
-        # cmap_select,
         pn.pane.Bokeh(fig2),
-        pn.Row(map_type, gamma, gamma_btn),
+        pn.Row(map_type, gamma_btn, gamma),
     )
-).servable("colour-map")
+).servable("gamma-log")

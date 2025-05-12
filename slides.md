@@ -610,15 +610,13 @@ plt.show()
 ![bg right:40% 95% Image: Gustav Persson](figures/diff.png)
 
 ---
-<!-- _header: 'Python: [`cupy`](https://cupy.dev/)' -->
 ## Graphics Processing Units (GPUs)
 
-A Graphics Processing Unit GPU is a computation **accelerator** which can be added to most computers. Originally designed to render 3D scenes to 2D images on a display, they are now used to speed up many forms of scientific computation, especially with images.
+A Graphics Processing Unit (GPU) is a computation **accelerator** which can be added to computers. They can be used to speed up many forms of scientific computation.
 
 * GPUs are specialised to perform simple math **operations in parallel** on multi-dimensional arrays of data (such as images)
-  * In contrast to CPUs, which may only be able to compute with ~512 elements of an array in one operation, a GPU can process many thousands.
-* Operations necessary for 3D graphics (coordinate transformations, filtering, raytracing) use identical maths as needed in scientific computing (Fast Fourier Transforms, convolutions, matrix algebra and inversion).
-> GPUs are dedicated accelerator cards, they don't run the operating system
+* Operations for 3D graphics (coordinate transformations, filtering, raytracing), the original usage for GPUs, are frequently identical to math needed in scientific computing (FFTs, convolutions, matrix algebra and inversion).
+![bg right:30% 80% Image: nVidia](figures/h100-gpu-small.png)
 <!--
 So I've been asked to speak about GPUs, which I am sure most of you have heard of especially with the recent boom in so-called AI.
 
@@ -628,6 +626,34 @@ There's not much point with small images or small data, however, as GPUs have a 
 
 Luckily, at least in Python, there is very little we have to do to make code run on a GPU as opposed to CPU, unless you want to extract the maximum performance you can more-or-less change one letter and add a few magic incantations and suddenly your code will use the GPU if desired.
 -->
+
+---
+<!-- _header: 'Python: [`cupy`](https://cupy.dev/)' -->
+<!-- _class: columns2 -->
+## GPU code in Python
+
+At least in Python, it is **reasonably trivial** to make code run on GPU rather than CPU, thanks to the standardisation efforts behind the teams behind [numpy](https://numpy.org/) and [cupy](https://cupy.dev/).
+
+> Many math functions have been re-implemented on GPU, and are used nearly the same as the CPU equivalent
+
+For example the following using CPU:
+
+```python
+assert large_image.shape == (4096, 4096)
+
+import numpy as np
+img_fft = np.fft.fft2(large_image)
+```
+
+runs in `~1 s`, but is equivalent to:
+
+```python
+import cupy as cp
+img_fft = cp.fft.fft2(large_image)
+```
+
+but runs in `~1 ms` on a large GPU.
+
 
 ---
 <!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#visualising-images) [↞](#contents)' -->
@@ -734,9 +760,11 @@ A factor which is often overlooked in data visualisation is the fact that not al
 
 Digital images can also be combined or overlaid using transparency, called **alpha**.
 
-Transparency can be defined on a per-pixel basis to convey information such as density. For example no counts in an EDS map can let the HAADF show through.
+> Transparency can be defined on a **per-pixel** basis
 
-- When working with colour images you may see `RGBA` where `A` is a 4th "colour" channel coding the pixel opacity.
+For example a low-count area in an EDS map can let the HAADF show through.
+
+- When working with colour images you may see `RGBA` where `A` is a 4th "colour" channel used for alpha
 
 <iframe src="http://localhost:9091/transparency" width="500" height="600" frameBorder="0" style="display:block; margin: auto;"></iframe>
 <!--
@@ -777,7 +805,7 @@ Here you see a visualisation of a complex image from a hologram - on the left we
 
 # **Images as signals**
 
-![bg right:50% 90%](figures/moire.gif)
+![bg right:50% 110%](figures/moire.gif)
 
 ---
 

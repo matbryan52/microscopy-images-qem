@@ -27,7 +27,7 @@ from libertem_ui.utils.colormaps import image_colormaps
 hot = colormaps["hot"].resampled(256)(np.linspace(0, 1, num=256, endpoint=True), bytes=True)[...,:3]
 image_colormaps["Hot"] = to_hex(hot)
 image_colormaps["Fire"] = cc.fire
-image_colormaps["Cyclic MYBM"] = to_hex((np.asarray(cc.cyclic_mybm_20_100_c48) * 255).astype(np.uint8))
+image_colormaps["Cyclic MYBM"] = to_hex((np.asarray(cc.cyclic_mybm_20_100_c48_s25) * 255).astype(np.uint8))
 
 
 def linear_ramp(shape):
@@ -80,10 +80,10 @@ def phase(shape):
 signals = {
     "Ramp": linear_ramp(shape),
     "Ramp + Comb": comb(linear_ramp(shape)),
-    "Gaussian": gaussian(shape),
     "Cosine": cosine(shape),
     "Asymmetric": asymmetric(shape),
     "Phase": phase(shape),
+    "Gaussian": gaussian(shape),
 }
 
 
@@ -165,6 +165,25 @@ def _change_image(*e):
     fig3.update(signals[selected])
     yvals = signals[selected][0]
     curve.update(xvals=xvals, yvals=yvals)
+
+    if selected == "Asymmetric":
+        fig1.im.color.change_cmap("Diverging Blue/Red")
+        fig1.im.color.center_cmap_toggle.active = [0]
+        fig3.im.color.change_cmap("Temperature")
+        fig3.im.color.center_cmap_toggle.active = [0]
+    else:
+        fig1.im.color.center_cmap_toggle.active = []
+        fig3.im.color.center_cmap_toggle.active = []
+
+    if selected == "Phase":
+        fig1.im.color.change_cmap("Greys")
+        fig3.im.color.change_cmap("Cyclic MYBM")
+    elif selected == "Asymmetric":
+        fig1.im.color.change_cmap("Diverging Blue/Red")
+        fig3.im.color.change_cmap("Fire")
+    elif selected == "Gaussian":
+        fig1.im.color.change_cmap("Greys")
+        fig3.im.color.change_cmap("Cyclic MYBM")
 
 data_select.param.watch(_change_image, "value")
 
