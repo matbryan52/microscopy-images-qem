@@ -8,6 +8,7 @@ author: Matthew Bryan
 keywords: images,electron-microscopy
 url: https://github.com/matbryan52/microscopy-images-qem
 ---
+<!--_footer: 'Slides: [matbryan52.github.io/microscopy-images-qem](https://matbryan52.github.io/microscopy-images-qem/)' -->
 <!--<!-- _footer: `This version is static, all interactive slides are converted to images` -->-->
 <a name='start'></a>
 ![bg left:40% 60%](figures/qem.png)
@@ -20,21 +21,15 @@ Matthew Bryan
 GitHub: [@matbryan52](https://github.com/matbryan52)
 
 ---
-<!-- footer: '[↞](#start)' -->
+<!-- footer: '[↞](#start)    Slides: [matbryan52.github.io/microscopy-images-qem](https://matbryan52.github.io/microscopy-images-qem/)' -->
 <!-- paginate: true -->
-
-# Preamble
-
+<!--
 A microscope lets us see, for a time
 
-<hr>
-
 An image lets us look again
-
----
+-->
 <!-- _class: columns2 -->
 <style scoped>
-/* Set the image and text to inline elements */
 img, span {
     display: inline;
     vertical-align: middle;
@@ -59,14 +54,27 @@ Not really a Microscopist!
 <br>
 
 Developer on the <a href="https://libertem.github.io/LiberTEM/"><img src="./figures/LiberTEM logo-transparent.png" height="60px"></a> project
+<!--
+I mostly work with Python so I am afraid these slides are biased, if you work more in Matlab just add one...
+-->
 
 ---
 <!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
 ![width:110% align:center](figures/pfnc-2.png)
+<!-- 
+I'll just take a moment to mention where I work
+
+The French atomic energy agency, CEA has a site in Grenoble with a strong focus on nano-materials development and characterisation
+
+There is a medium-sized clean room, and an advanced nano-characterisation platform, the PFNC, including a number of fairly recent corrected TEMs, with sample preparation facilities. It is part of a number of research networks including METSA in France, so there are possibilities to come use the platform if your project fits within the right criteria.
+-->
 
 ---
 <!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
 ![width:110% align:center](figures/pfnc-3.png)
+<!-- 
+More than just TEMs, as I said, there are over a 100 people working on all types of nano-characterisaion under one roof, including surface science, x-rays, optics, NMR, ions, etc.
+ -->
 
 ---
 <!-- _class: columns2 -->
@@ -91,6 +99,14 @@ h1 {
 - [Alignment](#alignment)
 - [Summary](#summary)
 
+<!-- 
+So, on to the content. We're going to cover a lot of topics from a high-level as you can see. The slides may be way too long, I didn't have any opportunity to practice to get a feel for the timing, but I'll try not to rush and if we don't make it to the end then no worries, they're all online if ever some of you want to see the rest.
+
+I made the conscious choice to not include many equations or derivations of the different approaches I show, because in practice I find that I rarely if-ever have to write the basics from scratch. Instead it's about knowing what exists and combining the building blocks in clever ways. So what I've done is include links in the header of every slide that introduces a tool, and those links point to the (usually) Python library that implements that tool, usually with an example which is much better than what I could show you here.
+
+Again I'll mention that the slides, figures and all the source code are online at the address below if ever you want to flick ahead or through the content, or use the figures for something else, it's all MIT license which means free for any use with no restrictions on modification or adaptation.
+ -->
+
 ---
 
 <!-- footer: '[⇤](#photographs-images) [↞](#contents)' -->
@@ -102,6 +118,11 @@ h1 {
 # **Images and Photographs**
 
 ![w:500](https://krvarshney.github.io/kush_varshney.png "[krvarshney.github.io](https://krvarshney.github.io)")
+<!--
+- Found it quite hard to introduce digital images without talking about images more generally first
+- Sit through yet another introduction to image formation in optics and how a camera works
+- At least, though, it'll be brief - I'm not the person to talk in detail about ray diagrams and sensor design
+-->
 
 ---
 <!-- _class: columns2 -->
@@ -118,15 +139,19 @@ Recording the rays on this plane will give a **spatially correct representation*
 
 <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAIvAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNOwYP0VFzpPh8n-czL7tpfJxDes0nUi4X5y7_y0uPMb9ieg2zDQ4Fai9FprUBHtHsbp0lrmGX-O_GtPhvuIo2Zz27oV-uDhlbCT866FKFfzI_qgi4GOTF3wWN2MfN72Thb0ngtTQ5r2NrNzpZxVCA-PBmqyR3GMJ_NB24-QUhnRciYj7WX7SwjjRNIJMORwr8nmQatee0tkE2nbAJxLhSTGCtAnLVt0EQoNjKgZR8BhO-9FpbZCwBMY3kqViyujkNJ72AmQXd05tLXPu_oTB8yXmmDRjP7ZXruLe5tgYZTZXLqTaKk2s8b5Xdo6HMMy6IGAf0j3bWfmrrP-wO6DgHvEexQrrp45GqTo9G-HHqjnMho_WNfz13tOHIWJerE3V9oBAUM_vff99QPeaDa-ZFWMZWTLLyDfv3hd5_xKPhrxvB5mfJT9FmYsmLxEUqQFQ1TRXEk0O2M_JOt_RTB966H3C4Ic5Lz2Z6XX4_a-uTq5j5jQlvC1tP_3KlUXUIBYvcNmoHARCB3EkW37aE2ZpZqaVYDa25Su-4JmyAY8lOilLhsp1mu9KcW8nbS743kutZdwQQhwiJnhJYgjkda-oyQMkW87lzwZwSBEnv_-qPdQ4" width="600px" height="600px" frameBorder="0"></iframe>
 
-<!-- ![bg right:40% 100% <a href="https://www.doitpoms.ac.uk/tlplib/diffraction/image.php">DoITPoMS</a>](https://www.doitpoms.ac.uk/tlplib/diffraction/images/diagram10.gif) -->
+<!--
+- The way I see Image formation is through the idea of ambiguity.
+- Every point being hit by light is effectively a point source sending more light in all directions
+- If there is a place where all of the light from a given point converges again to a point, then here we have an image of that point
+- If a lot of points share a surface on which their light converges to points, then this is an image plane and here could record that light to create what we'd call in normal speak an image, e.g. a photograph or a selfie or whatever
 
-<!-- <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAALBAwAAAAAAAABEKcrGU8hqLFnpmU9ERVKNO2ePj8XJTmUUQxTk4wzV-JNF7iYGUdpNImZrFI4NxHx54TObf8pGDW-uQ4iap450XQ9ZVVKbKtN20qJCDFJNe8-mqfMcT87wzYH9Ou79hCfVvnuf9fq-XrPTQOx4LCsQHwUyw76jL_rYu5iYZLs_do8qkg5UDLwGhUIS64cbuYWE62BPzLCTvWigSBKk-iQSbaqi2gLfMmJ8EeNqi7n02VIfgY9GDMdAOIdV2mPIpo7uuSaWoFWw36jsem6b8hqmj7fTcCrLb6edaAv1Z7x3GrslugFsTf1tLvah1MXOhtjlUumK2gTc2Wb8Wd6CQ_wLUIsx4VSbpgK1zxWEQAGzgwyoNpsqPZlKoYSqYqGCyncnRznqbT4I-9LpBMoryW5aQgo-RgJ_zCjaiem7fsEHHqx1ZghJkoMTPv7G_uRRZWihCQS5nHOsqlRuP39Ge0m4MnOpnyvq5CfahpsJZdfp5IkwScq2VCxJRtkn6ZEKwK7VJ1EhCDv5JJL73iBJb9kz22z9J0GcOTzzzpsPrDZBcMUYcFKrmh9EV3jBYduQxn37XfuDtNTgtXYuhil9Lp4PZxmSLbsGDvBtfxtRAtoqVSZKYCHb5JQw4jNp8jRXWRak61vf_-UPBQ4" width="1100px" height="600px" frameBorder="0"></iframe> -->
+That said in the real world we never have perfectly flat objects, or perfect lenses, so there is always some ambiguity of where the light is coming from, we just set up the system so that the light we want overpowers the light we don't, and our image is only slightly flawed as a result.
+-->
 
 ---
 <!-- _header: '[Film grain](https://en.wikipedia.org/wiki/Film_grain)' -->
 <!-- _class: columns2 -->
 ##  Analogue images - Film
-
 
 Recording light in chemical reactions
 
@@ -141,6 +166,12 @@ Recording light in chemical reactions
 <figcaption style="text-align: right; font-size: 16px"><a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a></figcaption>
 </figure>
 
+<!--
+So to create what we'd call an image in normal day-to-day speak we need to record a lightfield
+Back in the day this would be done with film, and light-sensitive chemical reactions did their thing in response to the local intensity of light. Usually some kind of metal salt is crystallised onto a substrate, this being light sensitive, the light causing the initiation of formation of the metal itself, which is of course opaque.
+The fidelity of the recording was very much dependent on the chemistry, temperature, formulation, age of the film, particle size distribution etc
+-->
+
 ---
 <!-- _header: '[YouTube @AppliedScience](https://www.youtube.com/watch?v=-qETedzsFIE)' -->
 ##  Analogue images with plants
@@ -148,6 +179,9 @@ Recording light in chemical reactions
 Any light-reacting chemistry could be used to record a photograph, even photosynthesis!
 
 ![height:450 center](figures/geranium.svg)
+<!--
+Just as an aside, I wanted to share the existence of this video by Ben of the Applied Science channel on YouTube, where he describes in great detail the process of taking photographs using Geranium leaves and photosynthesis as the reaction. The development process is a bit complex as you have to wash out the chlorophyll in a particular way, but he got pretty good results if you ask me. I highly recommend his channel for lots of interesting experiments. 
+-->
 
 ---
 <!-- _header: '[phydemo.app](https://phydemo.app/ray-optics)' -->
@@ -164,12 +198,18 @@ Recording images with numbers
 At the most basic, a digital image is a list of numbers representing recorded *values*, and a way to structure these numbers into a shape we can interpret as the physical image
 
 <iframe src="https://phydemo.app/ray-optics/simulator/#XQAAAAKoAQAAAAAAAABDKcrGU8hqLFnpmU9EnTFrVrE8e3iP9Y30xRLJ53U7Paz6ugKVEwiDoPkxYUkq34GuEo6E2A0lkN0NikvTataLtnGNq-BY93Sx571NfVdBMLmS--Ri7mZ3MjIXDjOVYtv135J31N7_bGxN7zPocEaQXCE-OxZsZLPneE4vLmYjQ2ff4n3G7OTz3o3INHFolvsUICepqvGpgvPO-b6RlqNRHgrkkmxLAFprnIq_YthCr-nYpwa4SlCmNlNhGhbtPwnZ6GPvaGHMI0Pje0DTsTxa1CY61RtSxFRC9DNHIwEDY_252nTLMjsEdwWO-QVxGXgtOctUijSsAzhw5N9HadZrpIG_x6Q8G-SK9pQh7YhDWh9fzaGy-KnuVRzbxMomPikPdypOQfDeM2ilNflulbNeGVv_TlIIAA" width="600px" height="600px" frameBorder="0"></iframe>
+<!--
+Of course, photographs are now old news, unless you're into large format or retro-revivalism or something. We almost exclusively take digital image now and many of them given how many cameras are always around us. Rather than using a chemical reaction we record the light field by some kind of conversion to charge or voltage, and then using the magic of electronics to convert this to binary data. We still hope to have a representitive recording of the lightfield at the end, though real imaging sensors have issues like saturation, noise, speed, dynamic range etc.
+-->
 
 ---
 <style scoped>h2 { position: absolute; top: 5%; }</style>
-## Rays to Image
+## Rays to Digital Image
 
 ![w:auto h:600](figures/digital-sensor.svg)
+<!--
+So here we are, the conversion from rays of light to numbers in a very schematic way, incident intensity is proportional to voltage or some other physical quantity, this is digitized using an Analog-to-Digital converter, sometimes directly in the pixel sometimes row-by-row, or zone-by-zone, that depends on the camera hardware, but at the end you have a big grid of numbers that we hope is representative of the light-that-was.
+-->
 
 ---
 
@@ -184,6 +224,11 @@ You may also encounter the term *voxel*, which is an **el**ement of a **vo**lume
 <hr>
 
 Resolution, depending on the context, can be pixel spatial **density** (i.e. how well we can *resolve* two adjacent peaks), or total pixel **count**, usually as a 2D shape e.g. `(height, width)`.
+<!--
+You have certainly heard the word Pixel, and I wanted to note that is a contraction of the words "picture element" and dates from the 50s or 60s, and is the name for one of the values we record on a digital camera. Of course the word didn't exist before digital imaging, as photographic film is not structured on a grid or structured in any way, it's hard to define one value in a photographic image.
+
+Resolution, then is either the number of pixels you have in you image, or on you camera or screen, and their shape, especially if you're talking to a regular person. In some more technical contexts resolution might also be the pixel spatial density as it's related to how finely we sample the lightfield and so how much detail we can ultimately capture.
+-->
 
 ---
 <!-- _header: 'Python: [xarray](https://docs.xarray.dev/en/stable/), [HyperSpy](https://hyperspy.org/hyperspy-doc/current/user_guide/axes.html)' -->
@@ -204,6 +249,9 @@ Interpretation of digital images in physical units requires a **calibration**, a
 - Sensor response, readout characteristics
 
 These values *may* be found in the image **metadata**
+<!--
+It should go without saying that there is a lot of conversion involved between the light and the digital image on a computer, and so pixel values don't really have meaningful units out-of-the box. You might be lucky and have metadata for an image that tells you things like the pixel spacing, readout gain or offset, but rarely will this let you generate a true "number of photons per mm2" value.
+-->
 
 ---
 <!-- _header: '[Wiki](https://en.wikipedia.org/wiki/Bayer_filter)' -->
@@ -220,16 +268,24 @@ A colour image is a set of images of the same wavefront, each sampling one part 
 The three signals are spatially offset, but with intelligent recombination, most images are represented without artefacts
 
 ![w:500](https://upload.wikimedia.org/wikipedia/commons/3/37/Bayer_pattern_on_sensor.svg "[Bayer-filter, Wiki - Cburnett](https://en.wikipedia.org/wiki/Bayer_filter#/media/File:Bayer_pattern_on_sensor.svg)")
+<!--
+I wanted to mention how true colour images work, even if in electron microscopy there isn't really such a thing. A lot of colour sensors use a thing called a Bayer Filter, which selects light from certain wavelength bands in the red, green and blue parts of the spectrum for individual pixels. Green is recorded twice as our eyes are particularly sensistive here. This forms a single gray image with a different response in different pixels, but we can electronically separate the different sub-images and recombine them to display something like the colour we would have seen. Of course there is a slight offset between the four sub-images, a kind of intrinsic chromatic abberation, but if they are recombined intelligently then we don't really notice, especially if the pixel grid is dense enough.
+-->
 
 ---
 
 ## Spectral images
 
-Spectral images are a generalisation of colour images, where each sub-image or **channel** represents a well-defined band of  energy.
+Spectral images are a generalisation of colour images, where each sub-image or **channel** represents a well-defined band of energy.
 * Ideally spectral channels don't overlap in energy, unlike many colour image filters
 * We normally can't sample both spatially and spectrally simultaneously, so create images *channel-by-channel* (e.g. EFTEM), or *position-by-position* (e.g STEM-EDS)
 
 ![bg right:40% 75% <a href="https://arxiv.org/abs/2202.01065">Almeida et al (2022)</a>](figures/pillars.svg)
+<!--
+A bit closer to home, spectral images are just colour images but acquired with some kind of filtering, usually with a bit better separation between channels than RGB colour. It would be rare to see something like a Bayer filter in science, too, rather we have something like a spectrometer to record only one energy at a time, and we spread the recording over multiple acquisitions while politely asking the sample to not move.
+
+At the end of the day, whether colour of spectral imaging, we still have a list of sampled numbers, now with an extra dimension of energy or channel, as well as height and width.
+-->
 
 ---
 <!-- footer: '[⇤](#images-as-information) [↞](#contents)' -->
@@ -267,6 +323,11 @@ The numbers:
 Can be equally interpreted as:
 
 ![width:600 center](./figures/mnist-layout.svg)
+<!--
+Right, we've been talking like an image is essentially a photograph but digital, but in reality a computer is not built to work with data that has such a meaning. A computer holds an image as a one-dimension list of binary numbers of a certain length, and we apply a set of conventions to these numbers to make it behave like the image we recorded. We have to tell the computer somehow how many binary numbers make up a single pixel, in what encoding, and also how we ordered our pixels, whether row-by-row or column-by-column, or even completely randomly or by block if you want to make life hard. Only with these rules will any operations on the numbers give the right results, or will the image display on the screen correctly. On the screen you see a representation of a hand-drawn number 2 (though very small) in binary, and also how it is meant to be interpreted on the left, and a really bad interpretation on the right, but take note that the data in both cases is identical!
+
+Luckily in practice we rarely have to think about this kind of thing, there are enough conventions and common practice that we can just expect things to work most of the time, and when it doesn't work right it gives people like me something to do or to complain about.
+-->
 
 ---
 <!-- _header: '[numpy: dtypes](https://numpy.org/doc/stable/user/basics.types.html)' -->
@@ -281,16 +342,19 @@ table {
 
 There are many conventions for storing numbers as binary, here are some common ones used in images. Usage depends on your camera electronics and what processing you do.
 
-|                  | Names      | Size (bits or digits) | Min          | Max        |
-| ---------------- | --------- | ----------: | -----------: | ---------: |
-| Binary           | `bool`      | 8           | 0            | 1          |
-| Unsigned Integer | `uint8`, `ubyte`     | 8           | 0            | 255        |
-|                  | `uint16`, `unsigned short`    | 16          | 0            | 65,535      |
-| Integer          | `int16`, `short`     | 16          | \-32,768      | 32,767      |
-|                  | `int32`, `long`     | 32          | \-2,147,483,648 | 2,147,483,647 |
-| Floating (Decimal) | `float32`, `float`   | 32          | \-3.40E+38   | \-3.40E+38 |
-|                  | `float64`, `double`   | 64          | \-1.70E+308  | 1.70E+308  |
-| Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 |
+|                  | Names      | Size (bits or digits) | Min          | Max        | `0100000001001001`<br>`0000111111010000` |
+| ---------------- | --------- | ----------: | -----------: | ---------: | ---------: |
+| Binary           | `bool`      | 8           | 0            | 1          | `-` |
+| Unsigned Integer | `uint8`, `ubyte`     | 8           | 0            | 255        | `64`, `73`, `15`, `208` |
+|                  | `uint16`    | 16          | 0            | 65,535      | `18752`, `53263` |
+| Integer          | `int16`, `short`     | 16          | \-32,768      | 32,767      | `18752`, `-12273` |
+|                  | `int32`, `long`     | 32          | \-2,147,483,648 | 2,147,483,647 | `-804304576` |
+| Floating (Decimal) | `float32`, `float`   | 32          | \-3.40E+38   | \-3.40E+38 | `3.14159` |
+|                  | `float64`, `double`   | 64          | \-1.70E+308  | 1.70E+308  | `-` |
+| Complex          | `complex64` | 64          | \-3.40E+38   | \-3.40E+38 | `-` |
+<!--
+I mentioned that binary numbers are what a computer sees, and these only have meaning to us if we apply some information about how to interpret them. I won't go into much detail but we have different rules for storing integer and decimal numbers, with impact on the number of digits needed to store such a format and the minimum and maximum values we can represent with such rules. The usage of all of these depends on your application, but typically unsigned integers come out of cameras, as we only have a limited range of values the sensor can produce and these are rarely negative, while floating and complex numbers are of course more meaningful when we start doing operations on the image.
+-->
 
 ---
 
@@ -303,22 +367,38 @@ There are many conventions for storing numbers as binary, here are some common o
   - Often larger types ⇒ slower computation
 * Floating point numbers have **variable precision**, i.e. they can represent *very large* or *very small* values, but cannot represent a large number with a small fraction:
   - `float32(324,000) + float32(0.0055) = float(324,000.0)` and not `float32(324,000.0055)`
-<!-- * Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there are no native complex number formats -->
+<!--
+The choice of number type has implications for what you can do with it, a common issue with small types like 8-bit integers is "wrapping", i.e. unexpected results when an operation overflows the maximum or minimum value a type can hold. This is much less common with languages such as Python which try to protect you as much as possible from low-level details like this, but it can still happen! That might even be worse, as you might not be expecting it.
+
+Take note of the point that number type influences the storage requirements of an image as well as the time to process it. If you notice that suddenly an image has doubled in size on the disk you might have accidentally changed its number type from 16-bit to 32-bits per number, for example, without really much justification.
+
+A reality of decimal or floating point numbers, even in Python, is loss of precision when trying to work with both small and large numbers at the same time - as you can see here adding 324k and 0.0055 together as float32 just drops the 0.0055, which may or may not be important to your application. Doing this using float64 would have worked fine, but takes up twice the space in memory and is usually slower to compute.
+
+Complex numbers are stored as a pair of floating numbers representing real and imaginary parts, there are no native complex number formats
+-->
 
 ---
 <style scoped>h2 { position: absolute; top: 3%; }</style>
 <!-- _header: '[numpy: memory layout](https://numpy.org/doc/stable/dev/internals.html)' -->
 ## Memory layout
 
-A 2D image can be ordered **row-by-row**, or **column-by-column**, according to hardware and convention. Each number occupies a fixed number of bits in the sequence according to its type, and we find the value of any pixel by **indexing** according to the layout in memory.
+A 2D image is usually ordered **row-by-row**, or **column-by-column**, by convention. As each number occupies a fixed number of bits in the sequence, we can find the value of any pixel by *row/col arithmetic* and then **indexing** according to the layout in memory.
 
 ![h:450 center](figures/memory-layout.svg)
+<!--
+So here you have a representation of an image in 2D, with height and width or rows and columns, then two ways you could unpack that image into a linear sequence in memory, rowwise or columnwise. The consequence is that any given pixel in the 2D representation will exist at a different location in the memory according to how we unpacked it, and we need to do the correct arithmetic to find it again.
+-->
 
 ---
 
 If an image is large and >2D, e.g. a spectrum image, then memory layout can heavily affect processing time. **Jumping** between memory locations is very slow compared to sequentially reading memory, so it pays to store data in the way it will be processed.
 
 ![h:450 center](figures/memory-layout2.svg)
+<!--
+This is particularly important for spectral data and 4D-STEM as the way we unpack the data into a sequence in memory determines how we can access it later. It's important to take away that accessing data which is sequential in the memory is very very fast, while jumping around to pick out every 100th value is very slow. If the processing to do is usually on whole spectra then it pays to store the values spectrum-by-spectrum, while if you need whole images for a given channel, it pays to store it image-by-image.
+
+Of course, you rarely get a say in this with modern hardware and software, which is sometimes a shame, but I point it out in case any of you are confronted with processing which is bizarrely slow, it's something to think about.
+-->
 
 ---
 
@@ -327,6 +407,9 @@ If an image is large and >2D, e.g. a spectrum image, then memory layout can heav
 ![w:100% center](figures/image-sizes.svg)
 
 Tomography can an add an extra `[tilt]` dimension to all of the above!
+<!--
+With all that said here are some representations of different data, with their shapes and sizes. You might be able to appreciate that if I need to extract the centra pixel from every single frame in a 4D STEM dataset then there is a low of jumping around in memory, especially if we are talking about data on a harddrive where we might only be able to traverse the data at a few hundred MB/s.
+-->
 
 ---
 <!-- _class: columns2 -->
@@ -368,6 +451,9 @@ Note that when operating on pairs of images they must have the same `shape` for 
 ## Maths with images
 
 <iframe src="http://localhost:9091/image-math" width="1150" height="600" frameBorder="0"></iframe>
+<!--
+And just to prove my point, here we can try some maths with images live, right now we've computed the image times -1, note the colourbars on the right. We can try adding 5 to the images, ... see. If I copy this example here we will multiply our image by a ramp from left to right. ... We can also add or subtract images together, for example the image and the inverse image will give 0 everywhere, I hope ..., or if we add another image we see see details from both.
+-->
 
 ---
 
@@ -381,6 +467,9 @@ Images can be stored in many ways, depending on how they are used
   - Can hold additional metadata (e.g. calibrations), can be compressed
 * Proprietary formats like `.dm3/4`, `.mib`, `.emd`, `.blo`: specific to a certain camera or software, not always readable elsewhere
 * General *array* formats: `.mat`, `.npy`, `.hdf5`, `.zarr`: flexible, can be compressed, can hold stacks / nD data and metadata, need compatible code/software
+<!--
+In microscopy we come across a panoply of different image file formats, and everyone has their favourite. A lot of the unusual ones are specific to a particular camera or equipment vendor, and can normally only be opened in their software or a few open-source packages. Then you have more general formats for binary data, which won't necessarily re-create your image for free, you need to supply the interpretation. TIFF is probably the only format capable of both representing scientific data well while also being openable on most devices without special software - though not always. It can hold decimal and complex numbers but Windows Image Viewer won't do well with that kind of file. Then at the bottom of the ranking you have general colour image formats, these can rarely if ever hold anything other than 8-bit integers, so 0-255, which are good for visualisations or PDFs, but not at all good for analysis.
+-->
 
 ---
 <!-- _header: 'Python: [`sparse`](https://sparse.pydata.org/en/stable/), [`scipy.sparse`](https://docs.scipy.org/doc/scipy/reference/sparse.html)' -->
@@ -396,6 +485,12 @@ In very low dose conditions (e.g. EDX), most image pixels contain a **zero value
 
 ![h:550 center](figures/sparse-matrix.svg)
 
+<!--
+I wanted to mention sparse images since not everyone is aware of them. A sparse image is a way of storing an array of data where most of the pixels are some constant value, usually zero, and so rather than unravel this array into a long sequence of zeros in memory, we just don't bother and store only values which are non-zero as well as where they should be.
+
+As you can see on this tiny example we saved about 75% of the storage space, depending on the sparsity and how you store the data this can rise to 90-95%. An added benefit is that certain operations are much faster when we can ignore zero values - for example an element-by-element dot product between one image and another, we can cut down the number of multiply and add operations by 95% if we just don't bother to process zero-value pixels.
+-->
+
 ---
 
 ## Image software
@@ -406,7 +501,7 @@ Useful software packages to work with images in microscopy
 
 ### Fiji ([imagej.net](https://imagej.net/software/fiji/))
 
-Widely used in scientific imaging, many plugins
+Widely used in scientific imaging, plugins...
 
 ![w:450px](figures/imagej.png)
 
@@ -523,6 +618,15 @@ A Graphics Processing Unit GPU is a computation **accelerator** which can be add
   * In contrast to CPUs, which may only be able to compute with ~512 elements of an array in one operation, a GPU can process many thousands.
 * Operations necessary for 3D graphics (coordinate transformations, filtering, raytracing) use identical maths as needed in scientific computing (Fast Fourier Transforms, convolutions, matrix algebra and inversion).
 > GPUs are dedicated accelerator cards, they don't run the operating system
+<!--
+So I've been asked to speak about GPUs, which I am sure most of you have heard of especially with the recent boom in so-called AI.
+
+GPUs are a computation accelerators, they let us do fairly basic maths in a very parallel way on one device. They enabled the current AI boom because most AI training can be reduced to trillions of multiply-and-addition operations, and GPUs can do this in parallel on thousands of input values in one step. Lucky for us we can get the same boosts with images, especially as GPUs were originally designed to generate and work on image data for video games, things like coordinate transformations and filtering are essentially what we do in scientific computing, and so GPUs are great when the computation to do is quite heavy.
+
+There's not much point with small images or small data, however, as GPUs have a certain overhead. An operation which takes 1 ms on a normal CPU will probably take much longer on a GPU unless the data are already inside the GPU - the time to transfer the data to the accelerator will massively outweigh the processing time if that is all we are doing.
+
+Luckily, at least in Python, there is very little we have to do to make code run on a GPU as opposed to CPU, unless you want to extract the maximum performance you can more-or-less change one letter and add a few magic incantations and suddenly your code will use the GPU if desired.
+-->
 
 ---
 <!-- footer: '[⇤](#visualising-images) [↞](#contents)' -->
@@ -536,11 +640,11 @@ A Graphics Processing Unit GPU is a computation **accelerator** which can be add
 
 ## Data → Screen
 
-Screens display `uint8` <span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span> colour (3 values of `0-255` per-pixel, also known as 24-bit colour). Unless our image was acquired using these three channels then we need to **transform** our data from recorded intensities to screen <span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span>.
+Screens usually display `uint8` <span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span> colour (3 values of `0-255` per-pixel, also known as 24-bit colour). Unless our image was acquired in these three channels then we need to **transform** our data from recorded intensities to screen <span style="color:red">R</span><span style="color:green">G</span><span style="color:blue">B</span>.
 
-- Setting <span style="color:red">R</span> = <span style="color:green">G</span> = <span style="color:blue">B</span> on a screen rendrers as colourless **Gray**
-  - This limits us to only 256 levels of intensity to display all of the data range
-  - If the data are more than 8-bit, need to sacrifice detail or clip values
+- If we recorded intensity, then setting <span style="color:red">R</span> = <span style="color:green">G</span> = <span style="color:blue">B</span> on a screen gives colourless **Gray**
+  - This limits us to **only 256 levels** of intensity to display all of the data range
+  - If our data are more than 8-bit, need to sacrifice detail or clip values
 - We can use artificial colour to achieve more on-screen contrast, known as a *lookup table* or **colormap**, of which there are many choices for different applications.
 
 Choice of data transformation or colormap can massively influence how data are perceived.
@@ -555,16 +659,19 @@ The basic data-to-screen transformation is linear: `[img.min(), img.max()] → [
 The **brightness/constrast** transform chooses two other values and **clips** pixels outside their range to `0` or `255`. This removes detail in some regions while increasing it in others.
 
 <iframe src="http://localhost:9091/brightness-contrast" width="1150" height="475" frameBorder="0"></iframe>
+<!--
+Here we have a demonstration of brightness and contrast adjustment on an image display - note that the data are not changing, only the mapping from data to the colours shown on screen. Our data are in the range .., while the colours are 0 to 255, and the slope and position of the line determines the map between a section of the data range and the colourmap. Any values outside the range that is on the slope are clipped to 0 or 255 depending on whether they are before or after it. As I adjust the contrast note how part of the image become pure white or black, and the rest becomes sharper.
+-->
 
 ---
 
 ## Dynamic range
 
-In microscopy we frequently see data which span many orders of magnitude in intensity, with detail at both the low and high-ends (e.g. diffraction patterns).
+Dynamic range usually refers to the difference between the minimum and maximum value that an image could possibly represent, i.e. how much **depth of intensity** we can store without saturating at the top-end, or recording only zeros at the bottom.
 
-> A simple brightness / contrast transform loses too much information in display!
+> In microscopy we often have data which span orders of magnitude in intensity (e.g. diffraction patterns).
 
-A **non-linear mapping** between data and colour can be used to bridge the gap, trading local for global contrast:
+When brightness/contrast cannot cover the dynamic range of an image, a **non-linear mapping** between data and colour can be used, trading local for global contrast:
 
 - Log-colour rescales data by its magnitude → $I_{disp} = \log (I_{img})$
 - Gamma-colour scales the data with a power law → $I_{disp} = I_{img}^\gamma$
@@ -574,6 +681,21 @@ A **non-linear mapping** between data and colour can be used to bridge the gap, 
 ### Transformation: Gamma + Logarithmic
 
 <iframe src="http://localhost:9091/gamma-log" width="1150" height="550" frameBorder="0"></iframe>
+<!--
+Here we have a logarithm transform on the data before display - note how low values are given more of the vertical range between 0 and 255 while higher values are on the flatter part of the curve so are represented by fewer values. The effect is we can see more detail at the low end at the cost of effective saturation at the high end. The Gamma transform does more or less the same thing for certain values of gamma, but now we can choose how the values are mapped.
+-->
+
+---
+
+## Image histograms
+
+An image histogram represents the frequency of intensity values in an image. It is a useful way to visualise contrast between background and content, and to see outlier pixels.
+
+![height:450 center](./figures/histogram.svg)
+
+<!--
+Perhaps a bit basic, but worth mentioning - image histograms show us the distribution of intensity values in an image, they are ubiqutious in image software, and as long as the axis limits are clear they can be useful in spotting when an image is saturated or clipping, or if we are using the full dynamic range of the image type correctly.
+-->
 
 ---
 <!-- _header: '[Kovesi (2015)](https://arxiv.org/pdf/1509.03700), Python: [`colorcet`](https://colorcet.holoviz.org/)' -->
@@ -587,9 +709,11 @@ Colourmaps are critical to how we interpret visual data. It is important that fe
 Non-uniform colourmaps can create visual features which do not exist, or hide real information.
 
 <iframe src="http://localhost:9091/colour-uniformity" width="600" height="650" frameBorder="0"></iframe>
+<!--
+Choosing a good coormap for the data is really important, as it can massively affect interpretation. More contrast is not always better, if all we are showing is quasi-random noise on a rainbow colour scale. But even if sometimes a rainbow map is a good choice, I want you to take away that there is more than one way to build a rainbow, some of which are more honest than others. See here for example the two different colourmaps displaying a simple linear ramp ... without other context which of the two looks like more interesting data ? We have a way to visualise this a bit which is to superimpose a sine wave on top of the ramp, which means we make the colour oscillate along the map. That oscillation represents our eye's ability to distinguish a value change between two different points on the colourmap, and ideally we should feel like the oscillations are "equal" everywhere. So 0.05 change around 0.2 is visually the same as a 0.05 change at 0.9. This is called perceptual uniformity.Another example are the two colourmaps Hot and Fire, both well-used in some fields, but only one was designed to be uniform, can you tell which one. Finally there are specialised colourmaps when the data warrant it, look here at this data with both negative and positive features at different scales, a normal colourmap makes it hard to know where the zero level is, while a diverging colourmap forced to be symmetric around 0
+-->
 
 ---
-<!-- _header: 'Image: Tescan / CEA' -->
 <!-- _header: '[davidmathlogic.com/colorblind](https://davidmathlogic.com/colorblind)' -->
 ## Colour blindness
 
@@ -598,6 +722,9 @@ Certain colour blindness forms are experienced in 1-5% of the population (biased
 - In particular try to *avoid* using <span style="color:red">Red</span>–<span style="color:green">Green</span> to draw distinctions, as this is the most common form of colour bindness
 
 ![height:280 center](figures/cblind.svg)
+<!--
+A factor which is often overlooked in data visualisation is the fact that not all of us see colour in the same way, and up to 5% of people, mostly male, have some form of altered vision. The most common form is weak red-green vision, meaning that red and green tones appear similar, as in this visualisation. This would be quite extreme but note that the simulation is effectively two-tone, blue and yellow. Given the size of this room it would not be surprising if a few people here are partially colourblind. There are a lot of colourmaps which are mostly colourblind friendly, including Viridis which is the default in a lot of packages. In general if a colourmap looks like a rainbow, there is a greater chance it will be a bad choice for some people.
+-->
 
 ---
 <!-- _class: columns2 -->
@@ -611,20 +738,15 @@ Transparency can be defined on a per-pixel basis to convey information such as d
 - When working with colour images you may see `RGBA` where `A` is a 4th "colour" channel coding the pixel opacity.
 
 <iframe src="http://localhost:9091/transparency" width="500" height="600" frameBorder="0" style="display:block; margin: auto;"></iframe>
-
----
-
-## Image histograms
-
-An image histogram represents the frequency of intensity values in an image. It is a useful way to visualise contrast between background and content, and to see outlier pixels.
-
-![height:450 center](./figures/histogram.svg)
+<!--
+Transparency is another lever along with colour that we can pull to visualise our data. In practice it just means that a pixel doesn't just replace what was already on the screen, rather it is combined in a weighted sum with what was already there. It's not particularly useful to denote data itself, as we have a hard time interpreting the transparency once it is drawn, but it can be used to help denote a lack of data or density of sampling.
+-->
 
 ---
 
 ## Complex and 2D-vector images
 
-For complex images we must choose how convert *real* + *imaginary* into an standard image.
+For complex images we must choose how convert **real** + **imaginary** into an standard image.
 
 - A typical example is in holography, where the reconstruction is complex
   - The `abs()` of the wave represents the amplitude
@@ -632,9 +754,11 @@ For complex images we must choose how convert *real* + *imaginary* into an stand
 
 We also need to be careful about how to display periodic phase with a colourmap:
 
-- We can use a *cyclic* map → lose visualisation of phase ramps.
+- We can use a **cyclic** map → lose visualisation of phase ramps.
 - A common technique to work around this is *phase unwrapping*
-<!-- phase unwrapping -->
+<!--
+Vector values are harder to display with a colourmap, and in some cases it is easier to use a different style of plot like a oriented arrows where length encodes magnitude. A cyclic colourmap wraps around to the same colour at 2pi, which can represent direction, and in some cases we can also represent magnitude using saturation of the colour. This becomes quite complex to visualise unless the viewer is used to it, though!
+-->
 
 ---
 <style scoped>h3 { position: absolute; top: 5%; }</style>
@@ -642,6 +766,9 @@ We also need to be careful about how to display periodic phase with a colourmap:
 ### Complex image display
 
 <iframe src="http://localhost:9091/complex-image" width="1050" height="600" frameBorder="0" style="display:block; margin: auto;"></iframe>
+<!--
+Here you see a visualisation of a complex image from a hologram - on the left we have the real and imaginary parts displayed separately, which don't convey much information on their own. When we display combinations of these, though, we see clearly the amplitude of the wave and the phase, which in itself is quite complex because of wrapping of values around 2pi. There are two ways to solve this, either use a cyclic colourmap which means we don't see the wrapping as a hard boundary, though we lose any concept of a phase ramp, or we unwrap the phase data, which is not really a visualisation technique but rather an analysis technique to try to coherently increment the phase value at each jump so that we get a smooth image with the correct phase ramp. I'll let someone else explain phase unwrapping, probably in the context of holography.
+-->
 
 ---
 <!-- footer: '[⇤](#sampling) [↞](#contents) -->
@@ -655,13 +782,13 @@ We also need to be careful about how to display periodic phase with a colourmap:
 
 # Images as signals
 
-An digital image samples a continuous world onto a discrete grid. The step- or *pixel size* limits what information can be captured by the image.
+A digital image is a sampling of a continuous world onto a discrete grid. The *step-* or *pixel size* limits what information can be captured by the image.
 
-Conversely, more pixel density adds value only if the information is there to sample:
+Conversely, increasing pixel density adds value only if the information is there to sample:
 
-- A smooth ramp in intensity is fully defined by two points - we can *interpolate* and get the same result as a densely sampled image
-* If the optics of the microscope cannot cleanly resolve the detail we want to see, more camera pixels will not help.
-* For a periodic feature (*atomic columns?*) 2 samples per shortest period are sufficient according to Nyqist-Shannon, but 4+ is more convincing.
+- A smooth ramp in intensity is fully defined by two points - we can **interpolate** between them to get the same quality as a densely sampled image
+* If the optics of the microscope cannot cleanly resolve the detail we want to see, more camera pixels will not help, we'll just have better sampled blur
+* For a periodic feature like atomic columns, **2 samples-per-period** are sufficient according to Nyqist-Shannon, if we impose the right model when displaying the data. Though this wouldn't make very interesting images!
 
 ---
 
@@ -670,6 +797,9 @@ With reduced sampling, the faster-changing areas of the signal are not resolved.
 ![height:450 center](figures/sampling.svg)
 
 With extra sampling, no additional detail is added
+<!--
+Hopefully this comes across on the projector, but this is a case where you can see the effects of undersampling to resolve an feature. In the corners where we have very finely spaced circles the 128x128 case simply doesn't accurately show the signal, instead we get a sort of gray blur. More pressingly but harder to see are additional ring-like artefacts that seem to be interfering with the true signal, these are a due to an effect called aliasing, which is problematic in measurements because you might not be able to distinguish real signal from sampling errors.
+-->
 
 ---
 <!-- _header: '[L. Barbosa](https://en.wikipedia.org/wiki/File:Fourier_transform_time_and_frequency_domains_(small).gif)' -->
@@ -697,6 +827,9 @@ each $A_u$ represents a contribution to $f(x)$ by a particular *frequency* $u$.
 On an image $f(x, y)$ we can do the same, but we must use two *spatial frequencies* e.g. $u, v$.
 
 A Fourier transform can be computed efficiently with a Fast Fourier Transform (**FFT**).
+<!--
+So, this is my one real equation and even then it's mostly for show. You're all probably familiar with Fourier series, which represent periodic functions as a sum of trigonometric functions. And I would imagine you've also come across the more general Fourier Transform, on the screen now, which is an integral to compute a decomposition of a non-periodic function in terms of complex exponentials of different frequency. Well, I'm stating that you can extend the 1D Fourier Transform to 2D by integrating over two orthogonal frequency axes, and even compute the transform quickly using what is essentially matrix multiplication, making the operation really quite efficient on images.
+-->
 
 ---
 <!-- _header: 'Image: [safeguardroofingandbuildingltd.co.uk](https://www.safeguardroofingandbuildingltd.co.uk/)' -->
@@ -704,6 +837,9 @@ A Fourier transform can be computed efficiently with a Fast Fourier Transform (*
 Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and $\cos$ terms.
 
 ![height:550 center](figures/fourier.svg)
+<!--
+A Fourier transform of an image is usually not directly interpretable, especially as it is a complex array. This is my test image which has a lot of well-oriented sharp edges, and hopefully you can see there are rays in the magnitude of the FFT which are kind-of oriented perpendicular to these edges. This is about as far as we can go with direct interpretation of an FFT.
+-->
 
 ---
 <style scoped>h3 { position: absolute; top: 3%; }</style>
@@ -712,6 +848,9 @@ Fourier transforms are **complex-valued**, representing the $\mathrm{i}\sin$ and
 ![height:525 center](figures/fourier-components.svg)
 
 The zero-frequency (mean value) is normally a **much** larger component than the rest!
+<!--
+To give you a feel for what the magnitude of the FFT represents here is a zoom on the centre of the roof image FFT, where I've picked out two pixels and plotted their contribution to the Fourier transform sent back to real space. You can see that each pixel contributes an oriented sinusoid in the direction matching where it is relative to the centre, and the distance from the centre gives the frequency of that sinusoid. The image is then essentially made up of a huge weighted sum of all these sinusoids. The phase of the FFT pixels determines a phase shift of each sinusoid (making it more of a co-sinusoid) to achieve the correct sum. Note that the central pixel is special and contains the zero-frequency component, without a meaningful phase, and it encodes a constant offset which is just the mean value of all the pixels in the image.
+-->
 
 ---
 <!-- _header: 'Python: [`np.fft`](https://numpy.org/doc/stable/reference/routines.fft.html)' -->
@@ -744,10 +883,10 @@ Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phas
 
 ## Image interpolation
 
-A discrete image can be *interpolated* into a continuous coordinate system so that it can be *re-sampled* at new coordinates.
+A discrete image can be *interpolated* into a continuous coordinate system so that it can be **re-sampled** at new coordinates.
 
 * Interpolation does not add additional information, but can reconstruct a higher-fidelity version of the image if we have a good model of the true signal.
-* Interpolation is one method to acheive *sub-pixel* resolution in measurements, for example finding the position of intensity peaks in an image
+* Interpolation is one method to acheive **sub-pixel** resolution in measurements, for example finding the position of intensity peaks in an image
 
 ![bg right:30% 80% <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator">scipy.interpolate</a>](figures/interpolation.svg)
 
@@ -757,11 +896,13 @@ A discrete image can be *interpolated* into a continuous coordinate system so th
 
 Interpolating schemes can be very basic (e.g.piecewise constant) or very flexible (polynomial splines).
 
-- Interpolation can *smooth* an image if desired → the interpolant doesn't perfectly reproduce values at input positions.
+* Interpolation can **smooth** an image if desired → the interpolant doesn't perfectly reproduce values at input positions.
 * Also possible to interpolate an image from unstructured samples (i.e. not originally on a grid).
 
 ![bg right:30% 60% Adapted from <a href="https://commons.wikimedia.org/wiki/File:Comparison_of_1D_and_2D_interpolation.svg">Cmglee</a>](figures/2D-interpolation.svg)
-
+<!--
+Interpolation schemes can be very simple, the simplest being nearest-neighbour, which is to say the values at coordinates between 4 pixels is just the value of the nearest pixel to that coordinate. Bilinear essentially fits a 2D plane to each group of four pixels, then reads the interpolated value of the corresponding plane. And bicubic uses sequential polynomial fits to the region around each point until it can create a polynomial going directly through the point to interpolate, which can then be evaluated.
+-->
 
 ---
 <!-- _header: 'Python: [`libertem_ui`](https://github.com/LiberTEM/LiberTEM-panel-ui/blob/main/src/libertem_ui/applications/line_profile.py), Image: Gustav Persson' -->
@@ -769,6 +910,9 @@ Interpolating schemes can be very basic (e.g.piecewise constant) or very flexibl
 ## Interpolated line profile from image
 
 <iframe src="http://localhost:9091/interpolation-sampling" width="1150" height="600" frameBorder="0"></iframe>
+<!--
+A quick example of what we can do with interpolation, namely if we want to extract a line profile in an image which is not aligned with the pixel grid then we have to intepolate it, doubly so if we also want to do averaging perpendicular to that line as you might be able to do in certain software. Here we can see the effect of the sampling frequency again, if I drop this value down then you see we lose a lot of fidelity and we start to show an alias of the true signal. Increasing the value beyond a certain point has no effect aside from perhaps making my laptop a bit hotter.
+-->
 
 ---
 <!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
@@ -777,6 +921,9 @@ Interpolating schemes can be very basic (e.g.piecewise constant) or very flexibl
 A signal sampled at lower than its highest frequency can be subject to **aliasing**. The samples will ambiguously fit both the true signal and other signals at combinations of the true and sampling frequency.
 <!-- <br> -->
 <iframe src="http://localhost:9091/aliasing" width="1150" height="550" frameBorder="0"></iframe>
+<!--
+Speaking of aliasing, here is a little direct visualisation of that, at least in 1D. Here you can see how we are sampling a periodic signal
+-->
 
 ---
 
@@ -1423,7 +1570,7 @@ Digital images underpin almost all of modern microscopy, and influence how data 
 
 This presentation was a very rapid overview of a lot of topics, and should be seen as a inspiration for what you could do with your data.
 
-Please reach out if you have questions or ideas at Github: [@matbryan52](https://github.com/matbryan52).
+Please reach out if you have questions or ideas at GitHub: [@matbryan52](https://github.com/matbryan52) or at matthew.bryan@cea.fr
 
 ---
 
