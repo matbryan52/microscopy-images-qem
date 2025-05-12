@@ -6,3 +6,9 @@ written for the [Quantitive Electron Microscopy 2025](https://qem2025.sciencesco
 A static version of the presentation is hosted here: https://matbryan52.github.io/microscopy-images-qem/
 
 Written with [Marp](https://marp.app/).
+
+## License
+
+The presentation and figures licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) except where excluded by other licenses, noted in the presentation.
+
+Code is licensed under MIT.
