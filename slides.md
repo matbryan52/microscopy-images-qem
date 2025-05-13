@@ -146,7 +146,6 @@ That said in the real world we never have perfectly flat objects, or perfect len
 
 ---
 <!-- _header: '[Film grain](https://en.wikipedia.org/wiki/Film_grain)' -->
-<!-- _class: columns2 -->
 ##  Analogue images - Film
 
 Recording light in chemical reactions
@@ -156,11 +155,7 @@ Recording light in chemical reactions
 * **Resolution** determined by average particle size - randomly distributed!
   * In practice film is extremely densely coated
 
-<span style="font-size: smaller">Micrograph of film grain</span>
-<figure>
-<iframe src="http://localhost:9091/film-particles" width="560" height="450" frameBorder="0"></iframe>
-<figcaption style="text-align: right; font-size: 16px"><a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a></figcaption>
-</figure>
+![bg right:40% 90% <a href="https://www.photomacrography.net/forum/viewtopic.php?t=26857">photomacrography.net</a>](./figures/2226_Rollei_IR_D23_1.jpg)
 
 <!--
 So to create what we'd call an image in normal day-to-day speak we need to record a lightfield
