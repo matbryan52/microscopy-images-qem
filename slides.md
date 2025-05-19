@@ -1346,19 +1346,24 @@ In low-dose, low signal-to-noise data, **denoising** is of particular interest.
 
 ## Binning
 
-Many modern electron cameras are built with dense pixel arrays, and 2K or 4K images are not unusual. A simple approach to improve noisy data is to apply *binning*.
+Many modern electron cameras are built with **dense pixel arrays** - 2K or 4K images are not unusual. **Summing** the recorded intensity within non-overlapping patches improves *signal-to-noise*.
 
-- Sum or average the recorded intensity within non-overlapping patches
 - This is practically equivalent to a camera with larger but fewer pixels
-- Loss of spatial resolution might be important in certain cases
+- Most cameras can do this during acquisition
+
+> Loss of spatial resolution might be important in certain cases
+
+![bg right:35% 80%](figures/binned.svg)
 
 ---
-
+<!-- _header: 'Image: [practical exercise](https://github.com/matbryan52/microscopy-images-qem-practical)' -->
 ## Stacking
 
-When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers.
+When acquisition condition allow, taking **multiple rapid images** to form an image stack is advantageous. We can compute statistics for each pixel and exclude clear outliers.
 
-Experimentally, stacking can work around problems such as sample drift during long acquisitions, leading to reduced distortion.
+Stacking can also help with problems such as **drift** during long acquisitions.
+
+![bg right:40% 93%](figures/stacking.svg)
 
 ---
 <!-- _header: 'Python: [`sklearn.decomposition.PCA`](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA)' -->
@@ -1390,7 +1395,7 @@ The BM3D algorithm improves non-local means by **grouping similar image patches*
 <img src="https://webpages.tuni.fi/foi/GCF-BM3D/images/cameraman_thr.gif" height="300px" width="auto"/>
 <img src="https://webpages.tuni.fi/foi/GCF-BM3D/images/house_thr.gif" height="300px" width="auto"/>
 <img src="./figures/house-denoised.png" height="300px" width="auto"/>
-<figcaption style="text-align: right; font-size: 20px"><a href="https://webpages.tuni.fi/foi/GCF-BM3D/">Dabov et al. (2006)</a></figcaption>
+<figcaption style="text-align: right; font-size 20px"><a href="https://webpages.tuni.fi/foi/GCF-BM3D/">Dabov et al. (2006)</a></figcaption>
 </figure>
 
 ---
@@ -1580,6 +1585,14 @@ These points can be estimated automatically using a feature extractor like `SIFT
 # **Summary**
 
 ![bg right:40% 60%](figures/qem.png)
+
+---
+<!-- _header: 'Python: [`skimage.metrics`](https://scikit-image.org/docs/0.25.x/api/skimage.metrics.html)' -->
+## Image similarity measures
+
+When aligning or comparing pairs of images, it is useful to have metrics which describe if two images are "close" to each other in some way. A direct subtraction of images is rarely useful as intensity levels vary and noise influences the mean.
+
+- Structural Similarity Index [(SSI)](https://ieeexplore.ieee.org/document/1284395) tries to account for similarity of structure, contrast and intensity level separately, and was designed to replicate how humans perceive similarity between images.
 
 ---
 
