@@ -900,11 +900,16 @@ High-resolution images of atomic columns are naturally periodic, and lattice spa
 ## Fourier transforms in Microscopy
 Electron holography uses FFTs to extract information from the interference pattern created by the biprism:
 
-
 ![height:450 center](figures/fourier-holography.svg)
-<!-- ---
 
-Geometric Phase Analysis (GPA) extracts lattice strain from analysis of the phase of peaks in the FFT of a high-resolution image. -->
+---
+<!-- <style scoped>h2 { position: absolute; top: 5%; }</style> -->
+<!-- _header: 'Python: [`scipy.signal.windows`](https://docs.scipy.org/doc/scipy/reference/signal.windows.html)' -->
+## Window functions in Fourier transforms
+
+FFTs are subject to **ringing**, an artefact due to aperiodicity of the input signal. Content cut by the edge of the image is a *step function*, and so contributes to all frequencies. This can be reduced by applying a **window function** which tapers to zero at the edges, for example.
+
+<img src="figures/fft-window.svg" height="420" style="display: block; margin: 0 auto;padding: 0px 0px 0px 0px;"></img>
 
 ---
 
