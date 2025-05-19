@@ -61,6 +61,13 @@ I mostly work with Python so I am afraid these slides are biased, if you work mo
 
 ---
 <!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
+![width:110% align:center](figures/pfnc-2.png)
+<!-- 
+More than just TEMs, as I said, there are over a 100 people working on all types of nano-characterisaion under one roof, including surface science, x-rays, optics, NMR, ions, etc.
+ -->
+
+---
+<!-- _header: '[CEA-PFNC](https://www.minatec.org/en/research/minatec-dedicated-research-platforms/nanocharacterization-platform-pfnc/)' -->
 ![width:110% align:center](figures/pfnc-3.png)
 <!-- 
 I'll just take a moment to mention where I work
@@ -570,6 +577,36 @@ plt.show()
 ![bg right:40% 95% Image: Gustav Persson](figures/diff.png)
 
 ---
+<!-- _class: columns2 -->
+
+`Pillow` \[Python Imaging Library\] ([pillow.readthedocs.io](https://pillow.readthedocs.io/en/stable/))
+
+- Graphics-focused, colour images, drawing, compositing
+
+```python
+# Pillow imports as PIL
+from PIL import Image, ImageDraw
+
+image = Image.open("image.png")
+draw = ImageDraw.Draw(image)
+draw.text((50, 50), "Text")
+```
+<br>
+
+`imageio` ([imageio.readthedocs.io](https://imageio.readthedocs.io/en/stable/))
+
+- Reading and writing many image formats and videos
+
+```python
+import imageio.v3 as iio
+
+frames = np.stack(
+  [iio.imread(f"{x}.jpg") for x in range(n)],
+)
+iio.imwrite("test.gif", frames, fps=10)
+```
+
+---
 ## Graphics Processing Units (GPUs)
 
 A Graphics Processing Unit (GPU) is a computation **accelerator** which can be added to computers. They can be used to speed up many forms of scientific computation.
@@ -916,6 +953,31 @@ Speaking of aliasing, here is a little direct visualisation of that, at least in
 -->
 
 ---
+
+## Moiré patterns
+
+A moiré pattern is a form of interference between two periodic signals, or between a signal and a sampling rate.
+
+- It is a form of **aliasing** in that the pattern is a product of the two characteristic frequencies.
+
+*Moiré imaging* is the **intentional undersampling** of a periodic structure, e.g. a lattice, to record a lower-frequency alias.
+
+![bg right:50% 90%](figures/moire-lines.gif)
+
+<!-- ---
+## 
+
+The alias represents the lattice, but each period covers multiple periods in the true signal.
+
+The Moiré is **very sensitive** to small changes in lattice spacing, and so with appropriate interpretation we can very precisely measure strain or locate defects over a large field of view. -->
+---
+<!-- _header: 'e.g. [Pofelski (2020)](https://www.sciencedirect.com/science/article/pii/S0304399119301573?via%3Dihub#sec0008)' -->
+
+## Moiré imaging example
+
+<iframe src="http://localhost:9091/stem-moire" width="1350" height="750" frameBorder="0"></iframe>
+
+---
 <!-- _header: 'Image: Jean-Luc Rouvière' -->
 <!-- footer: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Cc.logo.circle.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Cc-by_new.svg" height="25" style="opacity: 0.5;vertical-align:middle;"></img> [⇤](#transforms) [↞](#contents)' -->
 <a name='transforms'></a>
@@ -996,6 +1058,20 @@ $$
 mapping $x, y$ to $x'$ (equivalently to $y'$ with additional $b_{ij}$).
 
 <iframe src="http://localhost:9091/transform-polynomial" width="600" height="600" frameBorder="0"></iframe>
+
+---
+<!-- _class: columns2 -->
+<!-- _header: 'Python [`skimage.transform.PiecewiseAffineTransform`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.PiecewiseAffineTransform), Image: Jean-Luc Rouvière' -->
+
+## Piecewise transforms
+
+Transformations can also be local to particular image regions, i.e. they are non-uniform over the image.
+
+An example is a **piecewise-affine** transform, where there are many affine transformation matrices defined around points in the image.
+
+> Piecewise transforms will usually be defined using a **triangulation** of a set of points.
+
+<iframe src="http://localhost:9091/transform-nonuniform" width="600" height="600" frameBorder="0"></iframe>
 
 ---
 <!-- _header: 'Python [`skimage.transform.warp_polar`](https://scikit-image.org/docs/0.25.x/api/skimage.transform.html#skimage.transform.warp_polar)' -->
@@ -1222,6 +1298,20 @@ In practice probably use deep learning!
 ![bg right:30% 100% Image: CEA + Tescan](./figures/feature-segmentation.svg)
 
 ---
+<!-- _header: 'Python: [`sklearn.clustering`](https://scikit-learn.org/stable/modules/clustering.html)' -->
+## Clustering
+
+Clustering is a machine learning approach to find **consistent groups** within data.
+
+Good image features will make it easy for a clustering algorithm to split the data in feature space, and in doing so segment the image.
+
+Two common algorithms here are `k-Means` and `Mean-Shift` clustering.
+
+![bg right:45% 90% <a href="https://commons.wikimedia.org/wiki/File:K-means_convergence.gif">Chire, Wikimedia</a>](./figures/k-means.gif)
+
+<span style='float: right'>*Demonstration of k-Means iteration* →</span>
+
+---
 
 ## Deep learning for image segmentation
 
@@ -1251,7 +1341,7 @@ In low-dose, low signal-to-noise data, **denoising** is of particular interest.
 
 ![bg right:50% 90% <a href="https://commons.wikimedia.org/wiki/File:Austenite_ZADP.jpg">Image: Wikipedia, PD</a>](https://upload.wikimedia.org/wikipedia/commons/3/3d/Austenite_ZADP.jpg)
 
-<!-- 
+
 ---
 
 ## Binning
@@ -1259,18 +1349,28 @@ In low-dose, low signal-to-noise data, **denoising** is of particular interest.
 Many modern electron cameras are built with dense pixel arrays, and 2K or 4K images are not unusual. A simple approach to improve noisy data is to apply *binning*.
 
 - Sum or average the recorded intensity within non-overlapping patches
-- This is almost equivalent to a camera with larger but fewer pixels
+- This is practically equivalent to a camera with larger but fewer pixels
 - Loss of spatial resolution might be important in certain cases
-
-One small advantage is that sampling the intensity NxN times per-patch does give slightly improved statistics, not least we can estimate the deviation from the mean in each patch.
-
-Overview-100k with noise, and with noise but binned 2x, 4x
 
 ---
 
 ## Stacking
 
-When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers. Experimentally, stacking can avoid problems such as sample drift during long acquisitions, leading to reduced distortion. -->
+When acquisition condition allow, taking multiple rapid scans or images to form an *image stack* is also advantageous. In a similar way to binning we can compute statistics for each pixel, and exclude those which are clearly outliers.
+
+Experimentally, stacking can work around problems such as sample drift during long acquisitions, leading to reduced distortion.
+
+---
+<!-- _header: 'Python: [`sklearn.decomposition.PCA`](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA)' -->
+## Denoising: PCA
+
+**P**rincipal **C**omponent **A**nalysis is a well-known tool to decompose data into a set of *components* that each capture the maximum variance for the data they represent.
+
+- Excluding smaller components excludes outliers and noise, since each only explains a small portion of the whole dataset
+- PCA is a matrix factorisation and so is **very** computationally intensive on large images
+- **Must take care as PCA will delete rare features!**
+
+![bg right:40% 80%](./figures/denoising-pca.svg)
 
 ---
 <!-- _header: 'Python: [`skimage.restoration.denoise_nl_means`](https://scikit-image.org/docs/stable/auto_examples/filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py)' -->
